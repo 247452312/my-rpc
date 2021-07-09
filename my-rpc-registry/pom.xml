@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>indi.uhyils.rpc</groupId>
+        <groupId>io.github.247452312</groupId>
         <artifactId>my-rpc</artifactId>
         <version>1.0.0.my</version>
     </parent>
@@ -22,7 +22,7 @@
             <artifactId>nacos-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>indi.uhyils.rpc</groupId>
+            <groupId>io.github.247452312</groupId>
             <artifactId>my-rpc-cluster</artifactId>
         </dependency>
         <!-- 单元测试 -->

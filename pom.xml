@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>indi.uhyils.rpc</groupId>
+    <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
     <version>1.0.0.my</version>
     <packaging>pom</packaging>
@@ -53,7 +53,6 @@
         <module>my-rpc-proxy</module>
         <module>my-rpc-common</module>
         <module>my-rpc-spring-start</module>
-        <module>my-rpc-demo</module>
     </modules>
 
     <properties>
@@ -90,37 +89,37 @@
             </dependency>
 
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-exchange</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-netty</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-cluster</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-registry</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-proxy</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-common</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
             <dependency>
-                <groupId>indi.uhyils.rpc</groupId>
+                <groupId>io.github.247452312</groupId>
                 <artifactId>my-rpc-spring-start</artifactId>
                 <version>${my.rpc.version}</version>
             </dependency>
@@ -200,12 +199,22 @@
     </dependencyManagement>
 
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>${java.version}</source>
@@ -244,7 +253,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -252,7 +261,6 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-
                             <additionalJOption>-Xdoclint:none</additionalJOption>
                         </configuration>
                     </execution>
@@ -273,19 +281,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--nexus-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-
 </project>
