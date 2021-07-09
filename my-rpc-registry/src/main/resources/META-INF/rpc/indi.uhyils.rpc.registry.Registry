@@ -1,0 +1,2 @@
+default_consumer=indi.uhyils.rpc.registry.ConsumerRegistry
+default_provider=indi.uhyils.rpc.registry.ProviderRegistry

@@ -1,0 +1,5 @@
+fastest_return_speed_load_balance=indi.uhyils.rpc.cluster.load.FastestReturnSpeedLoadBalanceImpl
+ip_hash_load_balance=indi.uhyils.rpc.cluster.load.IpHashLoadBalanceImpl
+manual_assignment_load_balance=indi.uhyils.rpc.cluster.load.ManualAssignmentLoadBalanceImpl
+polling_load_balance=indi.uhyils.rpc.cluster.load.PollingLoadBalanceImpl
+random_load_balance=indi.uhyils.rpc.cluster.load.RandomLoadBalanceImpl

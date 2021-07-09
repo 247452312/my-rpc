@@ -1,0 +1,2 @@
+default_provider_name=indi.uhyils.rpc.cluster.provider.impl.ProviderDefaultCluster
+default_consumer_name=indi.uhyils.rpc.cluster.consumer.impl.ConsumerDefaultCluster

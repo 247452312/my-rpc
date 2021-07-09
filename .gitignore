@@ -1,0 +1,11 @@
+# Project exclude paths
+/my-rpc-cluster/target/
+/my-rpc-common/target/
+/my-rpc-demo/api/target/
+/my-rpc-demo/consumer/target/
+/my-rpc-demo/provider/target/
+/my-rpc-exchange/target/
+/my-rpc-netty/target/
+/my-rpc-proxy/target/
+/my-rpc-registry/target/
+/my-rpc-spring-start/target/

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>indi.uhyils.rpc</groupId>
+    <artifactId>my-rpc</artifactId>
+    <version>1.0.0.my-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>my-rpc-exchange</module>
+        <module>my-rpc-netty</module>
+        <module>my-rpc-cluster</module>
+        <module>my-rpc-registry</module>
+        <module>my-rpc-proxy</module>
+        <module>my-rpc-common</module>
+        <module>my-rpc-spring-start</module>
+        <module>my-rpc-demo</module>
+    </modules>
+
+    <properties>
+        <my.rpc.version>1.0.0.my-SNAPSHOT</my.rpc.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <slf4j-api.version>1.7.31</slf4j-api.version>
+        <fastjson.version>1.2.68</fastjson.version>
+        <netty.version>4.1.54.Final</netty.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <nacos.version>1.3.1</nacos.version>
+        <junit.version>4.13</junit.version>
+        <powermock.version>2.0.2</powermock.version>
+        <mockito.version>2.23.4</mockito.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-exchange</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-netty</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-cluster</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-registry</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-proxy</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-common</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>indi.uhyils.rpc</groupId>
+                <artifactId>my-rpc-spring-start</artifactId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- 单元测试 -->
+            <!--junit-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!--spring test-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito2</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-core</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4-rule</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
+</project>
