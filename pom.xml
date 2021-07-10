@@ -6,7 +6,7 @@
 
     <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
-    <version>1.0.0.my</version>
+    <version>1.0.0.my-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>my-rpc</name>
@@ -59,7 +59,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <my.rpc.version>1.0.0.my</my.rpc.version>
+        <my.rpc.version>1.0.0.my-SNAPSHOT</my.rpc.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <slf4j-api.version>1.7.31</slf4j-api.version>
@@ -206,7 +206,7 @@
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
