@@ -9,3 +9,4 @@
 /my-rpc-proxy/target/
 /my-rpc-registry/target/
 /my-rpc-spring-start/target/
+**.pom.xml.versionsBackup
