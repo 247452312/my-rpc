@@ -6,7 +6,8 @@
 
     <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
-    <version>1.0.0.my-SNAPSHOT</version>
+    <version>1.0.0.my</version>
+    <!--SNAPSHOT-->
     <packaging>pom</packaging>
 
     <name>my-rpc</name>
