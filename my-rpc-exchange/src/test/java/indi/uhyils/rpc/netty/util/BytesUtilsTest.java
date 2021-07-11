@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
  * @date 文件创建日期 2020年12月22日 11时05分
  */
 class BytesUtilsTest {
+
     @org.junit.jupiter.api.Test
     void changeIntegerToByte() {
         int data = 65535;

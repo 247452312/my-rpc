@@ -6,6 +6,7 @@ package indi.uhyils.rpc.netty.function;
  */
 //@RpcService
 public class FunctionOne implements FunctionOneInterface {
+
     @Override
     public Integer add(Integer a, Integer b) {
         return a + b;

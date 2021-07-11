@@ -6,14 +6,17 @@ package indi.uhyils.rpc.util;
  * @date 文件创建日期 2020年12月21日 09时54分
  */
 public class BytesUtils {
+
     /**
      * int型占4位
      */
     private static final Integer INTEGER_BYTE_SIZE = 4;
+
     /**
      * long型占8位
      */
     private static final Integer LONG_BYTE_SIZE = 8;
+
     /**
      * 1byte占8bit
      */
@@ -33,6 +36,7 @@ public class BytesUtils {
      * byte数组变Integer
      *
      * @param data
+     *
      * @return
      */
     public static Integer changeByteToInteger(byte[] data) {
@@ -52,6 +56,7 @@ public class BytesUtils {
      * Integer变byte数组
      *
      * @param data
+     *
      * @return
      */
     public static byte[] changeIntegerToByte(Integer data) {
@@ -68,6 +73,7 @@ public class BytesUtils {
      * Long变byte数组
      *
      * @param data
+     *
      * @return
      */
     public static byte[] changeLongToByte(Long data) {
@@ -84,6 +90,7 @@ public class BytesUtils {
      * byte数组变Long
      *
      * @param data
+     *
      * @return
      */
     public static Long changeByteToLong(byte[] data) {

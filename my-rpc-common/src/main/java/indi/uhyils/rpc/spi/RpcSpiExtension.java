@@ -18,6 +18,7 @@ public interface RpcSpiExtension {
      * 默认实现的原型模式的clone方法,子类如果想要实现带有参数的克隆,则重写此方法
      *
      * @return new出来的一个神奇的object
+     *
      * @throws IllegalAccessException
      * @throws InstantiationException
      */

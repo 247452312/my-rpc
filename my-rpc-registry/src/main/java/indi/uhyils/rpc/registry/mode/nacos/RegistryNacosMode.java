@@ -23,7 +23,6 @@ import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;
 import indi.uhyils.rpc.registry.pojo.info.RegistryNecessaryInfo;
 import indi.uhyils.rpc.registry.pojo.info.RegistryProviderNecessaryInfo;
 import indi.uhyils.rpc.registry.pojo.info.metadata.RegistryMetadata;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +41,14 @@ public class RegistryNacosMode implements RegistryMode {
      * 注册元数据时的key
      */
     private static final String METADATA = "metadata";
+
     private static final Long TIME_OUT = 3000L;
+
     /**
      * nacos的Config
      */
     private final ConfigService nacosConfig;
+
     /**
      * nacos的naming
      */
@@ -104,7 +106,8 @@ public class RegistryNacosMode implements RegistryMode {
         List<Instance> allInstances = nacosNaming.getAllInstances(interfaceName, RegistryContent.DEFAULT_REGISTRY_GROUP_NAME);
         List<RegistryInfo> result = new ArrayList<>(allInstances.size());
         for (Instance instance : allInstances) {
-            RegistryProviderNecessaryInfo providerNecessaryInfo = RegistryProviderNecessaryInfo.build(instance.getServiceName(), instance.getIp(), instance.getPort(), null, instance.isHealthy(), instance.getClusterName(), instance.getWeight());
+            RegistryProviderNecessaryInfo providerNecessaryInfo = RegistryProviderNecessaryInfo
+                .build(instance.getServiceName(), instance.getIp(), instance.getPort(), null, instance.isHealthy(), instance.getClusterName(), instance.getWeight());
             Map<String, String> metadata = instance.getMetadata();
             RegistryMetadata registryMetadata = JSON.parseObject(metadata.get(METADATA), RegistryMetadata.class);
 
@@ -138,7 +141,6 @@ public class RegistryNacosMode implements RegistryMode {
 
         instanceMeta.put(METADATA, JSON.toJSONString(metadata));
         instance.setMetadata(instanceMeta);
-
 
         nacosNaming.registerInstance(providerNecessaryInfo.getInterfaceName(), RegistryContent.DEFAULT_REGISTRY_GROUP_NAME, instance);
         return Boolean.TRUE;

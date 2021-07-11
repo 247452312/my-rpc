@@ -15,6 +15,7 @@ import java.util.Map;
 public class CustomConfig implements Serializable {
 
     private static final long serialVersionUID = 6547911512988920154L;
+
     /**
      * 自定义扩展
      */

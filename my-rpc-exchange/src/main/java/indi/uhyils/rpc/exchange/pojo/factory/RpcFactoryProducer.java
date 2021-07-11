@@ -4,7 +4,6 @@ import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.spi.RpcSpiManager;
-
 import java.util.Map;
 
 /**
@@ -19,6 +18,7 @@ public class RpcFactoryProducer {
      * 默认的rpc请求工厂的spi名称
      */
     private static final String REQUEST_FACTORY_DEFAULT_RPC_SPI_NAME = "default_rpc_request_factory";
+
     /**
      * 默认的rpc响应工厂的spi名称
      */
@@ -28,6 +28,7 @@ public class RpcFactoryProducer {
      * rpc请求工厂在rpc自定义扩展中的key
      */
     private static final String REQUEST_FACTORY_RPC_SPI_CUSTOM_KEY = "rpc_request_factory";
+
     /**
      * rpc响应工厂在rpc自定义扩展中的key
      */

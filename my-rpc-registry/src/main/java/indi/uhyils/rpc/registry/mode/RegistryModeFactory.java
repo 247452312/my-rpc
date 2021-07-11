@@ -14,6 +14,7 @@ public class RegistryModeFactory {
      * 默认的注册中心
      */
     private static final String DEFAULT_MODE_REGISTRY = "default_mode_registry";
+
     /**
      * 配置中注册中心的名称
      */

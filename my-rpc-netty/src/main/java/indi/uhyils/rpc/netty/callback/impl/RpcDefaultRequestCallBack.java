@@ -20,13 +20,12 @@ import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.netty.pojo.InvokeResult;
 import indi.uhyils.rpc.util.LogUtil;
 import indi.uhyils.rpc.util.RpcObjectTransUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 这个只是一个样例,具体如何执行要看下一级
@@ -103,7 +102,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
         RpcHeader rpcResultTypeHeader = new RpcHeader();
         rpcResultTypeHeader.setName(Content.HEADER_RETURN_TYPE);
         rpcResultTypeHeader.setValue(result.getResultType().getTypeName());
-        RpcHeader[] rpcHeaders = { rpcResultTypeHeader};
+        RpcHeader[] rpcHeaders = {rpcResultTypeHeader};
         String responseType;
         String resultJson = result.getResultJson();
         if (resultJson == null) {
@@ -114,13 +113,14 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
             responseType = RpcResponseTypeEnum.STRING_BACK.getCode().toString();
         }
         return Objects.requireNonNull(RpcFactoryProducer.build(RpcTypeEnum.RESPONSE))
-                .createByInfo(unique, new Object[]{RpcStatusEnum.OK.getCode()}, rpcHeaders, responseType, resultJson);
+                      .createByInfo(unique, new Object[]{RpcStatusEnum.OK.getCode()}, rpcHeaders, responseType, resultJson);
     }
 
     /**
      * 执行方法
      *
      * @param requestContent
+     *
      * @return
      */
     private InvokeResult execute(RpcRequestContent requestContent) {

@@ -6,9 +6,8 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.util.LogUtil;
-import org.apache.commons.lang3.RandomUtils;
-
 import java.util.Map;
+import org.apache.commons.lang3.RandomUtils;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -16,10 +15,12 @@ import java.util.Map;
  * @date 文件创建日期 2021年06月10日 08时45分
  */
 public abstract class AbstractLoadBalance implements LoadBalanceInterface {
+
     /**
      * 使用getIndex方法
      */
     static final Integer INDEX_TYPE = 1;
+
     /**
      * 使用getNettyInfo方法
      */
@@ -66,6 +67,7 @@ public abstract class AbstractLoadBalance implements LoadBalanceInterface {
      *
      * @param info 发送时携带的信息
      * @param size netty的数量
+     *
      * @return 一个指定算法计算出的数字
      */
     protected int getIndex(SendInfo info, int size) {
@@ -78,6 +80,7 @@ public abstract class AbstractLoadBalance implements LoadBalanceInterface {
      *
      * @param info     发送时携带的信息
      * @param nettyMap netty本身
+     *
      * @return 一个指定算法计算出的key
      */
     protected NettyInfo getNettyInfo(SendInfo info, Map<NettyInfo, RpcNetty> nettyMap) {

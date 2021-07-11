@@ -11,7 +11,6 @@ import indi.uhyils.rpc.registry.mode.RegistryMode;
 import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;
 import indi.uhyils.rpc.registry.pojo.info.RegistryProviderNecessaryInfo;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;

@@ -9,6 +9,7 @@ import indi.uhyils.rpc.exception.ContentChangeLineException;
  * @date 文件创建日期 2020年12月18日 10时25分
  */
 public interface RpcContent extends RpcDataObserver {
+
     /**
      * 获取类型
      *
@@ -20,6 +21,7 @@ public interface RpcContent extends RpcDataObserver {
      * 获取第x行
      *
      * @param line
+     *
      * @return
      */
     String getLine(Integer line);
@@ -29,6 +31,7 @@ public interface RpcContent extends RpcDataObserver {
      *
      * @param line    行
      * @param lineStr 行字符串
+     *
      * @return
      */
     void changeLine(Integer line, String lineStr) throws ContentChangeLineException;

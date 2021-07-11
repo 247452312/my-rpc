@@ -10,7 +10,6 @@ import indi.uhyils.rpc.spi.RpcSpiManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
 import java.util.List;
 
 /**
@@ -24,6 +23,7 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<ByteBuf> {
      * 回调
      */
     private RpcCallBack callBack;
+
     /**
      * 观察者模式
      */
@@ -33,6 +33,7 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<ByteBuf> {
      * 消费者接收回复byte拦截器
      */
     private List<ConsumerResponseByteExtension> consumerResponseByteFilters;
+
     /**
      * 消费者接收回复data拦截器
      */

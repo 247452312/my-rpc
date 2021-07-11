@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
  * @date 文件创建日期 2021年07月09日 08时21分
  */
 public class InvokeResult implements Serializable {
+
     /**
      * 结果json
      */
@@ -24,6 +25,14 @@ public class InvokeResult implements Serializable {
      * 结果的type
      */
     private Type resultType;
+
+    public static InvokeResult build(String resultJson, Class<?> resultClass, Type resultType) {
+        InvokeResult build = new InvokeResult();
+        build.resultJson = resultJson;
+        build.resultClass = resultClass;
+        build.resultType = resultType;
+        return build;
+    }
 
     public String getResultJson() {
         return resultJson;
@@ -47,13 +56,5 @@ public class InvokeResult implements Serializable {
 
     public void setResultType(Type resultType) {
         this.resultType = resultType;
-    }
-
-    public static InvokeResult build(String resultJson, Class<?> resultClass, Type resultType) {
-        InvokeResult build = new InvokeResult();
-        build.resultJson = resultJson;
-        build.resultClass = resultClass;
-        build.resultType = resultType;
-        return build;
     }
 }

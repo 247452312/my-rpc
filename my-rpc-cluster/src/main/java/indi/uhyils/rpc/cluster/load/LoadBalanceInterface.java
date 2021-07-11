@@ -6,7 +6,6 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
-
 import java.util.Map;
 
 /**
@@ -24,6 +23,7 @@ public interface LoadBalanceInterface extends RpcSpiExtension {
      * @param rpcSendData 要发送的信息
      * @param info        发送时相关的信息
      * @param nettyMap    负载均衡的netty们
+     *
      * @return 返回的信息
      */
     RpcData send(RpcData rpcSendData, SendInfo info, Map<NettyInfo, RpcNetty> nettyMap) throws InterruptedException, RpcException, ClassNotFoundException;

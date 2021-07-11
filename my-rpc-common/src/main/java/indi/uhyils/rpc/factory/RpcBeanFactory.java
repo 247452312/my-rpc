@@ -16,10 +16,12 @@ public class RpcBeanFactory {
      * 单例
      */
     private volatile static RpcBeanFactory instance;
+
     /**
      * 是否初始化
      */
     private final Boolean init;
+
     /**
      * rpc所在的bean
      */

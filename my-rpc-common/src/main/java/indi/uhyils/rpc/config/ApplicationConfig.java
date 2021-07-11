@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class ApplicationConfig implements Serializable {
 
     private static final long serialVersionUID = 5902293946002526409L;
+
     /**
      * 微服务名称
      */

@@ -48,14 +48,17 @@ public interface Content {
      * email正则匹配
      */
     String EMAIL_REGEX = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
     /**
      * date正则匹配(yyyy-MM-dd)
      */
     String DATE_REGEX = "^\\d{4}(-)(1[0-2]|0?\\d)\1([0-2]\\d|\\d|30|31)$";
+
     /**
      * 数值正则匹配
      */
     String VALUE_REGEX = "^\\d+\\.\\d+$";
+
     /**
      * 英文正则匹配
      */
@@ -65,10 +68,12 @@ public interface Content {
      * 验证码验证接口名称
      */
     String VERIFICATION_CODE_INTERFACE = "VerificationService";
+
     /**
      * 验证码验证方法名称
      */
     String VERIFICATION_CODE_METHOD = "verification";
+
     /**
      * 获取验证码方法(此方法不计入爬虫)
      */
@@ -83,6 +88,7 @@ public interface Content {
      * 接口禁用redis中的hash-key
      */
     String SERVICE_USEABLE_SWITCH = "service_useable_switch";
+
     /**
      * service包前缀
      */
@@ -90,14 +96,17 @@ public interface Content {
 
     /*id生产规则*/
     /*时间start*/
+
     /**
      * 时间位数
      */
     Long TIME_BIT = 43L;
+
     /**
      * 时间位移(最高位始终为0代表正数)
      */
     Long TIME_DISPLACEMENT = Long.bitCount(Long.MAX_VALUE) - TIME_BIT;
+
     /**
      * 时间掩码
      */
@@ -105,14 +114,17 @@ public interface Content {
     /*时间end*/
 
     /*序列位start*/
+
     /**
      * 序列位位数
      */
     Long SEQUENCE_BIT = 10L;
+
     /**
      * 序列位位移
      */
     Long SEQUENCE_DISPLACEMENT = TIME_DISPLACEMENT - SEQUENCE_BIT;
+
     /**
      * 序列位掩码
      */
@@ -120,14 +132,17 @@ public interface Content {
     /*序列位end*/
 
     /*分布式编码start*/
+
     /**
      * 分布式编码位数
      */
     Long DISTRIBUTED_BIT = 5L;
+
     /**
      * 分布式编码位移
      */
     Long DISTRIBUTED_DISPLACEMENT = SEQUENCE_DISPLACEMENT - DISTRIBUTED_BIT;
+
     /**
      * 分布式编码掩码
      */
@@ -136,11 +151,6 @@ public interface Content {
 
 
     /*预留5位其他业务,请自行添加*/
-
-
-
-
-
 
 
     /**

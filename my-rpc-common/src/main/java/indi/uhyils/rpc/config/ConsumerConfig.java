@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class ConsumerConfig implements Serializable {
 
     private static final long serialVersionUID = 9134042554661832941L;
+
     /**
      * 是否需要检查(默认需要)
      */

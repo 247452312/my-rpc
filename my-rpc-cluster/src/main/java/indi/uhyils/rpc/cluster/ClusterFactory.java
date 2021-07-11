@@ -3,7 +3,6 @@ package indi.uhyils.rpc.cluster;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.netty.pojo.NettyInitDto;
 import indi.uhyils.rpc.spi.RpcSpiManager;
-
 import java.util.Map;
 
 /**
@@ -28,7 +27,9 @@ public class ClusterFactory {
      *
      * @param port
      * @param beans
+     *
      * @return
+     *
      * @throws Exception
      */
     public static Cluster createDefaultProviderCluster(Integer port, Map<String, Object> beans) throws Exception {
@@ -47,7 +48,9 @@ public class ClusterFactory {
      *
      * @param clazz      要使用的class
      * @param nettyInits netty 初始化需要的东西
+     *
      * @return
+     *
      * @throws Exception
      */
     public static Cluster createDefaultConsumerCluster(Class<?> clazz, NettyInitDto... nettyInits) throws Exception {

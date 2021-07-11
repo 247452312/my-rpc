@@ -13,6 +13,7 @@ import indi.uhyils.rpc.cluster.pojo.SendInfo;
  */
 @RpcSpi
 public class IpHashLoadBalanceImpl extends AbstractLoadBalance {
+
     @Override
     protected int getIndex(SendInfo info, int size) {
         return info.getIp().hashCode();

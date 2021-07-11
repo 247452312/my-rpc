@@ -13,6 +13,7 @@ public abstract class AbstractRpcNetty implements RpcNetty {
      * 超时时间
      */
     protected Long timeOut;
+
     /**
      * bootstrap
      */

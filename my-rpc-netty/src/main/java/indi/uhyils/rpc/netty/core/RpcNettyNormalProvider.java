@@ -25,14 +25,17 @@ import io.netty.handler.logging.LoggingHandler;
  */
 @RpcSpi
 public class RpcNettyNormalProvider extends AbstractRpcNetty {
+
     /**
      * 回调
      */
     private RpcCallBack callback;
+
     /**
      * 主线程,单线程
      */
     private EventLoopGroup bossGroup;
+
     /**
      * 工作线程,多线程
      */
@@ -54,17 +57,18 @@ public class RpcNettyNormalProvider extends AbstractRpcNetty {
 
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 100)
-                .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch) throws Exception {
-                        ChannelPipeline p = ch.pipeline();
-                        p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
-                        p.addLast("byte-to-object", new RpcProviderHandler(callback));
-                    }
-                });
+         .channel(NioServerSocketChannel.class)
+         .option(ChannelOption.SO_BACKLOG, 100)
+         .handler(new LoggingHandler(LogLevel.DEBUG))
+         .childHandler(new ChannelInitializer<SocketChannel>() {
+
+             @Override
+             public void initChannel(SocketChannel ch) throws Exception {
+                 ChannelPipeline p = ch.pipeline();
+                 p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
+                 p.addLast("byte-to-object", new RpcProviderHandler(callback));
+             }
+         });
 
         b.bind(port).sync();
         setBootstrap(b);

@@ -26,6 +26,7 @@ public class RpcNettyFactory {
      * 创建一个netty
      *
      * @param type
+     *
      * @return
      */
     public static RpcNetty createNetty(RpcNettyTypeEnum type, NettyInitDto nettyInit, Long outTime) throws Exception {
@@ -43,6 +44,7 @@ public class RpcNettyFactory {
      * 创建一个netty
      *
      * @param type
+     *
      * @return
      */
     public static RpcNetty createNetty(RpcNettyTypeEnum type, NettyInitDto nettyInit) throws Exception {
@@ -54,6 +56,7 @@ public class RpcNettyFactory {
      *
      * @param host
      * @param port
+     *
      * @return
      */
     private static RpcNetty createConsumer(String host, Integer port, RpcCallBack callBack, Long outTime) throws Exception {
@@ -69,6 +72,7 @@ public class RpcNettyFactory {
      *
      * @param host
      * @param port
+     *
      * @return
      */
     private static RpcNetty createProvider(String host, Integer port, RpcCallBack callBack, Long outTime) throws Exception {

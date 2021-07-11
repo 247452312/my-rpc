@@ -10,7 +10,6 @@ import indi.uhyils.rpc.registry.pojo.info.metadata.RegistryMetadata;
 import indi.uhyils.rpc.registry.pojo.info.metadata.RegistryMetadataOfInterface;
 import indi.uhyils.rpc.registry.pojo.info.metadata.RegistryMetadataOfMethod;
 import indi.uhyils.rpc.util.IpUtil;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +29,7 @@ public class RegistryModeBuilder {
      * 初始化注册信息
      *
      * @param clazz
+     *
      * @return
      */
     public static RegistryInfo initRegistryInfo(Class<?> clazz) {
@@ -48,6 +48,7 @@ public class RegistryModeBuilder {
      * 元数据初始化
      *
      * @param clazz
+     *
      * @return
      */
     public static RegistryMetadata initRegistryMetadata(Class<?> clazz) {
@@ -79,6 +80,7 @@ public class RegistryModeBuilder {
      * 初始化方法信息
      *
      * @param clazz
+     *
      * @return
      */
     public static List<RegistryMetadataOfMethod> initMethodInfo(Class<?> clazz) {
@@ -100,6 +102,7 @@ public class RegistryModeBuilder {
      * 初始化注册必要条件
      *
      * @param clazz
+     *
      * @return
      */
     public static RegistryProviderNecessaryInfo initRegistryProviderNecessaryInfo(Class<?> clazz) {

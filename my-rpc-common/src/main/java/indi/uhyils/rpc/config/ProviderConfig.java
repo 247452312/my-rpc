@@ -11,10 +11,12 @@ import java.io.Serializable;
 public class ProviderConfig implements Serializable {
 
     private static final long serialVersionUID = -3653659017499763477L;
+
     /**
      * 是否开启生产者
      */
     private boolean enable = Boolean.FALSE;
+
     /**
      * rpc端口
      */

@@ -2,7 +2,6 @@ package indi.uhyils.rpc.netty.callback;
 
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.spi.RpcSpiManager;
-
 import java.util.Map;
 
 /**
@@ -13,9 +12,11 @@ import java.util.Map;
 public class RpcCallBackFactory {
 
     private static final String requestCallBackDefaultName = "default_request_call_back";
+
     private static final String responseCallBackDefaultName = "default_response_call_back";
 
     private static final String requestCallBackConfigName = "request_call_back";
+
     private static final String responseCallBackConfigName = "response_call_back";
 
     /**

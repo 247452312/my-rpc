@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.netty.pojo;
 
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
-
 import java.io.Serializable;
 
 /**
@@ -11,6 +10,7 @@ import java.io.Serializable;
 public class NettyInitDto implements Serializable {
 
     private static final long serialVersionUID = 8849579140716709610L;
+
     /**
      * 端口
      */

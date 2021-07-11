@@ -13,6 +13,7 @@ import org.apache.commons.lang3.RandomUtils;
  */
 @RpcSpi
 public class RandomLoadBalanceImpl extends AbstractLoadBalance {
+
     @Override
     protected int getIndex(SendInfo info, int size) {
         return RandomUtils.nextInt(0, size);

@@ -7,4 +7,5 @@ import indi.uhyils.rpc.netty.spi.filter.RpcFilter;
  * @date 文件创建日期 2021年01月19日 07时02分
  */
 public interface ConsumerFilter extends RpcFilter {
+
 }

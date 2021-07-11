@@ -7,11 +7,6 @@ import indi.uhyils.rpc.exchange.enum_.RpcRequestContentEnum;
 import indi.uhyils.rpc.exchange.pojo.AbstractRpcContent;
 import indi.uhyils.rpc.exchange.pojo.RpcData;
 import indi.uhyils.rpc.exchange.pojo.request.content.RpcRequestContent;
-import indi.uhyils.rpc.util.LogUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,26 +17,32 @@ import java.util.List;
  * @date 文件创建日期 2020年12月18日 11时03分
  */
 public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRequestContent {
+
     /**
      * 接口名称
      */
     private String serviceName;
+
     /**
      * 接口版本
      */
     private String serviceVersion;
+
     /**
      * 方法名称
      */
     private String methodName;
+
     /**
      * 方法参数类型
      */
     private String[] methodParamterTypes;
+
     /**
      * 参数
      */
     private Object[] args;
+
     /**
      * 其他预留字段
      */
@@ -55,7 +56,6 @@ public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRe
 
     /**
      * 初始化属性
-     *
      */
     private void init() {
         this.setServiceName(this.getLine(RpcRequestContentEnum.SERVICE_NAME.getLine()));

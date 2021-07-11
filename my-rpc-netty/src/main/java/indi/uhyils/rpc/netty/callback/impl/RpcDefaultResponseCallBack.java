@@ -18,6 +18,7 @@ import indi.uhyils.rpc.netty.pojo.InvokeResult;
  */
 @RpcSpi
 public class RpcDefaultResponseCallBack implements RpcCallBack {
+
     @Override
     public RpcData getRpcData(byte[] data) throws Exception {
         /*解析*/

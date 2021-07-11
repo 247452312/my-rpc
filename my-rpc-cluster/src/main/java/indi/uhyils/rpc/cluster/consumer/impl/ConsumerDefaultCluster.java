@@ -15,8 +15,11 @@ import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.netty.factory.RpcNettyFactory;
 import indi.uhyils.rpc.netty.pojo.NettyInitDto;
 import indi.uhyils.rpc.util.LogUtil;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 消费者默认的cluster
@@ -26,6 +29,7 @@ import java.util.*;
  */
 @RpcSpi(single = false)
 public class ConsumerDefaultCluster implements Cluster {
+
     /**
      * 需要负载均衡的netty们
      */

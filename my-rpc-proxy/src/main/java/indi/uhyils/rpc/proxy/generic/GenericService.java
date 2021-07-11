@@ -3,7 +3,6 @@ package indi.uhyils.rpc.proxy.generic;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -16,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
  * @date 文件创建日期 2021年01月23日 09时42分
  */
 public class GenericService<T> {
+
     /**
      * 此泛化接口代表的接口
      */
@@ -35,7 +35,9 @@ public class GenericService<T> {
      * @param method         要执行的方法的名称
      * @param parameterTypes 方法的参数类型
      * @param args           方法的实际参数
+     *
      * @return
+     *
      * @throws InvocationTargetException
      */
     public Object invoke(String method, Class[] parameterTypes, Object[] args) throws InvocationTargetException {
@@ -60,7 +62,9 @@ public class GenericService<T> {
      * @param method         要执行的方法的名称
      * @param parameterTypes 方法的参数类型
      * @param args           方法的实际参数
+     *
      * @return
+     *
      * @throws InvocationTargetException
      */
     public Object invoke(String method, String[] parameterTypes, Object[] args) throws InvocationTargetException {

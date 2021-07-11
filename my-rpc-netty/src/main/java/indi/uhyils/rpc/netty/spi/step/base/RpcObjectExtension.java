@@ -17,6 +17,7 @@ public interface RpcObjectExtension extends RpcSpiExtension {
      *
      * @param obj
      * @param rpcData
+     *
      * @return
      */
     Object doFilter(Object obj, RpcData rpcData);

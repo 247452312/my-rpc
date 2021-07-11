@@ -10,10 +10,12 @@ import indi.uhyils.rpc.netty.spi.step.base.RpcResponseExtension;
  * @date 文件创建日期 2021年01月18日 08时23分
  */
 public interface ConsumerResponseDataExtension extends RpcConsumerExtension, RpcResponseExtension, RpcDataExtension {
+
     /**
      * 子类可引用此方法
      *
      * @param data
+     *
      * @return
      */
     @Override

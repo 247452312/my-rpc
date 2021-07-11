@@ -9,5 +9,6 @@ import java.io.Serializable;
  * @date 文件创建日期 2021年01月16日 10时33分
  */
 public class ProtocolConfig implements Serializable {
+
     private static final long serialVersionUID = 3664945833312687591L;
 }

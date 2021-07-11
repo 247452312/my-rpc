@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.proxy.exception;
 
 import indi.uhyils.rpc.exception.RpcException;
-
 import java.lang.reflect.Method;
 
 

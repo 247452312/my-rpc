@@ -5,7 +5,6 @@ import indi.uhyils.rpc.cluster.Cluster;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
-
 import java.util.List;
 
 /**
@@ -18,6 +17,7 @@ public interface RegistryMode extends RpcSpiExtension {
      * 获取配置
      *
      * @param interfaceName
+     *
      * @return
      */
     String getConfig(String interfaceName) throws Exception;
@@ -27,6 +27,7 @@ public interface RegistryMode extends RpcSpiExtension {
      *
      * @param interfaceName
      * @param content
+     *
      * @return
      */
     Boolean publishConfig(String interfaceName, String content) throws Exception;
@@ -35,6 +36,7 @@ public interface RegistryMode extends RpcSpiExtension {
      * 删除配置
      *
      * @param interfaceName
+     *
      * @return
      */
     Boolean removeConfig(String interfaceName) throws Exception;
@@ -60,6 +62,7 @@ public interface RegistryMode extends RpcSpiExtension {
      * 获取目标接口的信息(无配置)
      *
      * @param interfaceName
+     *
      * @return
      */
     List<RegistryInfo> getTargetInterfaceInfo(String interfaceName) throws NacosException;
@@ -68,7 +71,9 @@ public interface RegistryMode extends RpcSpiExtension {
      * 服务端注册
      *
      * @param info
+     *
      * @return
+     *
      * @throws Exception
      */
     Boolean registry(RegistryInfo info) throws Exception;
@@ -77,6 +82,7 @@ public interface RegistryMode extends RpcSpiExtension {
      * 服务端注销
      *
      * @return
+     *
      * @throws Exception
      */
     void removeInstance(String interfaceName, String ip, int port) throws Exception;
@@ -86,6 +92,7 @@ public interface RegistryMode extends RpcSpiExtension {
      *
      * @param interfaceName
      * @param listener
+     *
      * @throws Exception
      */
     void addServiceListener(String interfaceName, String groupName, RegistryServiceListener listener) throws Exception;
@@ -95,6 +102,7 @@ public interface RegistryMode extends RpcSpiExtension {
      *
      * @param interfaceName
      * @param listener
+     *
      * @throws Exception
      */
     void removeServiceListener(String interfaceName, RegistryServiceListener listener) throws Exception;

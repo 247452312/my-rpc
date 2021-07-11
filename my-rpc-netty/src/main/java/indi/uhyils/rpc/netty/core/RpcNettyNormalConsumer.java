@@ -24,7 +24,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -42,27 +41,33 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
      * 一个公平的可重入锁
      */
     private final ReentrantLock REENTRANT_LOCK = new ReentrantLock(Boolean.TRUE);
+
     /**
      * 客户端
      */
     private EventLoopGroup group;
+
     /**
      * 客户端channel
      */
     private ChannelFuture channelFuture;
+
     /**
      * 回调
      */
     private RpcCallBack callBack;
     /*如果返回值来了,先判断是不是超时了, 如果超时了, 就直接释放内存, 如果没有超时,就先把值放入rpcResponse,然后唤醒*/
+
     /**
      * 存储返回值->如果返回值来了 但是还没有wait,就把返回值存在这里
      */
     private Map<Long, RpcData> rpcResponseMap = new ConcurrentHashMap<>();
+
     /**
      * 记录等待中的请求 -> 想获取的时候 还没有返回
      */
     private Map<Long, Condition> waitLock = new ConcurrentHashMap<>();
+
     /**
      * 超时的记录在这里,防止返回值的内存溢出
      */
@@ -82,16 +87,17 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
         this.group = eventLoopGroup;
         setBootstrap(client);
         client.group(eventLoopGroup)
-                .channel(NioSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.DEBUG))
-                .handler(new ChannelInitializer<NioSocketChannel>() {
-                    @Override
-                    protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ChannelPipeline p = ch.pipeline();
-                        p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
-                        p.addLast("byte-to-object", new RpcConsumerHandler(callBack, RpcNettyNormalConsumer.this));
-                    }
-                });
+              .channel(NioSocketChannel.class)
+              .handler(new LoggingHandler(LogLevel.DEBUG))
+              .handler(new ChannelInitializer<NioSocketChannel>() {
+
+                  @Override
+                  protected void initChannel(NioSocketChannel ch) throws Exception {
+                      ChannelPipeline p = ch.pipeline();
+                      p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
+                      p.addLast("byte-to-object", new RpcConsumerHandler(callBack, RpcNettyNormalConsumer.this));
+                  }
+              });
 
         //连接服务器
         this.channelFuture = client.connect(host, port);

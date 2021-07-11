@@ -1,7 +1,11 @@
 package indi.uhyils.rpc.annotation;
 
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 扩展注释,此注释和{META-INF/rpc/}下的文件配合使用

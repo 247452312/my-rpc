@@ -7,7 +7,6 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
-
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +65,9 @@ public interface Cluster extends RpcSpiExtension {
      *
      * @param rpcData
      * @param info
+     *
      * @return
+     *
      * @throws InterruptedException
      */
     RpcData sendMsg(RpcData rpcData, SendInfo info) throws RpcException, ClassNotFoundException, InterruptedException;
@@ -75,6 +76,7 @@ public interface Cluster extends RpcSpiExtension {
      * 服务数量改变时->生产者不需要关心自己的上下线,所以只有消费者需要完成逻辑
      *
      * @param nettyInfos
+     *
      * @return
      */
     Boolean onServiceStatusChange(List<NettyInfo> nettyInfos);

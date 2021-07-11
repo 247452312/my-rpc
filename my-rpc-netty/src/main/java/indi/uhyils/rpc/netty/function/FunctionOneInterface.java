@@ -7,5 +7,6 @@ import java.io.Serializable;
  * @date 文件创建日期 2020年12月28日 07时12分
  */
 public interface FunctionOneInterface extends Serializable {
+
     Integer add(Integer a, Integer b);
 }

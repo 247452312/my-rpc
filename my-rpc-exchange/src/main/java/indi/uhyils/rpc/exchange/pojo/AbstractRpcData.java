@@ -8,7 +8,6 @@ import indi.uhyils.rpc.exchange.content.MyRpcContent;
 import indi.uhyils.rpc.exchange.pojo.factory.RpcHeaderFactory;
 import indi.uhyils.rpc.util.BytesUtils;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,14 +22,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 文件创建日期 2020年12月18日 11时16分
  */
 public abstract class AbstractRpcData implements RpcData {
+
     /**
      * 换行符
      */
     protected static final byte ENTER = '\n';
+
     /**
      * 此类支持的最大版本
      */
     private static final Integer MAX_VERSION = 1;
+
     /**
      * 版本
      */
@@ -115,11 +117,11 @@ public abstract class AbstractRpcData implements RpcData {
         AtomicInteger writeIndex = new AtomicInteger(0);
         // 写入mark头
         System.arraycopy(
-                MyRpcContent.AGREEMENT_START,
-                0,
-                previousBytes,
-                writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX)),
-                MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX));
+            MyRpcContent.AGREEMENT_START,
+            0,
+            previousBytes,
+            writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX)),
+            MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX));
 
         // 写入version and type
         byte[] src = {(byte) ((rpcVersion() << 2) + (type() << 1))};
@@ -128,7 +130,8 @@ public abstract class AbstractRpcData implements RpcData {
 
         //写入size,并获取head 和 content 的数组
         byte[] headAndContent = headerAndContent().getBytes(StandardCharsets.UTF_8);
-        System.arraycopy(BytesUtils.changeIntegerToByte(headAndContent.length), 0, previousBytes, writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX)), MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX));
+        System.arraycopy(BytesUtils.changeIntegerToByte(headAndContent.length), 0, previousBytes, writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX)),
+                         MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX));
 
         // 写入状态
         previousBytes[writeIndex.getAndAdd(1)] = getStatus();
@@ -136,10 +139,10 @@ public abstract class AbstractRpcData implements RpcData {
         //写入唯一标示
         byte[] uniqueBytes = BytesUtils.changeLongToByte(getUnique());
         System.arraycopy(uniqueBytes,
-                0,
-                previousBytes,
-                writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX)),
-                MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX));
+                         0,
+                         previousBytes,
+                         writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX)),
+                         MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX));
 
         byte[] result = new byte[previousBytes.length + headAndContent.length];
         System.arraycopy(previousBytes, 0, result, 0, previousBytes.length);
@@ -235,6 +238,7 @@ public abstract class AbstractRpcData implements RpcData {
      *
      * @param data
      * @param readIndex
+     *
      * @throws RpcVersionNotSupportedException
      */
     protected void initVersionAndType(byte[] data, AtomicInteger readIndex) throws RpcException {
@@ -256,6 +260,7 @@ public abstract class AbstractRpcData implements RpcData {
      *
      * @param data
      * @param readIndex
+     *
      * @throws MyRpcException
      */
     private void isMyRpc(byte[] data, AtomicInteger readIndex) throws MyRpcException {

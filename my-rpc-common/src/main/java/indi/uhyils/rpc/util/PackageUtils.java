@@ -1,17 +1,23 @@
 package indi.uhyils.rpc.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -23,6 +29,7 @@ public class PackageUtils {
      * 文件
      */
     private static final String FILE = "file";
+
     /**
      * jar包
      */
@@ -37,6 +44,7 @@ public class PackageUtils {
      * @param packageName         包名
      * @param excludePackage      排除的包名
      * @param recursiveSubpackage 是否递归子包
+     *
      * @return
      */
     public static Set<Class<?>> getClassByPackageName(String packageName, String[] excludePackage, Boolean recursiveSubpackage) throws IOException, ClassNotFoundException {
@@ -58,6 +66,7 @@ public class PackageUtils {
      * @param packageName         包名
      * @param excludePackage      排除的包名
      * @param recursiveSubpackage 是否递归子包
+     *
      * @return
      */
     public static Set<Class<?>> getClassByPackageName(String[] packageName, String[] excludePackage, Boolean recursiveSubpackage) throws IOException, ClassNotFoundException {
@@ -83,6 +92,7 @@ public class PackageUtils {
      * @param packageName         包名
      * @param excludePackage      排除的包名
      * @param recursiveSubpackage 是否递归子包
+     *
      * @return
      */
     public static Set<Class<?>> getClassByPackageName(Collection<String> packageName, Collection<String> excludePackage, Boolean recursiveSubpackage) {
@@ -114,10 +124,12 @@ public class PackageUtils {
      * @param result              结果
      * @param loader              类加载器
      * @param packageNameItem     要扫描的包名
+     *
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private static void doDealWithScanPackage(Boolean recursiveSubpackage, List<String> excludePackagePaths, Set<Class<?>> result, ClassLoader loader, String packageNameItem) throws IOException, ClassNotFoundException {
+    private static void doDealWithScanPackage(Boolean recursiveSubpackage, List<String> excludePackagePaths, Set<Class<?>> result, ClassLoader loader, String packageNameItem)
+        throws IOException, ClassNotFoundException {
         String packagePath = packageNameItem.replace(".", "/");
         Enumeration<URL> urls = loader.getResources(packagePath);
         while (urls.hasMoreElements()) {
@@ -140,6 +152,7 @@ public class PackageUtils {
      * 去重包(包含覆盖)
      *
      * @param packageName 包名
+     *
      * @return 去重后的数组
      */
     private static String[] duplicateRemoval(String[] packageName) {
@@ -151,6 +164,7 @@ public class PackageUtils {
      * 去重包(包含覆盖)
      *
      * @param packageName 包名
+     *
      * @return 去重后的数组
      */
     private static List<String> duplicateRemoval(Collection<String> packageName) {
@@ -188,7 +202,9 @@ public class PackageUtils {
      * @param filePath     文件路径
      *                     类名集合
      * @param childPackage 是否遍历子包
+     *
      * @return 类的完整名称
+     *
      * @throws UnsupportedEncodingException
      */
     private static List<Class<?>> getClassNameByFile(String filePath, boolean childPackage) throws UnsupportedEncodingException, ClassNotFoundException {
@@ -231,7 +247,9 @@ public class PackageUtils {
      *
      * @param jarPath      jar文件路径
      * @param childPackage 是否遍历子包
+     *
      * @return 类的完整名称
+     *
      * @throws UnsupportedEncodingException
      */
     private static List<Class<?>> getClassNameByJar(String jarPath, boolean childPackage) throws UnsupportedEncodingException {
@@ -279,7 +297,9 @@ public class PackageUtils {
      * @param urls         URL集合
      * @param packagePath  包路径
      * @param childPackage 是否遍历子包
+     *
      * @return 类的完整名称
+     *
      * @throws UnsupportedEncodingException
      */
     private static List<Class<?>> getClassNameByJars(URL[] urls, String packagePath, boolean childPackage) throws UnsupportedEncodingException {

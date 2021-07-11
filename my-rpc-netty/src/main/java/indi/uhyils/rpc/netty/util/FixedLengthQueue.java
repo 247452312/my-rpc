@@ -1,10 +1,9 @@
 package indi.uhyils.rpc.netty.util;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 定长队列 环状
@@ -18,6 +17,7 @@ public class FixedLengthQueue<T extends Serializable> implements Serializable {
      * 定长
      */
     private Integer length;
+
     /**
      * 数组
      */

@@ -9,6 +9,7 @@ import indi.uhyils.rpc.exchange.pojo.RpcContent;
  * @date 文件创建日期 2020年12月18日 10时45分
  */
 public interface RpcResponseContent extends RpcContent {
+
     /**
      * 获取响应值的类型
      *

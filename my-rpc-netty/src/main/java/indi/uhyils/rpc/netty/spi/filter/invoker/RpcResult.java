@@ -19,6 +19,7 @@ public interface RpcResult {
      * 设置其中的数据
      *
      * @param obj
+     *
      * @return
      */
     RpcData set(RpcData obj);

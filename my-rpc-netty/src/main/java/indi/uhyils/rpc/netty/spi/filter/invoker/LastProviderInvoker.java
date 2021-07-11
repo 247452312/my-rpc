@@ -16,7 +16,6 @@ import indi.uhyils.rpc.netty.spi.step.template.ProviderResponseDataExtension;
 import indi.uhyils.rpc.spi.RpcSpiManager;
 import indi.uhyils.rpc.util.LogUtil;
 import io.netty.buffer.ByteBuf;
-
 import java.util.List;
 
 /**
@@ -34,14 +33,17 @@ public class LastProviderInvoker implements RpcInvoker {
      * 生产者接收请求byte拦截器
      */
     private List<ProviderRequestByteExtension> providerRequestByteFilters;
+
     /**
      * 生产者接收请求data拦截器
      */
     private List<ProviderRequestDataExtension> providerRequestDataFilters;
+
     /**
      * 生产者接收请求处理完成后的data拦截器
      */
     private List<ProviderResponseDataExtension> providerResponseDataFilters;
+
     /**
      * 生产者接收请求处理完成后byte拦截器
      */

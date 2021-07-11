@@ -4,7 +4,6 @@ package indi.uhyils.rpc.util;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.content.Content;
 import indi.uhyils.rpc.exception.IdGenerationException;
-
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -24,6 +23,7 @@ public class IdUtil {
      * 存储上一次生成的时间,保证系统时间不正确时不产生错误的id
      */
     private volatile Long lastTime = 0L;
+
     /**
      * 序列号
      */

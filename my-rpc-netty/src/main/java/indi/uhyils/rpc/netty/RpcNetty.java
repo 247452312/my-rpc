@@ -40,6 +40,7 @@ public interface RpcNetty extends RpcSpiExtension {
      * 发送信息 等待回应
      *
      * @param rpcData
+     *
      * @return
      */
     RpcData sendMsg(RpcData rpcData) throws RpcException, ClassNotFoundException, InterruptedException;

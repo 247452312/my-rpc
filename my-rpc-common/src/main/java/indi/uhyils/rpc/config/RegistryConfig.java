@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class RegistryConfig implements Serializable {
 
     private static final long serialVersionUID = -5414128857045620253L;
+
     /**
      * 注册中心地址
      */

@@ -7,4 +7,5 @@ import indi.uhyils.rpc.netty.spi.step.RpcStep;
  * @date 文件创建日期 2021年01月18日 08时06分
  */
 public interface RpcProviderExtension extends RpcStep {
+
 }

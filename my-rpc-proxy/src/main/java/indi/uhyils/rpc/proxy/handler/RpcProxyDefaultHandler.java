@@ -18,7 +18,6 @@ import indi.uhyils.rpc.registry.RegistryFactory;
 import indi.uhyils.rpc.spi.RpcSpiManager;
 import indi.uhyils.rpc.util.IdUtil;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.List;
  */
 @RpcSpi(single = false)
 public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
+
     private static final String TO_STRING = "toString";
 
 
@@ -162,6 +162,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
      *
      * @param rpcData
      * @param result
+     *
      * @return
      */
     private Object postProcessing(RpcData rpcData, Object result) {

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>io.github.247452312</groupId>
-        <artifactId>my-rpc</artifactId>
-        <version>1.0.0.my</version>
-    </parent>
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>my-rpc-proxy</artifactId>
+    <dependencies>
+        <dependency>
+            <artifactId>my-rpc-registry</artifactId>
+            <groupId>io.github.247452312</groupId>
+        </dependency>
+    </dependencies>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>my-rpc-proxy</artifactId>
-
+    <parent>
+        <artifactId>my-rpc</artifactId>
+        <groupId>io.github.247452312</groupId>
+        <version>1.0.0.my</version>
+    </parent>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>io.github.247452312</groupId>
-            <artifactId>my-rpc-registry</artifactId>
-        </dependency>
-    </dependencies>
 
 </project>

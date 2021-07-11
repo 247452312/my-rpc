@@ -9,7 +9,9 @@ import java.io.Serializable;
  * @date 文件创建日期 2021年01月16日 10时27分
  */
 public class RpcConfig implements Serializable {
+
     private static final long serialVersionUID = -5258855332613054596L;
+
     /**
      * 服务配置
      */

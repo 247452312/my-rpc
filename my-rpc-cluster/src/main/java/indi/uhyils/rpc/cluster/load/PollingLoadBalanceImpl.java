@@ -2,7 +2,6 @@ package indi.uhyils.rpc.cluster.load;
 
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -14,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @RpcSpi
 public class PollingLoadBalanceImpl extends AbstractLoadBalance {
+
     /**
      * 如果是轮询时的标记
      */

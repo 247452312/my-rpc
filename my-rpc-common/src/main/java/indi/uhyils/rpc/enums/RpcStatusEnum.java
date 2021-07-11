@@ -57,6 +57,7 @@ public enum RpcStatusEnum {
     SERVER_THREADPOOL_EXHAUSTED_ERROR("服务器线程池已耗尽错误", (byte) 100);
 
     private String name;
+
     private byte code;
 
 

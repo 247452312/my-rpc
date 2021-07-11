@@ -6,7 +6,6 @@ import indi.uhyils.rpc.proxy.handler.RpcProxyHandlerInterface;
 import indi.uhyils.rpc.registry.exception.RegistryException;
 import indi.uhyils.rpc.spi.RpcSpiManager;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.lang.reflect.Proxy;
 
 /**
@@ -34,7 +33,9 @@ public class RpcProxyFactory {
      *
      * @param clazz
      * @param <T>
+     *
      * @return
+     *
      * @throws RegistryException
      */
     public static <T> T newProxy(Class<T> clazz) throws RegistryException {
@@ -59,7 +60,9 @@ public class RpcProxyFactory {
      *
      * @param clazz   对应的类
      * @param generic 是否泛化接口
+     *
      * @return
+     *
      * @throws RegistryException
      */
     public static Object newProxy(Class<?> clazz, boolean generic) throws Exception {

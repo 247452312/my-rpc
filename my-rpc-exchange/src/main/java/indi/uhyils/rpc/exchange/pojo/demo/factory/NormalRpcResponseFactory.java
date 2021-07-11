@@ -14,7 +14,6 @@ import indi.uhyils.rpc.exchange.pojo.demo.response.NormalResponseRpcData;
 import indi.uhyils.rpc.exchange.pojo.factory.AbstractRpcFactory;
 import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContentFactory;
 import indi.uhyils.rpc.spi.RpcSpiManager;
-
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -27,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 public class NormalRpcResponseFactory extends AbstractRpcFactory {
 
     private static final String RPC_RESPONSE_DEFAULT_NAME = "RPC_RESPONSE_DEFAULT_NAME";
+
     private static final String RPC_RESPONSE_SPI_NAME = "RPC_RESPONSE_SPI_NAME";
 
     public static NormalResponseRpcData createNewNormalResponseRpcData() {

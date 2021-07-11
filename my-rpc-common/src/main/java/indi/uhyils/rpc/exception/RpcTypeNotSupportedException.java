@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.exception;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-
 import java.util.Objects;
 
 /**

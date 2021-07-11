@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.factory;
 
 import indi.uhyils.rpc.exception.RpcRunTimeException;
-
 import java.io.Serializable;
 
 
@@ -20,6 +19,7 @@ public class RpcParamExceptionFactory implements Serializable {
      * @param throwable 错误
      * @param result    结果
      * @param objects   参数
+     *
      * @return
      */
     public static RpcRunTimeException newException(Throwable throwable, String result, Object... objects) {
@@ -31,6 +31,7 @@ public class RpcParamExceptionFactory implements Serializable {
      *
      * @param result  结果
      * @param objects 参数
+     *
      * @return
      */
     public static RpcRunTimeException newException(String result, Object... objects) {

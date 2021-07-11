@@ -4,10 +4,9 @@ import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.pojo.NettyInfo;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.netty.RpcNetty;
-import org.apache.commons.lang3.RandomUtils;
-
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.apache.commons.lang3.RandomUtils;
 
 /**
  * 手动分配权重

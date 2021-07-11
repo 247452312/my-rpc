@@ -5,4 +5,5 @@ package indi.uhyils.rpc.cluster;
  * @date 文件创建日期 2020年12月25日 11时04分
  */
 public abstract class AbstractCluster implements Cluster {
+
 }

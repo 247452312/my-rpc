@@ -1,51 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>io.github.247452312</groupId>
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>my-rpc</artifactId>
-    <version>1.0.0.my</version>
-    <!--SNAPSHOT-->
-    <packaging>pom</packaging>
 
-    <name>my-rpc</name>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.18.1</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <version>2.4</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.7.1</version>
+            </plugin>
+            <!-- Javadoc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </configuration>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.0.1</version>
+            </plugin>
+            <!-- Gpg Signature -->
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>1.6</version>
+            </plugin>
+            <!--nexus-->
+            <plugin>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <configuration>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <serverId>ossrh</serverId>
+                </configuration>
+                <extensions>true</extensions>
+                <groupId>org.sonatype.plugins</groupId>
+                <version>1.6.7</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <goals>deploy</goals>
+                    <releaseProfiles>release</releaseProfiles>
+                    <useReleaseProfile>false</useReleaseProfile>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.5.3</version>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+            <dependency>
+                <artifactId>slf4j-api</artifactId>
+                <groupId>org.slf4j</groupId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>fastjson</artifactId>
+                <groupId>com.alibaba</groupId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>my-rpc-exchange</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-netty</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-cluster</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-registry</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-proxy</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-common</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>my-rpc-spring-start</artifactId>
+                <groupId>io.github.247452312</groupId>
+                <version>${my.rpc.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+            <dependency>
+                <artifactId>netty-all</artifactId>
+                <groupId>io.netty</groupId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>commons-lang3</artifactId>
+                <groupId>org.apache.commons</groupId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- 单元测试 -->
+            <!--junit-->
+            <dependency>
+                <artifactId>junit</artifactId>
+                <groupId>junit</groupId>
+                <scope>test</scope>
+                <version>${junit.version}</version>
+            </dependency>
+            <!--spring test-->
+            <dependency>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <scope>test</scope>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>mockito-core</artifactId>
+                <groupId>org.mockito</groupId>
+                <scope>test</scope>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>powermock-api-mockito2</artifactId>
+                <groupId>org.powermock</groupId>
+                <scope>test</scope>
+                <version>${powermock.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>powermock-module-junit4</artifactId>
+                <groupId>org.powermock</groupId>
+                <scope>test</scope>
+                <version>${powermock.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>powermock-core</artifactId>
+                <groupId>org.powermock</groupId>
+                <scope>test</scope>
+                <version>${powermock.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>powermock-module-junit4-rule</artifactId>
+                <groupId>org.powermock</groupId>
+                <scope>test</scope>
+                <version>${powermock.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <artifactId>nacos-client</artifactId>
+                <groupId>com.alibaba.nacos</groupId>
+                <version>${nacos.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <description>a rpc for no spring</description>
-    <url>https://github.com/247452312/my-rpc</url>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://opensource.org/licenses/MIT</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <!--项目开发者列表-->
+    <!--SNAPSHOT-->
     <developers>
         <!--某个项目开发者的信息-->
         <developer>
             <!--SCM里项目开发者的唯一标识符-->
-            <id>uhyils</id>
-            <!--项目开发者的全名-->
-            <name>uhyils</name>
-            <!--项目开发者的email-->
             <email>uhyils@qq.com</email>
+            <!--项目开发者的全名-->
+            <id>uhyils</id>
+            <!--项目开发者的email-->
+            <name>uhyils</name>
 
             <!--项目开发者所在时区， -11到12范围内的整数。-->
             <timezone>8</timezone>
         </developer>
     </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <groupId>io.github.247452312</groupId>
     <issueManagement>
         <system>Github Issue</system>
         <url>https://github.com/247452312/my-rpc/issues</url>
     </issueManagement>
-    <scm>
-        <connection>scm:git:git@github.com:247452312/my-rpc.git</connection>
-        <developerConnection>scm:git:git@github.com:247452312/my-rpc.git</developerConnection>
-        <url>https://github.com/247452312/my-rpc</url>
-    </scm>
-
-
+    <licenses>
+        <license>
+            <distribution>repo</distribution>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+    <!--项目开发者列表-->
+    <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>my-rpc-exchange</module>
         <module>my-rpc-netty</module>
@@ -55,257 +275,37 @@
         <module>my-rpc-common</module>
         <module>my-rpc-spring-start</module>
     </modules>
+    <name>my-rpc</name>
+
+
+    <packaging>pom</packaging>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <fastjson.version>1.2.68</fastjson.version>
         <java.version>1.8</java.version>
-        <my.rpc.version>1.0.0.my</my.rpc.version>
+        <junit.version>4.13</junit.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <slf4j-api.version>1.7.31</slf4j-api.version>
-        <fastjson.version>1.2.68</fastjson.version>
-        <netty.version>4.1.54.Final</netty.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
-        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
-        <nacos.version>1.3.1</nacos.version>
-        <junit.version>4.13</junit.version>
-        <powermock.version>2.0.2</powermock.version>
         <mockito.version>2.23.4</mockito.version>
+        <my.rpc.version>1.0.0.my</my.rpc.version>
+        <nacos.version>1.3.1</nacos.version>
+        <netty.version>4.1.54.Final</netty.version>
+        <powermock.version>2.0.2</powermock.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <slf4j-api.version>1.7.31</slf4j-api.version>
+        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-api.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-exchange</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-netty</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-cluster</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-registry</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-proxy</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-common</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.247452312</groupId>
-                <artifactId>my-rpc-spring-start</artifactId>
-                <version>${my.rpc.version}</version>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-autoconfigure</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <!-- 单元测试 -->
-            <!--junit-->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!--spring test-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-api-mockito2</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-module-junit4</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-core</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-module-junit4-rule</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>
+    <scm>
+        <connection>scm:git:git@github.com:247452312/my-rpc.git</connection>
+        <developerConnection>scm:git:git@github.com:247452312/my-rpc.git</developerConnection>
+        <url>https://github.com/247452312/my-rpc</url>
+    </scm>
 
 
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${nacos.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <url>https://github.com/247452312/my-rpc</url>
 
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
-            </plugin>
-            <!-- Javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Gpg Signature -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--nexus-->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <version>1.0.0.my</version>
 </project>
