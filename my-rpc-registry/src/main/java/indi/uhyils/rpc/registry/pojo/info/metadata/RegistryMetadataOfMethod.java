@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @date 文件创建日期 2020年12月26日 17时52分
  */
 public class RegistryMetadataOfMethod implements Serializable {
+
     /**
      * 方法名称
      */

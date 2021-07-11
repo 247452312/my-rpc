@@ -5,14 +5,13 @@ import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.spring.util.SpringUtil;
 import indi.uhyils.rpc.util.LogUtil;
+import java.util.Map;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
-
-import java.util.Map;
 
 /**
  * 初始化配置类(单独写一个是为了区分先后, 先加载配置

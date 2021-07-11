@@ -9,4 +9,5 @@ import java.io.Serializable;
  * @date 文件创建日期 2020年12月26日 17时21分
  */
 public interface RegistryNecessaryInfo extends Serializable {
+
 }

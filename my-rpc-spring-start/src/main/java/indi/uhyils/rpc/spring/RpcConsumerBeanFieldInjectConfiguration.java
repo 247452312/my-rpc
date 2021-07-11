@@ -6,15 +6,14 @@ import indi.uhyils.rpc.proxy.RpcProxyFactory;
 import indi.uhyils.rpc.registry.exception.RegistryException;
 import indi.uhyils.rpc.spring.util.SpringUtil;
 import indi.uhyils.rpc.util.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
 /**
  * 注册类实例化后在的地方,包含了带有rpc注解的类的实例,类中如果带着RpcReference,那么动态注入rpc相关的类
@@ -28,6 +27,7 @@ public class RpcConsumerBeanFieldInjectConfiguration implements InstantiationAwa
      * 注册类的缓存
      */
     private volatile static Map<String, Object> consumerRegistryCache = new ConcurrentHashMap<>();
+
     @Autowired
     private RpcConfig config;
 
@@ -53,6 +53,7 @@ public class RpcConsumerBeanFieldInjectConfiguration implements InstantiationAwa
      *
      * @param bean
      * @param beanName
+     *
      * @return
      */
     @Override

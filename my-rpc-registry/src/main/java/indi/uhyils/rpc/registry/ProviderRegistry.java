@@ -12,7 +12,6 @@ import indi.uhyils.rpc.registry.mode.RegistryModeBuilder;
 import indi.uhyils.rpc.registry.mode.RegistryModeFactory;
 import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.util.HashMap;
 
 /**

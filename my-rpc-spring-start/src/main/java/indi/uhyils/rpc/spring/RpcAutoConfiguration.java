@@ -9,6 +9,10 @@ import indi.uhyils.rpc.registry.Registry;
 import indi.uhyils.rpc.registry.RegistryFactory;
 import indi.uhyils.rpc.spring.util.ClassUtil;
 import indi.uhyils.rpc.util.LogUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
@@ -18,11 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 初始化RPC需要的一些东西
@@ -37,11 +36,14 @@ public class RpcAutoConfiguration implements BeanFactoryAware, ApplicationContex
      * bean name
      */
     private static final String RPC_CONFIGURER = "rpcConfigurer";
+
     /**
      * 只是写在这里. 不知道干什么..
      */
     private static List<Registry<?>> registries;
+
     private BeanFactory beanFactory;
+
     private ApplicationContext applicationContext;
 
     @Override
@@ -69,6 +71,7 @@ public class RpcAutoConfiguration implements BeanFactoryAware, ApplicationContex
      * 单独初始化这个类的生产者的Cluster
      *
      * @return
+     *
      * @throws Exception
      */
     @Bean("providerCluster")

@@ -1,11 +1,10 @@
 package indi.uhyils.rpc.spring;
 
+import java.lang.annotation.Annotation;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-
-import java.lang.annotation.Annotation;
 
 /**
  * 指定注解的扫描器,借鉴mybatis-spring-start,有filter,可以手动选中哪一种需要扫描,哪一种不需要扫描
@@ -38,6 +37,7 @@ public class RpcSpringBeanScanner extends ClassPathBeanDefinitionScanner {
         }
         if (this.superInterface != null) {
             addIncludeFilter(new AssignableTypeFilter(this.superInterface) {
+
                 @Override
                 protected boolean matchClassName(String className) {
                     return Boolean.FALSE;

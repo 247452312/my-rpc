@@ -15,14 +15,17 @@ public class RegistryFactory {
      * 默认的registry
      */
     private static final String DEFAULT_REGISTRY = "default_consumer";
+
     /**
      * 配置中registry
      */
     private static final String REGISTRY_SPI_NAME = "registryConsumerSpi";
+
     /**
      * 默认的provider registry
      */
     private static final String DEFAULT_PROVIDER_REGISTRY = "default_provider";
+
     /**
      * 配置中provider registry
      */
@@ -35,6 +38,7 @@ public class RegistryFactory {
      * 创建一个消费者的注册层
      *
      * @param clazz 消费者对应的接口
+     *
      * @return
      */
     public static <T> Registry<T> createConsumer(Class<T> clazz) throws Exception {
@@ -51,6 +55,7 @@ public class RegistryFactory {
      *
      * @param clazz 某个接口的数据
      * @param <T>
+     *
      * @return
      */
     public static <T> Registry<T> createProvider(Class<T> clazz, Object bean) throws Exception {

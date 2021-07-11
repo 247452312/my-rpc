@@ -1,5 +1,6 @@
 package indi.uhyils.rpc.spring;
 
+import java.lang.annotation.Annotation;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -8,8 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
-
-import java.lang.annotation.Annotation;
 
 /**
  * rpc注解扫描类,负责扫描某一个包中的指定注解 加入spring bean
@@ -23,14 +22,17 @@ public class RpcConfigurer implements BeanDefinitionRegistryPostProcessor, Appli
      * 要扫描的类
      */
     private Class<? extends Annotation> annotationClass;
+
     /**
      * 公共父类
      */
     private Class<?> superInterface;
+
     /**
      * spring上下文
      */
     private ApplicationContext applicationContext;
+
     /**
      * 加载时的基本类
      */
@@ -46,7 +48,7 @@ public class RpcConfigurer implements BeanDefinitionRegistryPostProcessor, Appli
         scanner.setBeanNameGenerator(null);
         scanner.registerFilters();
         scanner.scan(
-                StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+            StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
     }
 
     @Override

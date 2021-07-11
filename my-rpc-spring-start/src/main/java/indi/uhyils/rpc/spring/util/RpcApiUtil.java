@@ -5,7 +5,6 @@ import indi.uhyils.rpc.proxy.generic.GenericService;
 import indi.uhyils.rpc.spring.RpcConsumerBeanFieldInjectConfiguration;
 import indi.uhyils.rpc.util.LogUtil;
 import indi.uhyils.rpc.util.RpcObjectTransUtil;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,10 +22,12 @@ public class RpcApiUtil {
      * 接口名称包分隔符
      */
     public static final String INTERFACE_NAME_PACKAGE_SEPARATOR = ".";
+
     /**
      * 默认的协议
      */
     private static final String DEFAULT_PROCOTOL = "dubbo";
+
     /**
      * ReferenceConfig缓存(重量级, 不缓存太慢了, 但是还没有考虑微服务过多的情况)
      */
@@ -41,6 +42,7 @@ public class RpcApiUtil {
      * @param interfaceName 接口的名字,可以用全名或者接口名
      * @param methodName    方法名
      * @param args          方法参数
+     *
      * @return 方法返回值
      */
     public static Object rpcApiTool(String interfaceName, String methodName, List<Object> args) {
@@ -53,6 +55,7 @@ public class RpcApiUtil {
      * @param interfaceName 接口的名字,可以用全名或者接口名
      * @param methodName    方法名
      * @param args          方法参数
+     *
      * @return 方法返回值
      */
     public static Object rpcApiTool(String interfaceName, String methodName, Object... args) {
@@ -65,6 +68,7 @@ public class RpcApiUtil {
      * @param interfaceName 接口的名字,可以用全名或者接口名
      * @param methodName    方法名
      * @param args          方法参数
+     *
      * @return 方法返回值
      */
     public static Object rpcApiToolAsync(String interfaceName, String methodName, List<Object> args) {
@@ -77,6 +81,7 @@ public class RpcApiUtil {
      * @param interfaceName 接口的名字,可以用全名或者接口名
      * @param methodName    方法名
      * @param args          方法参数
+     *
      * @return 方法返回值
      */
     public static Object rpcApiToolAsync(String interfaceName, String methodName, Object args) {
@@ -115,7 +120,6 @@ public class RpcApiUtil {
             }
             Object serviceResult = JSONObject.parseObject(JSONObject.toJSONString(genericService.invoke(methodName, new String[]{parameterTypes}, arg)));
 
-
             return serviceResult;
         } catch (Exception e) {
             LogUtil.error(RpcApiUtil.class, e);
@@ -129,6 +133,7 @@ public class RpcApiUtil {
      * @param interfaceName 接口名称
      * @param ansyn         是否是异步接口
      * @param procotol
+     *
      * @return
      */
     private static GenericService getGenericService(String interfaceName, boolean ansyn, String procotol) throws Exception {

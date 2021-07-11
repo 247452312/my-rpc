@@ -24,7 +24,6 @@ import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;
 import indi.uhyils.rpc.registry.pojo.info.RegistryProviderNecessaryInfo;
 import indi.uhyils.rpc.util.IpUtil;
 import indi.uhyils.rpc.util.LogUtil;
-
 import java.util.List;
 
 /**
@@ -61,6 +60,7 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
      * 创建一个消费者的cluster,包含了目标的cluster
      *
      * @return
+     *
      * @throws NacosException
      */
     private Cluster createCluster() throws NacosException {

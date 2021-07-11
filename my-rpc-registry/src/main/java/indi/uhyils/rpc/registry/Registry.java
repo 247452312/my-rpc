@@ -19,7 +19,9 @@ public interface Registry<T> extends RpcSpiExtension {
      * @param methodName 方法名称
      * @param paramType  方法参数类型
      * @param args       参数
+     *
      * @return 返回值的json串
+     *
      * @throws RpcException           rpc错误
      * @throws ClassNotFoundException 类没有找到错误
      * @throws InterruptedException   过程调用被打断错误(例如超时)

@@ -11,14 +11,17 @@ import indi.uhyils.rpc.util.LogUtil;
  * @date 文件创建日期 2020年12月27日 15时44分
  */
 public abstract class AbstractRegistry<T> implements Registry<T> {
+
     /**
      * 集群
      */
     protected Cluster cluster;
+
     /**
      * 和nacos连接的东西
      */
     protected RegistryMode mode;
+
     /**
      * 代表的service的类
      */

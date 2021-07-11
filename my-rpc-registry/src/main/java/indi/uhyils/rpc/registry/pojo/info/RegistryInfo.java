@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.registry.pojo.info;
 
 import indi.uhyils.rpc.registry.pojo.info.metadata.RegistryMetadata;
-
 import java.io.Serializable;
 
 /**
