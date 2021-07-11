@@ -2,76 +2,76 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>my-rpc-registry</artifactId>
-    <dependencies>
-        <dependency>
-            <artifactId>nacos-client</artifactId>
-            <groupId>com.alibaba.nacos</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>my-rpc-cluster</artifactId>
-            <groupId>io.github.247452312</groupId>
-        </dependency>
-        <!-- 单元测试 -->
-        <!--junit-->
-        <dependency>
-            <artifactId>junit</artifactId>
-            <groupId>junit</groupId>
-            <scope>test</scope>
-            <version>${junit.version}</version>
-        </dependency>
-        <!--spring test-->
-        <dependency>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <groupId>org.springframework.boot</groupId>
-            <scope>test</scope>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <artifactId>mockito-core</artifactId>
-            <groupId>org.mockito</groupId>
-            <scope>test</scope>
-            <version>${mockito.version}</version>
-        </dependency>
-        <dependency>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <groupId>org.powermock</groupId>
-            <scope>test</scope>
-            <version>${powermock.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>powermock-module-junit4</artifactId>
-            <groupId>org.powermock</groupId>
-            <scope>test</scope>
-            <version>${powermock.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>powermock-core</artifactId>
-            <groupId>org.powermock</groupId>
-            <scope>test</scope>
-            <version>${powermock.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>powermock-module-junit4-rule</artifactId>
-            <groupId>org.powermock</groupId>
-            <scope>test</scope>
-            <version>${powermock.version}</version>
-        </dependency>
-    </dependencies>
-
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <artifactId>my-rpc</artifactId>
-        <groupId>io.github.247452312</groupId>
-        <version>1.0.0.my</version>
-    </parent>
+    <artifactId>my-rpc-registry</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.247452312</groupId>
+            <artifactId>my-rpc-cluster</artifactId>
+        </dependency>
+        <!-- 单元测试 -->
+        <!--junit-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--spring test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4-rule</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <parent>
+        <groupId>io.github.247452312</groupId>
+        <artifactId>my-rpc</artifactId>
+        <version>1.0.0.my</version>
+    </parent>
 </project>

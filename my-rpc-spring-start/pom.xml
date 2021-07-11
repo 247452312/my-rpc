@@ -2,42 +2,42 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>my-rpc-spring-start</artifactId>
-    <dependencies>
-        <dependency>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <groupId>org.springframework.boot</groupId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <artifactId>my-rpc-common</artifactId>
-            <groupId>io.github.247452312</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>my-rpc-proxy</artifactId>
-            <groupId>io.github.247452312</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>commons-lang3</artifactId>
-            <groupId>org.apache.commons</groupId>
-        </dependency>
-    </dependencies>
-
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <artifactId>my-rpc</artifactId>
-        <groupId>io.github.247452312</groupId>
-        <version>1.0.0.my</version>
-    </parent>
+    <artifactId>my-rpc-spring-start</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.247452312</groupId>
+            <artifactId>my-rpc-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.247452312</groupId>
+            <artifactId>my-rpc-proxy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
+
+    <parent>
+        <groupId>io.github.247452312</groupId>
+        <artifactId>my-rpc</artifactId>
+        <version>1.0.0.my</version>
+    </parent>
 </project>
