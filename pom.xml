@@ -6,7 +6,7 @@
     <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
     <!--SNAPSHOT-->
-    <version>1.0.2.my-SNAPSHOT</version>
+    <version>1.0.2.my</version>
 
     <name>my-rpc</name>
     <description>a rpc for no spring</description>
