@@ -14,6 +14,8 @@ import indi.uhyils.rpc.exchange.pojo.demo.response.NormalResponseRpcData;
 import indi.uhyils.rpc.exchange.pojo.factory.AbstractRpcFactory;
 import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContentFactory;
 import indi.uhyils.rpc.spi.RpcSpiManager;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -80,13 +82,31 @@ public class NormalRpcResponseFactory extends AbstractRpcFactory {
         return rpcNormalRequest;
     }
 
+
+    /**
+     * 创建一个错误返回
+     *
+     * @param unique     唯一标示
+     * @param e          异常
+     * @param rpcHeaders rpcHeader
+     *
+     * @return 包含错误信息的返回
+     *
+     * @throws RpcException
+     */
     public RpcData createErrorResponse(Long unique, Throwable e, RpcHeader[] rpcHeaders) throws RpcException {
         NormalResponseRpcData rpcNormalRequest = createNewNormalResponseRpcData();
 
         rpcNormalRequest.setType(RpcTypeEnum.RESPONSE.getCode());
         rpcNormalRequest.setVersion(MyRpcContent.VERSION);
         rpcNormalRequest.setHeaders(rpcHeaders);
-        String[] contentArray = new String[]{e == null ? RpcStatusEnum.PROVIDER_ERROR.getName() : e.getMessage()};
+        String exceptionStr = null;
+        if (e != null) {
+            StringWriter out = new StringWriter();
+            e.printStackTrace(new PrintWriter(out, true));
+            exceptionStr = out.toString();
+        }
+        String[] contentArray = new String[]{e == null ? RpcStatusEnum.PROVIDER_ERROR.getName() : exceptionStr};
         rpcNormalRequest.setContentArray(contentArray);
         rpcNormalRequest.setStatus(RpcStatusEnum.PROVIDER_ERROR.getCode());
         rpcNormalRequest.setUnique(unique);

@@ -4,7 +4,7 @@ import indi.uhyils.rpc.annotation.RpcReference;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.proxy.RpcProxyFactory;
 import indi.uhyils.rpc.registry.exception.RegistryException;
-import indi.uhyils.rpc.spring.util.SpringUtil;
+import indi.uhyils.rpc.spring.util.RpcSpringUtil;
 import indi.uhyils.rpc.util.LogUtil;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -131,8 +131,8 @@ public class RpcConsumerBeanFieldInjectConfiguration implements InstantiationAwa
                 if (consumerRegistryCache.get(type.getName()) == null) {
                     Object consumer;
                     // 如果在本项目内发现了bean,那么使用项目内部的bean
-                    if (inConnection && SpringUtil.containsBean(type)) {
-                        consumer = SpringUtil.getBean(type);
+                    if (inConnection && RpcSpringUtil.containsBean(type)) {
+                        consumer = RpcSpringUtil.getBean(type);
                     } else {
                         consumer = RpcProxyFactory.newProxy(type);
                     }

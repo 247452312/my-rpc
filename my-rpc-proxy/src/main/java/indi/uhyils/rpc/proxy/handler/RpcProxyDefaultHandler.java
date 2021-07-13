@@ -1,13 +1,12 @@
 package indi.uhyils.rpc.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
-import indi.uhyils.rpc.content.Content;
 import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.demo.response.content.RpcNormalResponseContent;
 import indi.uhyils.rpc.factory.RpcParamExceptionFactory;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
@@ -118,20 +117,10 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         validateArgsWithMethodParams(args, method);
         // registry执行方法
         RpcData invoke = registry.invoke(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
-        Class<?> returnType = null;
-        Object result = null;
-        for (RpcHeader rpcHeader : invoke.rpcHeaders()) {
-            if (Content.HEADER_RETURN_TYPE.equals(rpcHeader.getName())) {
-                returnType = Class.forName(rpcHeader.getValue());
-            }
-        }
         RpcNormalResponseContent content = (RpcNormalResponseContent) invoke.content();
         String contentString = content.getResponseContent();
-        if (returnType == null) {
-            result = contentString;
-        } else {
-            result = JSON.parseObject(contentString, returnType);
-        }
+        Object result = JSON.parseObject(contentString, method.getGenericReturnType());
+
         //后置自定义处理
         result = postProcessing(invoke, result);
         return result;

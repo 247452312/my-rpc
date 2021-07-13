@@ -1,8 +1,11 @@
 package indi.uhyils.rpc.util;
 
 import com.alibaba.fastjson.JSON;
+import indi.uhyils.rpc.spi.RpcSpiManager;
+import indi.uhyils.rpc.spi.param.ParamTransExtension;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -26,22 +29,32 @@ public class RpcObjectTransUtil {
     private static final String GENERIC_RIGHT_BRACKET = ">";
 
     /**
+     * 参数转换扩展
+     */
+    private static List<ParamTransExtension> paramTransExtensions;
+
+    /**
      * 转换为指定接口的指定方法的类型
      *
      * @param arg             请求参数
      * @param interfaceClass  接口class
      * @param method          方法
      * @param methodTypeIndex 参数在方法中的下标
+     * @param bean            rpcBean
      *
      * @return
      *
      * @throws ClassNotFoundException
      * @throws NoSuchMethodException
      */
-    public static Object changeObjRequestParadigm(Object arg, Class interfaceClass, Method method, Integer methodTypeIndex) throws ClassNotFoundException, NoSuchMethodException {
-        String requestJson = JSON.toJSONString(arg);
-        Type genericParameterType = method.getGenericParameterTypes()[methodTypeIndex];
-        return JSON.parseObject(requestJson, genericParameterType);
+    public static Object changeObjRequestParadigm(Object arg, Class interfaceClass, Method method, Integer methodTypeIndex, Object bean) throws ClassNotFoundException, NoSuchMethodException {
+        if (paramTransExtensions == null) {
+            paramTransExtensions = RpcSpiManager.getExtensionsByClass(ParamTransExtension.class, ParamTransExtension.class);
+        }
+        for (ParamTransExtension paramTransExtension : paramTransExtensions) {
+            arg = paramTransExtension.changeObjRequestParadigm(arg, interfaceClass, method, methodTypeIndex, bean);
+        }
+        return arg;
     }
 
 
@@ -57,7 +70,7 @@ public class RpcObjectTransUtil {
      * @throws ClassNotFoundException
      * @throws NoSuchMethodException
      */
-    public static Object[] changeObjRequestParadigm(Object[] arg, Class interfaceClass, Method method) throws ClassNotFoundException, NoSuchMethodException {
+    public static Object[] changeObjRequestParadigm(Object[] arg, Class interfaceClass, Method method, Object bean) throws ClassNotFoundException, NoSuchMethodException {
         // 判断参数是否合理
         Type[] genericParameterTypes = method.getGenericParameterTypes();
         if (genericParameterTypes.length != arg.length) {
@@ -67,7 +80,7 @@ public class RpcObjectTransUtil {
         Object[] result = new Object[arg.length];
         for (int i = 0; i < arg.length; i++) {
             if (arg[i] instanceof JSON) {
-                result[i] = changeObjRequestParadigm(arg[i], interfaceClass, method, i);
+                result[i] = changeObjRequestParadigm(arg[i], interfaceClass, method, i, bean);
             } else {
                 result[i] = arg[i];
             }

@@ -78,8 +78,7 @@ public class LastProviderInvoker implements RpcInvoker {
             for (ProviderRequestDataExtension filter : providerRequestDataFilters) {
                 rpcData = filter.doFilter(rpcData);
             }
-            InvokeResult invoke = callback.invoke(rpcData.content());
-            RpcData assembly = callback.assembly(rpcData.unique(), invoke);
+            RpcData assembly = doInvoke(rpcData);
             // ProviderResponseDataFilter
             for (ProviderResponseDataExtension filter : providerResponseDataFilters) {
                 assembly = filter.doFilter(assembly);
@@ -91,17 +90,31 @@ public class LastProviderInvoker implements RpcInvoker {
             context.put("result", result);
             RpcData byBytes = RpcFactoryProducer.build(RpcTypeEnum.RESPONSE).createByBytes(result);
             rpcResult.set(byBytes);
-        } catch (ClassNotFoundException e) {
+        } catch (Throwable e) {
             LogUtil.error(this, e);
             if (rpcData != null) {
                 RpcData assembly = new NormalRpcResponseFactory().createErrorResponse(rpcData.unique(), e, null);
                 context.put("result", assembly.toBytes());
                 rpcResult.set(assembly);
             }
-        } catch (Exception e) {
-            LogUtil.error(this, e);
         }
         return rpcResult;
+    }
+
+    /**
+     * 执行业务
+     *
+     * @param rpcData
+     *
+     * @return
+     *
+     * @throws RpcException
+     * @throws ClassNotFoundException
+     */
+    private RpcData doInvoke(RpcData rpcData) throws RpcException, ClassNotFoundException {
+        InvokeResult invoke = callback.invoke(rpcData.content());
+        RpcData assembly = callback.assembly(rpcData.unique(), invoke);
+        return assembly;
     }
 
     private byte[] receiveByte(ByteBuf msg) {

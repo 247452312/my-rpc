@@ -1,6 +1,7 @@
 package indi.uhyils.rpc.exchange.pojo.demo.factory;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
@@ -85,6 +86,7 @@ public class NormalRpcRequestFactory extends AbstractRpcFactory {
         rpcNormalRequest.setSize(content.toString().getBytes(StandardCharsets.UTF_8).length);
         return rpcNormalRequest;
     }
+
 
     public RpcData createRetriesError(RpcData request, Throwable th) {
         NormalResponseRpcData rpcNormalRequest = NormalRpcResponseFactory.createNewNormalResponseRpcData();

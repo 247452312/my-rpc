@@ -2,7 +2,6 @@ package indi.uhyils.rpc.netty.callback.impl;
 
 import com.alibaba.fastjson.JSON;
 import indi.uhyils.rpc.annotation.RpcSpi;
-import indi.uhyils.rpc.content.Content;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
 import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
@@ -15,6 +14,7 @@ import indi.uhyils.rpc.exchange.pojo.RpcData;
 import indi.uhyils.rpc.exchange.pojo.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.factory.RpcFactory;
 import indi.uhyils.rpc.exchange.pojo.factory.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.factory.RpcHeaderFactory;
 import indi.uhyils.rpc.exchange.pojo.request.content.RpcRequestContent;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.netty.pojo.InvokeResult;
@@ -22,9 +22,15 @@ import indi.uhyils.rpc.util.LogUtil;
 import indi.uhyils.rpc.util.RpcObjectTransUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,7 +45,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
     /**
      * Rpc的bean们
      */
-    private Map<Class<?>, Object> beans = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Object> beans = new ConcurrentHashMap<>();
 
     public RpcDefaultRequestCallBack(Map<String, Object> beans) throws ClassNotFoundException {
         for (Map.Entry<String, Object> entity : beans.entrySet()) {
@@ -51,6 +57,10 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
     }
 
     public RpcDefaultRequestCallBack() {
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException {
+
     }
 
     @Override
@@ -98,11 +108,8 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
 
     @Override
     public RpcData assembly(Long unique, InvokeResult result) throws RpcException, ClassNotFoundException {
-
-        RpcHeader rpcResultTypeHeader = new RpcHeader();
-        rpcResultTypeHeader.setName(Content.HEADER_RETURN_TYPE);
-        rpcResultTypeHeader.setValue(result.getResultType().getTypeName());
-        RpcHeader[] rpcHeaders = {rpcResultTypeHeader};
+        RpcHeader rpcHeader = RpcHeaderFactory.newHeader("default:default_value");
+        RpcHeader[] rpcHeaders = {rpcHeader};
         String responseType;
         String resultJson = result.getResultJson();
         if (resultJson == null) {
@@ -143,9 +150,45 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
             for (int i = 0; i < methodParameterTypes.length; i++) {
                 methodClass[i] = Class.forName(methodParameterTypes[i]);
             }
-            Method declaredMethod = clazz.getMethod(requestContent.getMethodName(), methodClass);
+
+            Method[] declaredMethods = clazz.getDeclaredMethods();
+            List<Method> nameEqualMethods = Arrays.stream(declaredMethods).filter(t -> t.getName().equals(requestContent.getMethodName())).collect(Collectors.toList());
+            Method declaredMethod = null;
+            for (Method nameEqualMethod : nameEqualMethods) {
+                if (nameEqualMethod.getParameterCount() == methodClass.length) {
+                    Class<?>[] parameterTypes = nameEqualMethod.getParameterTypes();
+                    boolean success = true;
+                    for (int i = 0; i < parameterTypes.length; i++) {
+                        if (!parameterTypes[i].isAssignableFrom(methodClass[i])) {
+                            success = false;
+                            break;
+                        }
+                    }
+                    if (success) {
+                        declaredMethod = nameEqualMethod;
+                        break;
+                    }
+                }
+            }
+            if (declaredMethod == null) {
+                Map<String, String> superClassTypeTransMap = getSuperClassTypeTransMap(clazz);
+                Method[] methods = clazz.getMethods();
+                for (Method method : methods) {
+                    if (method.getName().equals(requestContent.getMethodName()) && method.getParameterCount() == methodClass.length) {
+                        Class<?>[] parameterTypes = method.getParameterTypes();
+                        boolean success = true;
+                        for (int i = 0; i < parameterTypes.length; i++) {
+                            if (parameterTypes[i].isAssignableFrom(methodClass[i])) {
+
+                            }
+                        }
+
+                    }
+                }
+            }
+//                throw new NoSuchMethodException(String.format("找不到RPC调用方法: %s#%s", requestContent.getServiceName(), requestContent.getMethodName()));
             Object[] args = requestContent.getArgs();
-            args = RpcObjectTransUtil.changeObjRequestParadigm(args, clazz, declaredMethod);
+            args = RpcObjectTransUtil.changeObjRequestParadigm(args, clazz, declaredMethod, target);
 
             Object invoke = declaredMethod.invoke(target, args);
             String resultJson = invoke == null ? "" : JSON.toJSONString(invoke);
@@ -155,5 +198,31 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
             return null;
         }
     }
+
+    /**
+     * 获取父类的泛型所代表的真实类
+     *
+     * @param clazz
+     *
+     * @return
+     *
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    private Map<String, String> getSuperClassTypeTransMap(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        ParameterizedType genericSuperclass = (ParameterizedType) (clazz.getGenericSuperclass());
+        Class rawType = (Class) genericSuperclass.getRawType();
+        TypeVariable<?>[] typeParameters = rawType.getTypeParameters();
+        Type[] actualTypeArguments = genericSuperclass.getActualTypeArguments();
+        Map<String, String> typeTransMap = new ConcurrentHashMap<>(typeParameters.length);
+        for (int i = 0; i < typeParameters.length; i++) {
+            String name = typeParameters[i].getName();
+            String typeName = actualTypeArguments[i].getTypeName();
+            typeTransMap.put(name, typeName);
+        }
+        return typeTransMap;
+    }
+
 
 }

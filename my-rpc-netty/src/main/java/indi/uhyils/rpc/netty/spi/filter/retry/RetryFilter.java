@@ -18,7 +18,7 @@ import indi.uhyils.rpc.util.LogUtil;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2021年01月23日 09时10分
  */
-@RpcSpi(order = Integer.MIN_VALUE)
+@RpcSpi(order = -50)
 public class RetryFilter implements ConsumerFilter {
 
     @Override

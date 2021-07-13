@@ -75,4 +75,5 @@ public interface RpcFactory extends RpcSpiExtension {
     default RpcData getHealth() {
         return MyRpcContent.RPC_HEALTH_DATA;
     }
+
 }

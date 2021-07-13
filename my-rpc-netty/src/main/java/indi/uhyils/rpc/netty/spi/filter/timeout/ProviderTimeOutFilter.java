@@ -15,7 +15,7 @@ import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2021年01月22日 21时11分
  */
-@RpcSpi(order = Integer.MAX_VALUE)
+@RpcSpi(order = 100)
 public class ProviderTimeOutFilter extends AbstractTimeOutFilter implements ProviderFilter {
 
 

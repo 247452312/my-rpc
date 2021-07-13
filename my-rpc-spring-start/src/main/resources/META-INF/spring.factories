@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   indi.uhyils.rpc.spring.RpcConfigAutoInitConfiguration
 
+org.springframework.context.ApplicationContextInitializer=\
+  indi.uhyils.rpc.spring.util.RpcSpringUtil

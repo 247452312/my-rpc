@@ -1,6 +1,7 @@
 package indi.uhyils.rpc.registry;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.nacos.api.exception.NacosException;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.Cluster;
@@ -99,7 +100,8 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
             sb.append(";");
         }
         sb.delete(sb.length() - 1, sb.length());
-        RpcData rpcData = build.createByInfo(unique, null, new RpcHeader[]{rpcHeader}, serviceClass.getName(), "1", methodName, sb.toString(), JSON.toJSONString(args), "[]");
+        RpcData rpcData = build
+            .createByInfo(unique, null, new RpcHeader[]{rpcHeader}, serviceClass.getName(), "1", methodName, sb.toString(), JSON.toJSONString(args), "[]");
 
         SendInfo info = new SendInfo();
         info.setIp(selfIp);

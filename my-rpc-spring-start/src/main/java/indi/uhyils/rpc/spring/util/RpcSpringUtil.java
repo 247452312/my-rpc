@@ -31,7 +31,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2020年04月27日 16时46分
  */
-public class SpringUtil implements ApplicationContextInitializer {
+public class RpcSpringUtil implements ApplicationContextInitializer {
 
     private static ApplicationContext applicationContext = null;
 
@@ -50,7 +50,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      *
      * @param clazz
      * @param <T>
-     *
      * @return
      */
     public static <T extends Annotation> Map<String, Object> getBeansWithAnnotation(Class<T> clazz) {
@@ -61,7 +60,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      * 通过name获取 Bean.
      *
      * @param name bean名称
-     *
      * @return bean
      */
     public static Object getBean(String name) {
@@ -74,7 +72,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      *
      * @param clazz class
      * @param <T>   类型
-     *
      * @return 对应类型的bean
      */
     public static <T> T getBean(Class<T> clazz) {
@@ -87,7 +84,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      * @param name  bean名称
      * @param clazz class
      * @param <T>   类型
-     *
      * @return 对应的bean
      */
     public static <T> T getBean(String name, Class<T> clazz) {
@@ -98,7 +94,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      * 通过key 获取环境变量
      *
      * @param key 环境变量的key
-     *
      * @return 环境变量的值
      */
     public static String getProperty(String key) {
@@ -110,7 +105,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      * 通过key 查询是否存在bean
      *
      * @param beanName bean名称
-     *
      * @return 是否存在
      */
     public static Boolean containsBean(String beanName) {
@@ -121,7 +115,6 @@ public class SpringUtil implements ApplicationContextInitializer {
      * 通过key 查询是否存在bean
      *
      * @param beanClass bean名称
-     *
      * @return 是否存在
      */
     public static <T> Boolean containsBean(Class<T> beanClass) {
@@ -136,9 +129,9 @@ public class SpringUtil implements ApplicationContextInitializer {
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        if (SpringUtil.applicationContext == null) {
-            LogUtil.info(SpringUtil.class, "set applicationContext");
-            SpringUtil.applicationContext = applicationContext;
+        if (RpcSpringUtil.applicationContext == null) {
+            LogUtil.info(RpcSpringUtil.class, "set applicationContext");
+            RpcSpringUtil.applicationContext = applicationContext;
         }
     }
 }

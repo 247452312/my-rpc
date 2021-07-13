@@ -2,6 +2,9 @@ package indi.uhyils.rpc.exchange.pojo.demo.request.content;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exchange.enum_.RpcRequestContentEnum;
 import indi.uhyils.rpc.exchange.pojo.AbstractRpcContent;
@@ -63,7 +66,7 @@ public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRe
         this.setMethodName(this.getLine(RpcRequestContentEnum.METHOD_NAME.getLine()));
         String[] methodParamterTypes = this.getLine(RpcRequestContentEnum.METHOD_PARAM_TYPE.getLine()).split(";");
         this.setMethodParamterTypes(methodParamterTypes);
-        JSONArray argsMap = JSON.parseArray(this.getLine(RpcRequestContentEnum.ARG_MAP.getLine()));
+        ArrayList argsMap = JSON.parseObject(this.getLine(RpcRequestContentEnum.ARG_MAP.getLine()), ArrayList.class);
 
         this.setArgs(argsMap.toArray());
 
@@ -99,7 +102,7 @@ public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRe
         }
         sb.delete(sb.length() - 1, sb.length());
         sb.append("\n");
-        sb.append(JSONArray.toJSONString(this.getArgs()));
+        sb.append(JSONArray.toJSONString(this.getArgs(), SerializerFeature.WriteClassName));
         sb.append("\n");
         Object[] others = this.getOthers();
         for (Object other : others) {
