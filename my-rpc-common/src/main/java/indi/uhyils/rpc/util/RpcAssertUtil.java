@@ -37,7 +37,7 @@ public class RpcAssertUtil {
      * @param removeLayerCount 要删除的顶层堆栈的层数
      * @param msg
      */
-    public static void assertTrue(boolean condition, int removeLayerCount, String msg) {
+    private static void assertTrue(boolean condition, int removeLayerCount, String msg) {
         if (!condition) {
             RpcAssertException rpcAssertException = new RpcAssertException("throw exception: " + msg);
             removeExceptionTrace(rpcAssertException, removeLayerCount);
@@ -64,7 +64,7 @@ public class RpcAssertUtil {
      * @param removeLayerCount
      * @param msgFunction
      */
-    public static void assertTrue(boolean condition, int removeLayerCount, Supplier<String> msgFunction) {
+    private static void assertTrue(boolean condition, int removeLayerCount, Supplier<String> msgFunction) {
         if (!condition) {
             String msg = msgFunction.get();
             RpcAssertException rpcAssertException = new RpcAssertException("throw exception: " + msg);
