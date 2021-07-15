@@ -1,7 +1,7 @@
 package indi.uhyils.rpc.enums;
 
 /**
- * rpc结果状态枚举
+ * rpc结果状态枚举(注意,因为是byte类型,此类最大为127)
  *
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2020年12月18日 09时53分

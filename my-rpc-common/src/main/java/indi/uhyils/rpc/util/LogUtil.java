@@ -3,6 +3,7 @@ package indi.uhyils.rpc.util;
 
 import com.alibaba.fastjson.JSON;
 import indi.uhyils.rpc.enums.LogTypeEnum;
+import indi.uhyils.rpc.util.pojo.ThreadLayerInfo;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -13,6 +14,11 @@ import org.slf4j.LoggerFactory;
  * @date 文件创建日期 2020年04月25日 08时43分
  */
 public class LogUtil {
+
+    /**
+     * 使用层是第几层
+     */
+    private static final Integer USR_LAYER = 3;
 
     /**
      * 日志文件缓存地
@@ -43,7 +49,8 @@ public class LogUtil {
     }
 
     public static void info(String msg) {
-        writeLog(Thread.currentThread().getName(), msg, null, LogTypeEnum.INFO);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.INFO);
     }
 
     public static void info(Class<?> cls, Throwable e) {
@@ -76,7 +83,8 @@ public class LogUtil {
     }
 
     public static void debug(String msg) {
-        writeLog(Thread.currentThread().getName(), msg, null, LogTypeEnum.DEBUG);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.DEBUG);
     }
 
     public static void debug(Class<?> cls, Throwable e) {
@@ -97,7 +105,8 @@ public class LogUtil {
     }
 
     public static void warn(String msg) {
-        writeLog(Thread.currentThread().getName(), msg, null, LogTypeEnum.WARN);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.WARN);
     }
 
     public static void warn(Class<?> cls, Throwable e) {
@@ -118,11 +127,23 @@ public class LogUtil {
     }
 
     public static void error(String msg) {
-        writeLog(Thread.currentThread().getName(), msg, null, LogTypeEnum.ERROR);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR);
+    }
+
+    /**
+     * 给{@link indi.uhyils.rpc.util.RpcAssertUtil}调用的,请其他的地方不要使用
+     *
+     * @param msg
+     */
+    public static void assertError(String msg) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER + 1);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR);
     }
 
     public static void error(Throwable e) {
-        writeLog(Thread.currentThread().getName(), null, e, LogTypeEnum.ERROR);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), null, e, LogTypeEnum.ERROR);
     }
 
     public static void error(Class<?> cls, Throwable e) {
@@ -142,7 +163,8 @@ public class LogUtil {
     }
 
     public static void error(Throwable e, String msg) {
-        writeLog(Thread.currentThread().getName(), msg, e, LogTypeEnum.ERROR);
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, e, LogTypeEnum.ERROR);
     }
 
     public static void error(Object obj, Throwable e) {
@@ -160,16 +182,16 @@ public class LogUtil {
     private static void writeLog(String className, String msg, Throwable throwable, LogTypeEnum logTypeEnum) {
         if (loggerMap.containsKey(className)) {
             Logger logger = loggerMap.get(className);
-            choiseLogType(msg, throwable, logTypeEnum, logger);
+            choiceLogType(msg, throwable, logTypeEnum, logger);
             return;
         }
         Logger logger = LoggerFactory.getLogger(className);
         loggerMap.put(className, logger);
-        choiseLogType(msg, throwable, logTypeEnum, logger);
+        choiceLogType(msg, throwable, logTypeEnum, logger);
     }
 
 
-    private static void choiseLogType(String msg, Throwable throwable, LogTypeEnum logTypeEnum, Logger logger) {
+    private static void choiceLogType(String msg, Throwable throwable, LogTypeEnum logTypeEnum, Logger logger) {
         switch (logTypeEnum) {
             case INFO:
                 logger.info(msg, throwable);
