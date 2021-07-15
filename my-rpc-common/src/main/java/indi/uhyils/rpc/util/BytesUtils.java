@@ -104,12 +104,4 @@ public class BytesUtils {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        Long data = 1689661040771465280L;
-        LogUtil.info(Long.toBinaryString(data));
-        byte[] bytes = changeLongToByte(data);
-        Long aLong = changeByteToLong(bytes);
-        LogUtil.info(Long.toBinaryString(aLong));
-    }
 }

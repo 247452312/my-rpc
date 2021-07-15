@@ -131,16 +131,6 @@ public class LogUtil {
         writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR);
     }
 
-    /**
-     * 给{@link indi.uhyils.rpc.util.RpcAssertUtil}调用的,请其他的地方不要使用
-     *
-     * @param msg
-     */
-    public static void assertError(String msg) {
-        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER + 1);
-        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR);
-    }
-
     public static void error(Throwable e) {
         ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
         writeLog(threadLayerInfo.getClassName(), null, e, LogTypeEnum.ERROR);

@@ -2,6 +2,7 @@ package indi.uhyils.rpc.util;
 
 import indi.uhyils.rpc.exception.RpcAssertException;
 import indi.uhyils.rpc.util.pojo.ThreadLayerInfo;
+import java.util.function.Supplier;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -13,13 +14,62 @@ public class RpcAssertUtil {
     /**
      * 断言正确
      *
-     * @param condition
+     * @param condition 验证
      * @param msg
      */
     public static void assertTrue(boolean condition, String msg) {
+        assertTrue(condition, 3, msg);
+    }
+
+    /**
+     * 断言正确
+     *
+     * @param condition 验证
+     */
+    public static void assertTrue(boolean condition) {
+        assertTrue(condition, 3, "断言错误");
+    }
+
+    /**
+     * 断言正确
+     *
+     * @param condition        验证
+     * @param removeLayerCount 要删除的顶层堆栈的层数
+     * @param msg
+     */
+    public static void assertTrue(boolean condition, int removeLayerCount, String msg) {
         if (!condition) {
-            LogUtil.assertError(msg);
-            throw new RpcAssertException("throw exception: " + msg);
+            RpcAssertException rpcAssertException = new RpcAssertException("throw exception: " + msg);
+            removeExceptionTrace(rpcAssertException, removeLayerCount);
+            LogUtil.error(rpcAssertException);
+            throw rpcAssertException;
+        }
+    }
+
+
+    /**
+     * 断言正确
+     *
+     * @param condition
+     * @param msgFunction
+     */
+    public static void assertTrue(boolean condition, Supplier<String> msgFunction) {
+        assertTrue(condition, 3, msgFunction);
+    }
+
+    /**
+     * 断言正确
+     *
+     * @param condition
+     * @param removeLayerCount
+     * @param msgFunction
+     */
+    public static void assertTrue(boolean condition, int removeLayerCount, Supplier<String> msgFunction) {
+        if (!condition) {
+            String msg = msgFunction.get();
+            RpcAssertException rpcAssertException = new RpcAssertException("throw exception: " + msg);
+            removeExceptionTrace(rpcAssertException, removeLayerCount);
+            throw rpcAssertException;
         }
     }
 
@@ -44,5 +94,20 @@ public class RpcAssertUtil {
 
     public static ThreadLayerInfo getThreadLayerInfo() {
         return getThreadLayerInfo(3);
+    }
+
+
+    /**
+     * 删除异常的顶层堆栈信息
+     *
+     * @param rpcAssertException 异常
+     * @param removeLayerCount   要删除异常的顶层堆栈信息数量
+     */
+    private static void removeExceptionTrace(RpcAssertException rpcAssertException, int removeLayerCount) {
+        StackTraceElement[] stackTrace = rpcAssertException.getStackTrace();
+        int newCount = stackTrace.length - removeLayerCount;
+        StackTraceElement[] newStackTrace = new StackTraceElement[newCount];
+        System.arraycopy(stackTrace, removeLayerCount - 1, newStackTrace, 0, newCount);
+        rpcAssertException.setStackTrace(newStackTrace);
     }
 }
