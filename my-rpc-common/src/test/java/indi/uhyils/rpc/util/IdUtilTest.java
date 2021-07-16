@@ -19,9 +19,7 @@ class IdUtilTest {
         IdUtil idUtil2 = new IdUtil(2L);
         IdUtil idUtil3 = new IdUtil(3L);
         final int kk1 = 1000000;
-        final int kk2 = 1000000;
-        final int kk3 = 1000000;
-        Set<Long> test = Collections.synchronizedSet(new HashSet<>(kk1 + kk2 + kk3));
+        Set<Long> test = Collections.synchronizedSet(new HashSet<>(kk1 * 3));
         final CountDownLatch count = new CountDownLatch(4);
 
         CompletableFuture<Object> objectCompletableFuture1 = CompletableFuture.supplyAsync(() -> {
@@ -34,9 +32,7 @@ class IdUtilTest {
             try {
                 for (int i = 0; i < kk1; i++) {
                     long e = idUtil1.newId();
-                    if (test.contains(e)) {
-                        throw new RuntimeException("错误");
-                    }
+
                     test.add(e);
                 }
             } catch (Exception e) {
@@ -52,11 +48,9 @@ class IdUtilTest {
                 LogUtil.error(this, e);
             }
             try {
-                for (int i = 0; i < kk2; i++) {
+                for (int i = 0; i < kk1; i++) {
                     long e = idUtil2.newId();
-                    if (test.contains(e)) {
-                        throw new RuntimeException("错误");
-                    }
+
                     test.add(e);
                 }
             } catch (Exception e) {
@@ -72,11 +66,9 @@ class IdUtilTest {
                 LogUtil.error(this, e);
             }
             try {
-                for (int i = 0; i < kk3; i++) {
+                for (int i = 0; i < kk1; i++) {
                     long e = idUtil3.newId();
-                    if (test.contains(e)) {
-                        throw new RuntimeException("错误");
-                    }
+
                     test.add(e);
                 }
             } catch (Exception e) {
@@ -93,6 +85,6 @@ class IdUtilTest {
         objectCompletableFuture1.get();
         objectCompletableFuture2.get();
         objectCompletableFuture3.get();
-        RpcAssertUtil.assertTrue(test.size() == kk1 + kk2 + kk3, "idUtil生成错误");
+        RpcAssertUtil.assertTrue(test.size() == kk1 * 3, "idUtil生成错误");
     }
 }

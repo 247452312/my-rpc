@@ -17,6 +17,7 @@ public interface ParamTransExtension extends RpcSpiExtension {
      * @param interfaceClass  接口class
      * @param method          方法
      * @param methodTypeIndex 方法入参index
+     * @param bean            实际执行实例
      *
      * @return
      */
