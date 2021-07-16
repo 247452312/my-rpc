@@ -1,6 +1,5 @@
-package indi.uhyils.rpc.exchange.pojo.factory;
+package indi.uhyils.rpc.exchange.pojo.head;
 
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
 import org.apache.commons.lang3.StringUtils;
 
 /**

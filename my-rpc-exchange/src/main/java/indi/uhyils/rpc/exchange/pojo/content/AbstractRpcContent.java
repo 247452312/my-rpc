@@ -1,6 +1,7 @@
-package indi.uhyils.rpc.exchange.pojo;
+package indi.uhyils.rpc.exchange.pojo.content;
 
 import indi.uhyils.rpc.exception.ContentChangeLineException;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 
 /**
  * 抽象rpc内容体,rpc内容中包含了rpc体的指针,在特殊场合中可以用到
@@ -18,7 +19,7 @@ public abstract class AbstractRpcContent implements RpcContent {
     /**
      * 内容数组
      */
-    private String[] contentArray;
+    private final String[] contentArray;
 
     protected AbstractRpcContent(String[] contentArray) {
         this.contentArray = contentArray;

@@ -1,9 +1,8 @@
-package indi.uhyils.rpc.exchange.pojo.factory;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.content.MyRpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 import io.netty.buffer.ByteBuf;
 

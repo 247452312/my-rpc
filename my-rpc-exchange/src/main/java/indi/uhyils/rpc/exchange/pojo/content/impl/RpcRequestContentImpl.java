@@ -1,15 +1,13 @@
-package indi.uhyils.rpc.exchange.pojo.demo.request.content;
+package indi.uhyils.rpc.exchange.pojo.content.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exchange.enum_.RpcRequestContentEnum;
-import indi.uhyils.rpc.exchange.pojo.AbstractRpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.request.content.RpcRequestContent;
+import indi.uhyils.rpc.exchange.pojo.content.AbstractRpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContent;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2020年12月18日 11时03分
  */
-public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRequestContent {
+public class RpcRequestContentImpl extends AbstractRpcContent implements RpcRequestContent {
 
     /**
      * 接口名称
@@ -51,7 +49,7 @@ public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRe
      */
     private Object[] others;
 
-    public RpcNormalRequestContent(RpcData rpcData, String[] contentArray) {
+    public RpcRequestContentImpl(RpcData rpcData, String[] contentArray) {
         super(contentArray);
         init();
         setRpcData(rpcData);
@@ -81,8 +79,8 @@ public class RpcNormalRequestContent extends AbstractRpcContent implements RpcRe
 
 
     @Override
-    public Integer type() {
-        return RpcTypeEnum.REQUEST.getCode();
+    public RpcTypeEnum type() {
+        return RpcTypeEnum.REQUEST;
     }
 
 

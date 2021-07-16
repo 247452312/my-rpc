@@ -1,6 +1,4 @@
-package indi.uhyils.rpc.exchange.pojo.request.content;
-
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
+package indi.uhyils.rpc.exchange.pojo.content;
 
 /**
  * rpc请求内容抽象类,包含请求接口名称,接口版本等信息

@@ -1,10 +1,9 @@
-package indi.uhyils.rpc.exchange.pojo.request.content;
+package indi.uhyils.rpc.exchange.pojo.content;
 
 import indi.uhyils.rpc.exception.ContentArrayQuantityMismatchException;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.demo.request.content.RpcNormalRequestContent;
+import indi.uhyils.rpc.exchange.pojo.content.impl.RpcRequestContentImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 
 /**
  * 请求内容装载工厂
@@ -24,6 +23,6 @@ public class RpcRequestContentFactory {
             throw new ContentArrayQuantityMismatchException(contentArray.length, CONTENT_MIN_SIZE);
         }
 
-        return new RpcNormalRequestContent(rpcData, contentArray);
+        return new RpcRequestContentImpl(rpcData, contentArray);
     }
 }

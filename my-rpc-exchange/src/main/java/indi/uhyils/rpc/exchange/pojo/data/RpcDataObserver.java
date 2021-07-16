@@ -1,4 +1,4 @@
-package indi.uhyils.rpc.exchange.pojo;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import java.beans.Transient;
 

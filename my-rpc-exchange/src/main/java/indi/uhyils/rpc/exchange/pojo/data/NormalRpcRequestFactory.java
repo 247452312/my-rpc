@@ -1,7 +1,6 @@
-package indi.uhyils.rpc.exchange.pojo.demo.factory;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
@@ -9,14 +8,10 @@ import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.content.MyRpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
-import indi.uhyils.rpc.exchange.pojo.demo.request.NormalRequestRpcData;
-import indi.uhyils.rpc.exchange.pojo.demo.response.NormalResponseRpcData;
-import indi.uhyils.rpc.exchange.pojo.factory.AbstractRpcFactory;
-import indi.uhyils.rpc.exchange.pojo.request.content.RpcRequestContentFactory;
-import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContentFactory;
+import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContentFactory;
+import indi.uhyils.rpc.exchange.pojo.content.RpcResponseContentFactory;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.spi.RpcSpiManager;
 import indi.uhyils.rpc.util.LogUtil;
 import java.nio.charset.StandardCharsets;

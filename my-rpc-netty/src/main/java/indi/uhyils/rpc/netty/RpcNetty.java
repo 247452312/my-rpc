@@ -1,7 +1,7 @@
 package indi.uhyils.rpc.netty;
 
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.channel.Channel;

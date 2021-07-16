@@ -2,7 +2,7 @@ package indi.uhyils.rpc.netty.core;
 
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.AbstractRpcNetty;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.netty.core.handler.RpcConsumerHandler;

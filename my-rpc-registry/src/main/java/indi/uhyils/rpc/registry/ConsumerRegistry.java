@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.registry;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.nacos.api.exception.NacosException;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.Cluster;
@@ -10,11 +9,11 @@ import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
-import indi.uhyils.rpc.exchange.pojo.demo.response.content.RpcNormalResponseContent;
-import indi.uhyils.rpc.exchange.pojo.factory.RpcFactory;
-import indi.uhyils.rpc.exchange.pojo.factory.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
+import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
+import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.callback.RpcCallBackFactory;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.netty.factory.NettyInitDtoFactory;
@@ -107,7 +106,7 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
         info.setIp(selfIp);
 
         RpcData rpcResponseData = cluster.sendMsg(rpcData, info);
-        RpcNormalResponseContent content = (RpcNormalResponseContent) rpcResponseData.content();
+        RpcResponseContentImpl content = (RpcResponseContentImpl) rpcResponseData.content();
         Integer responseType = content.responseType();
         RpcResponseTypeEnum type = RpcResponseTypeEnum.parse(responseType);
         String responseContent = content.getResponseContent();

@@ -1,6 +1,6 @@
 package indi.uhyils.rpc.netty.spi.filter.invoker;
 
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 
 /**
  * @author uhyils <247452312@qq.com>

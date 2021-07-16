@@ -1,7 +1,7 @@
 package indi.uhyils.rpc.registry;
 
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 
 /**

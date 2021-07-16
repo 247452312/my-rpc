@@ -1,12 +1,11 @@
-package indi.uhyils.rpc.exchange.pojo.demo.request;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
-import indi.uhyils.rpc.exchange.pojo.request.AbstractRequestRpcData;
-import indi.uhyils.rpc.exchange.pojo.request.content.RpcRequestContentFactory;
+import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContentFactory;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 
 /**
  * rpc正常请求体(默认扩展实现,如果有其他实现,请自行处理)

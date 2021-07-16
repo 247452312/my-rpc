@@ -7,7 +7,7 @@ import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.exception.MyRpcException;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.registry.mode.RegistryModeBuilder;
 import indi.uhyils.rpc.registry.mode.RegistryModeFactory;
 import indi.uhyils.rpc.registry.pojo.info.RegistryInfo;

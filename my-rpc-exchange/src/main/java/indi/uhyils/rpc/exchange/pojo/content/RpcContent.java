@@ -1,6 +1,8 @@
-package indi.uhyils.rpc.exchange.pojo;
+package indi.uhyils.rpc.exchange.pojo.content;
 
+import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.ContentChangeLineException;
+import indi.uhyils.rpc.exchange.pojo.data.RpcDataObserver;
 
 /**
  * rpc内容抽象类,里面不包含rpc的version等信息, 只有正式内容,例如请求时的请求接口名称,接口版本等信息
@@ -15,7 +17,7 @@ public interface RpcContent extends RpcDataObserver {
      *
      * @return
      */
-    Integer type();
+    RpcTypeEnum type();
 
     /**
      * 获取第x行

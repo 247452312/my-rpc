@@ -1,13 +1,12 @@
 package indi.uhyils.rpc.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.Feature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.demo.response.content.RpcNormalResponseContent;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
 import indi.uhyils.rpc.factory.RpcParamExceptionFactory;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
 import indi.uhyils.rpc.netty.spi.step.template.ConsumerResponseObjectExtension;
@@ -117,7 +116,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         validateArgsWithMethodParams(args, method);
         // registry执行方法
         RpcData invoke = registry.invoke(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
-        RpcNormalResponseContent content = (RpcNormalResponseContent) invoke.content();
+        RpcResponseContentImpl content = (RpcResponseContentImpl) invoke.content();
         String contentString = content.getResponseContent();
         Object result = JSON.parseObject(contentString, method.getGenericReturnType());
 

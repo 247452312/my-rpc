@@ -1,5 +1,7 @@
-package indi.uhyils.rpc.exchange.pojo;
+package indi.uhyils.rpc.exchange.pojo.data;
 
+import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 
 /**

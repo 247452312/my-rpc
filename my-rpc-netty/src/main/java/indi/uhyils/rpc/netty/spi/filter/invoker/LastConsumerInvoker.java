@@ -2,8 +2,8 @@ package indi.uhyils.rpc.netty.spi.filter.invoker;
 
 import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.demo.response.NormalResponseRpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.NormalResponseRpcData;
 import indi.uhyils.rpc.netty.core.RpcNettyNormalConsumer;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.util.LogUtil;

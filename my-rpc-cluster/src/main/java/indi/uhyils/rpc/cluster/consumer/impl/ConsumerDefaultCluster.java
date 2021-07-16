@@ -8,7 +8,7 @@ import indi.uhyils.rpc.cluster.load.LoadBalanceInterface;
 import indi.uhyils.rpc.cluster.pojo.NettyInfo;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.netty.callback.impl.RpcDefaultResponseCallBack;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;

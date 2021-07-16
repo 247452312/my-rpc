@@ -4,7 +4,7 @@ import indi.uhyils.rpc.cluster.enums.LoadBalanceEnum;
 import indi.uhyils.rpc.cluster.pojo.NettyInfo;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 import java.util.List;

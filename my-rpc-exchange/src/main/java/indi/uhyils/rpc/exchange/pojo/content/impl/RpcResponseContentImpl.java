@@ -1,9 +1,9 @@
-package indi.uhyils.rpc.exchange.pojo.demo.response.content;
+package indi.uhyils.rpc.exchange.pojo.content.impl;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-import indi.uhyils.rpc.exchange.pojo.AbstractRpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContent;
+import indi.uhyils.rpc.exchange.pojo.content.AbstractRpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcResponseContent;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 
 /**
  * rpc正常响应内容
@@ -11,7 +11,7 @@ import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContent;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2020年12月18日 11时03分
  */
-public class RpcNormalResponseContent extends AbstractRpcContent implements RpcResponseContent {
+public class RpcResponseContentImpl extends AbstractRpcContent implements RpcResponseContent {
 
     /**
      * 响应值类型
@@ -23,14 +23,14 @@ public class RpcNormalResponseContent extends AbstractRpcContent implements RpcR
      */
     private String responseContent;
 
-    public RpcNormalResponseContent(RpcData rpcData, String[] contentArray) {
+    public RpcResponseContentImpl(RpcData rpcData, String[] contentArray) {
         super(contentArray);
         setRpcData(rpcData);
     }
 
     @Override
-    public Integer type() {
-        return RpcTypeEnum.REQUEST.getCode();
+    public RpcTypeEnum type() {
+        return RpcTypeEnum.REQUEST;
     }
 
     @Override

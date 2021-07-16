@@ -1,7 +1,6 @@
-package indi.uhyils.rpc.exchange.pojo.response;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-import indi.uhyils.rpc.exchange.pojo.AbstractRpcData;
 
 /**
  * rpc响应体

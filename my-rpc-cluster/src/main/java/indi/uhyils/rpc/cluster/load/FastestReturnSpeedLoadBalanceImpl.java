@@ -3,7 +3,7 @@ package indi.uhyils.rpc.cluster.load;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.pojo.NettyInfo;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.RpcNetty;
 import java.util.HashMap;
 import java.util.Map;

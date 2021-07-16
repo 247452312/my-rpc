@@ -1,8 +1,8 @@
 package indi.uhyils.rpc.exchange.content;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.factory.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

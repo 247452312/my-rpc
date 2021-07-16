@@ -6,7 +6,7 @@ import indi.uhyils.rpc.cluster.pojo.NettyInfo;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.cluster.provider.AbstractProviderCluster;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.factory.RpcBeanFactory;
 import indi.uhyils.rpc.netty.RpcNetty;
 import indi.uhyils.rpc.netty.callback.RpcCallBackFactory;

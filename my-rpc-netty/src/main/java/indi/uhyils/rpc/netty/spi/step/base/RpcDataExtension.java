@@ -1,6 +1,6 @@
 package indi.uhyils.rpc.netty.spi.step.base;
 
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
 
 /**

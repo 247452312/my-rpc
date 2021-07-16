@@ -1,4 +1,4 @@
-package indi.uhyils.rpc.exchange.pojo.factory;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;

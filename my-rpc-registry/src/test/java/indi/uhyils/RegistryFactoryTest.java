@@ -5,7 +5,7 @@ import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import indi.uhyils.rpc.annotation.MyRpc;
 import indi.uhyils.rpc.config.RpcConfigFactory;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.function.FunctionOne;
 import indi.uhyils.rpc.netty.function.FunctionOneInterface;
 import indi.uhyils.rpc.registry.Registry;

@@ -1,11 +1,10 @@
-package indi.uhyils.rpc.exchange.pojo.response.content;
+package indi.uhyils.rpc.exchange.pojo.content;
 
 import indi.uhyils.rpc.exception.ContentArrayQuantityMismatchException;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.enum_.RpcResponseContentEnum;
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.demo.response.content.RpcNormalResponseContent;
+import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 
 /**
  * rpc响应内容工厂
@@ -24,7 +23,7 @@ public class RpcResponseContentFactory {
         if (contentArray.length != CONTENT_SIZE) {
             throw new ContentArrayQuantityMismatchException(contentArray.length, CONTENT_SIZE);
         }
-        RpcNormalResponseContent content = new RpcNormalResponseContent(rpcData, contentArray);
+        RpcResponseContentImpl content = new RpcResponseContentImpl(rpcData, contentArray);
         int type = Integer.parseInt(contentArray[RpcResponseContentEnum.TYPE.getLine()]);
         content.setResponseType(type);
         content.setResponseContent(contentArray[RpcResponseContentEnum.RESPONSE_CONTENT.getLine()]);

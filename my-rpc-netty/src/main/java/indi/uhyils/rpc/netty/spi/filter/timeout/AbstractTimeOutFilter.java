@@ -1,7 +1,7 @@
 package indi.uhyils.rpc.netty.spi.filter.timeout;
 
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;

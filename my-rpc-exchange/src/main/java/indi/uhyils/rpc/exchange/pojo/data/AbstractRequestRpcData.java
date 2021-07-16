@@ -1,7 +1,6 @@
-package indi.uhyils.rpc.exchange.pojo.request;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-import indi.uhyils.rpc.exchange.pojo.AbstractRpcData;
 
 /**
  * rpc请求体(rpc扩展点.继承此请求体可扩展rpc请求)

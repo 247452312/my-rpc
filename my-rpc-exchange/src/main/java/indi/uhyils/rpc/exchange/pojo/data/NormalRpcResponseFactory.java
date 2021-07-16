@@ -1,4 +1,4 @@
-package indi.uhyils.rpc.exchange.pojo.demo.factory;
+package indi.uhyils.rpc.exchange.pojo.data;
 
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.RpcConfigFactory;
@@ -7,12 +7,9 @@ import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.content.MyRpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcContent;
-import indi.uhyils.rpc.exchange.pojo.RpcData;
-import indi.uhyils.rpc.exchange.pojo.RpcHeader;
-import indi.uhyils.rpc.exchange.pojo.demo.response.NormalResponseRpcData;
-import indi.uhyils.rpc.exchange.pojo.factory.AbstractRpcFactory;
-import indi.uhyils.rpc.exchange.pojo.response.content.RpcResponseContentFactory;
+import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcResponseContentFactory;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.spi.RpcSpiManager;
 import java.io.PrintWriter;
 import java.io.StringWriter;
