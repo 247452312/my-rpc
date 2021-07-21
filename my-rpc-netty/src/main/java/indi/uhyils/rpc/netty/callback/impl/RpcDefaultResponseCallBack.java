@@ -20,7 +20,7 @@ import indi.uhyils.rpc.netty.pojo.InvokeResult;
 public class RpcDefaultResponseCallBack implements RpcCallBack {
 
     @Override
-    public RpcData getRpcData(byte[] data) throws Exception {
+    public RpcData createRpcData(byte[] data) throws Exception {
         /*解析*/
         RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.RESPONSE);
         // 获取到的Request
@@ -30,7 +30,7 @@ public class RpcDefaultResponseCallBack implements RpcCallBack {
 
     @Override
     public RpcContent getContent(byte[] data) throws Exception {
-        RpcData request = getRpcData(data);
+        RpcData request = createRpcData(data);
         return request.content();
     }
 

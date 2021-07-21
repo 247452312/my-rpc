@@ -23,7 +23,7 @@ public interface RpcCallBack extends RpcSpiExtension {
      * @throws RpcException
      * @throws ClassNotFoundException
      */
-    RpcData getRpcData(byte[] data) throws Exception;
+    RpcData createRpcData(byte[] data) throws Exception;
 
     /**
      * 获取rpc体

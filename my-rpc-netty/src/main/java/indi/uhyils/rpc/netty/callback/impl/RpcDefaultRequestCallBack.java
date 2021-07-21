@@ -59,9 +59,6 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
     public RpcDefaultRequestCallBack() {
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
-
-    }
 
     @Override
     public void init(Object... params) throws Exception {
@@ -75,7 +72,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
     }
 
     @Override
-    public RpcData getRpcData(byte[] data) throws Exception {
+    public RpcData createRpcData(byte[] data) throws Exception {
         /*解析*/
         RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
         // 获取到的Request
@@ -86,7 +83,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
 
     @Override
     public RpcContent getContent(byte[] data) throws Exception {
-        RpcData request = getRpcData(data);
+        RpcData request = createRpcData(data);
         Integer version = request.rpcVersion();
 
         if (version > MyRpcContent.VERSION) {

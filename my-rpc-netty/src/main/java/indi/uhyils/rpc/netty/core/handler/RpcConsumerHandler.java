@@ -22,22 +22,22 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<ByteBuf> {
     /**
      * 回调
      */
-    private RpcCallBack callBack;
+    private final RpcCallBack callBack;
 
     /**
      * 观察者模式
      */
-    private RpcNettyNormalConsumer netty;
+    private final RpcNettyNormalConsumer netty;
 
     /**
      * 消费者接收回复byte拦截器
      */
-    private List<ConsumerResponseByteExtension> consumerResponseByteFilters;
+    private final List<ConsumerResponseByteExtension> consumerResponseByteFilters;
 
     /**
      * 消费者接收回复data拦截器
      */
-    private List<ConsumerResponseDataExtension> consumerResponseDataFilters;
+    private final List<ConsumerResponseDataExtension> consumerResponseDataFilters;
 
     public RpcConsumerHandler(RpcCallBack callBack, RpcNettyNormalConsumer netty) {
         this.callBack = callBack;
@@ -54,7 +54,7 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<ByteBuf> {
         for (ConsumerResponseByteExtension filter : consumerResponseByteFilters) {
             bytes = filter.doFilter(bytes);
         }
-        RpcData rpcData = callBack.getRpcData(bytes);
+        RpcData rpcData = callBack.createRpcData(bytes);
         // ConsumerResponseDataFilter
         for (ConsumerResponseDataExtension filter : consumerResponseDataFilters) {
             rpcData = filter.doFilter(rpcData);

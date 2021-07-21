@@ -1,5 +1,6 @@
 package indi.uhyils.rpc.netty;
 
+import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.channel.Channel;
 
@@ -19,12 +20,18 @@ public abstract class AbstractRpcNetty implements RpcNetty {
      */
     protected AbstractBootstrap<?, ? extends Channel> bootstrap;
 
+    /**
+     * 回调
+     */
+    private RpcCallBack callback;
+
     protected AbstractRpcNetty() {
     }
 
     @Override
     public void init(Object... params) throws Exception {
         this.timeOut = (Long) params[0];
+        this.callback = (RpcCallBack) params[1];
     }
 
     @Override
@@ -43,5 +50,19 @@ public abstract class AbstractRpcNetty implements RpcNetty {
 
     public void setTimeOut(Long timeOut) {
         this.timeOut = timeOut;
+    }
+
+    /**
+     * 获取rpc回调方法
+     *
+     * @return
+     */
+    @Override
+    public RpcCallBack getRpcCallBack() {
+        return callback;
+    }
+
+    public void setRpcCallback(RpcCallBack callback) {
+        this.callback = callback;
     }
 }

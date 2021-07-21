@@ -4,7 +4,6 @@ import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.AbstractRpcNetty;
-import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.netty.core.handler.RpcConsumerHandler;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.InvokerChainBuilder;
@@ -52,10 +51,6 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
      */
     private ChannelFuture channelFuture;
 
-    /**
-     * 回调
-     */
-    private RpcCallBack callBack;
     /*如果返回值来了,先判断是不是超时了, 如果超时了, 就直接释放内存, 如果没有超时,就先把值放入rpcResponse,然后唤醒*/
 
     /**
@@ -78,7 +73,6 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
     public void init(Object... params) throws Exception {
         super.init(params);
 
-        this.callBack = (RpcCallBack) params[1];
         String host = (String) params[2];
         Integer port = (Integer) params[3];
 
@@ -95,28 +89,12 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
                   protected void initChannel(NioSocketChannel ch) throws Exception {
                       ChannelPipeline p = ch.pipeline();
                       p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
-                      p.addLast("byte-to-object", new RpcConsumerHandler(callBack, RpcNettyNormalConsumer.this));
+                      p.addLast("byte-to-object", new RpcConsumerHandler(getRpcCallBack(), RpcNettyNormalConsumer.this));
                   }
               });
 
         //连接服务器
         this.channelFuture = client.connect(host, port);
-    }
-
-    public EventLoopGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(EventLoopGroup group) {
-        this.group = group;
-    }
-
-    public ChannelFuture getChannelFuture() {
-        return channelFuture;
-    }
-
-    public void setChannelFuture(ChannelFuture channelFuture) {
-        this.channelFuture = channelFuture;
     }
 
     @Override
@@ -127,7 +105,7 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
             }
             return Boolean.TRUE;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e, "报错啦.夭寿啊");
             return Boolean.FALSE;
         }
     }

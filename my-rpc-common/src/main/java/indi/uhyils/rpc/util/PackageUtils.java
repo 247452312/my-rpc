@@ -286,7 +286,7 @@ public class PackageUtils {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e,"packageUtils 获取jar中的className的时候报错");
         }
         return myClassName;
     }

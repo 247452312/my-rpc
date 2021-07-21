@@ -26,10 +26,6 @@ import io.netty.handler.logging.LoggingHandler;
 @RpcSpi
 public class RpcNettyNormalProvider extends AbstractRpcNetty {
 
-    /**
-     * 回调
-     */
-    private RpcCallBack callback;
 
     /**
      * 主线程,单线程
@@ -49,7 +45,7 @@ public class RpcNettyNormalProvider extends AbstractRpcNetty {
     @Override
     public void init(Object... params) throws Exception {
         super.init(params);
-        this.callback = (RpcCallBack) params[1];
+
         String host = (String) params[2];
         Integer port = (Integer) params[3];
         bossGroup = new NioEventLoopGroup(1);
@@ -66,7 +62,7 @@ public class RpcNettyNormalProvider extends AbstractRpcNetty {
              public void initChannel(SocketChannel ch) throws Exception {
                  ChannelPipeline p = ch.pipeline();
                  p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
-                 p.addLast("byte-to-object", new RpcProviderHandler(callback));
+                 p.addLast("byte-to-object", new RpcProviderHandler(getRpcCallBack()));
              }
          });
 

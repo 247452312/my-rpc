@@ -2,6 +2,7 @@ package indi.uhyils.rpc.netty;
 
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.spi.RpcSpiExtension;
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.channel.Channel;
@@ -44,4 +45,11 @@ public interface RpcNetty extends RpcSpiExtension {
      * @return
      */
     RpcData sendMsg(RpcData rpcData) throws RpcException, ClassNotFoundException, InterruptedException;
+
+    /**
+     * 获取rpc回调方法
+     *
+     * @return
+     */
+    RpcCallBack getRpcCallBack();
 }

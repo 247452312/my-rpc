@@ -72,7 +72,7 @@ public class LastProviderInvoker implements RpcInvoker {
         }
         RpcData rpcData = null;
         try {
-            rpcData = callback.getRpcData(bytes);
+            rpcData = callback.createRpcData(bytes);
 
             // ProviderRequestDataFilter
             for (ProviderRequestDataExtension filter : providerRequestDataFilters) {
