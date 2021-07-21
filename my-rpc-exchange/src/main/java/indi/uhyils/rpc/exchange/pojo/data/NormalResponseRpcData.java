@@ -3,9 +3,7 @@ package indi.uhyils.rpc.exchange.pojo.data;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
 import indi.uhyils.rpc.exchange.pojo.content.RpcResponseContentFactory;
-import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 
 /**
  * rpc正常响应
@@ -22,29 +20,10 @@ public class NormalResponseRpcData extends AbstractResponseRpcData {
         this.content = RpcResponseContentFactory.createByContentArray(this, this.contentArray);
     }
 
-    @Override
-    public Integer rpcVersion() {
-        return this.version;
-    }
 
     @Override
     public Integer type() {
         return RpcTypeEnum.RESPONSE.getCode();
-    }
-
-    @Override
-    public Integer size() {
-        return this.size;
-    }
-
-    @Override
-    public RpcHeader[] rpcHeaders() {
-        return this.headers;
-    }
-
-    @Override
-    public RpcContent content() {
-        return this.content;
     }
 
 }

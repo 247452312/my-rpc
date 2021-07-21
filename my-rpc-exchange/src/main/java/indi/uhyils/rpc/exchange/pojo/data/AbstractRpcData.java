@@ -346,6 +346,57 @@ public abstract class AbstractRpcData implements RpcData {
         this.contentArray = contentArray;
     }
 
+    /**
+     * RPC版本
+     *
+     * @return
+     */
+    @Override
+    public Integer rpcVersion(){
+        return version;
+    }
+
+    /**
+     * RPC类型,0->请求 1->响应
+     *
+     * @return
+     */
+    @Override
+    public Integer type(){
+        return type;
+    }
+
+    /**
+     * RPC内容的size,最大值{@link Integer#MAX_VALUE}
+     *
+     * @return
+     */
+    @Override
+    public Integer size(){
+        return size;
+    }
+
+    /**
+     * 获取RPC中的header
+     *
+     * @return
+     */
+    @Override
+    public RpcHeader[] rpcHeaders(){
+        return headers;
+    }
+
+    /**
+     * 内容
+     *
+     * @return
+     */
+    @Override
+    public RpcContent content(){
+        return content;
+    }
+
+
     @Override
     public String headerAndContent() {
         StringBuilder sb = new StringBuilder();

@@ -26,28 +26,9 @@ public class NormalRequestRpcData extends AbstractRequestRpcData {
     }
 
     @Override
-    public Integer rpcVersion() {
-        return this.version;
-    }
-
-    @Override
     public Integer type() {
         return RpcTypeEnum.REQUEST.getCode();
     }
 
-    @Override
-    public Integer size() {
-        return this.size;
-    }
-
-    @Override
-    public RpcHeader[] rpcHeaders() {
-        return this.headers;
-    }
-
-    @Override
-    public RpcContent content() {
-        return this.content;
-    }
 
 }
