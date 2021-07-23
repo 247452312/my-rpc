@@ -64,7 +64,7 @@ public class RpcRequestContentImpl extends AbstractRpcContent implements RpcRequ
         this.setMethodName(this.getLine(RpcRequestContentEnum.METHOD_NAME.getLine()));
         String[] methodParamterTypes = this.getLine(RpcRequestContentEnum.METHOD_PARAM_TYPE.getLine()).split(";");
         this.setMethodParamterTypes(methodParamterTypes);
-        ArrayList argsMap = JSON.parseObject(this.getLine(RpcRequestContentEnum.ARG_MAP.getLine()), ArrayList.class);
+        List argsMap = JSON.parseObject(this.getLine(RpcRequestContentEnum.ARG_MAP.getLine()), ArrayList.class);
 
         this.setArgs(argsMap.toArray());
 

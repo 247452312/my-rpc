@@ -6,6 +6,7 @@ import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.NormalRpcResponseFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
+import indi.uhyils.rpc.netty.enums.FilterContextTypeEnum;
 import indi.uhyils.rpc.netty.pojo.InvokeResult;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
@@ -29,10 +30,6 @@ public class LastProviderInvoker implements RpcInvoker {
      */
     private final RpcCallBack callback;
 
-    /**
-     * 生产者接收请求byte拦截器
-     */
-    private List<ProviderRequestByteExtension> providerRequestByteFilters;
 
     /**
      * 生产者接收请求data拦截器
@@ -49,13 +46,11 @@ public class LastProviderInvoker implements RpcInvoker {
      */
     private List<ProviderResponseByteExtension> providerResponseByteFilters;
 
-    private ByteBuf msg;
 
 
-    public LastProviderInvoker(RpcCallBack callback, ByteBuf msg) {
+    public LastProviderInvoker(RpcCallBack callback) {
         this.callback = callback;
-        this.msg = msg;
-        providerRequestByteFilters = RpcSpiManager.getExtensionsByClass(RpcStep.class, ProviderRequestByteExtension.class);
+
         providerRequestDataFilters = RpcSpiManager.getExtensionsByClass(RpcStep.class, ProviderRequestDataExtension.class);
         providerResponseDataFilters = RpcSpiManager.getExtensionsByClass(RpcStep.class, ProviderResponseDataExtension.class);
         providerResponseByteFilters = RpcSpiManager.getExtensionsByClass(RpcStep.class, ProviderResponseByteExtension.class);
@@ -65,15 +60,10 @@ public class LastProviderInvoker implements RpcInvoker {
     public RpcResult invoke(FilterContext context) throws RpcException, ClassNotFoundException {
         RpcResult rpcResult = context.getRpcResult();
 
-        byte[] bytes = receiveByte(msg);
-        // ProviderRequestByteFilter
-        for (ProviderRequestByteExtension filter : providerRequestByteFilters) {
-            bytes = filter.doFilter(bytes);
-        }
         RpcData rpcData = null;
         try {
-            rpcData = callback.createRpcData(bytes);
 
+            rpcData = (RpcData) context.get(FilterContextTypeEnum.REQUEST_RPC_DATA.getKey());
             // ProviderRequestDataFilter
             for (ProviderRequestDataExtension filter : providerRequestDataFilters) {
                 rpcData = filter.doFilter(rpcData);
@@ -87,14 +77,14 @@ public class LastProviderInvoker implements RpcInvoker {
             for (ProviderResponseByteExtension providerResponseByteFilter : providerResponseByteFilters) {
                 result = providerResponseByteFilter.doFilter(result);
             }
-            context.put("result", result);
+            context.put(FilterContextTypeEnum.RESULT.getKey(), result);
             RpcData byBytes = RpcFactoryProducer.build(RpcTypeEnum.RESPONSE).createByBytes(result);
             rpcResult.set(byBytes);
         } catch (Throwable e) {
             LogUtil.error(this, e);
             if (rpcData != null) {
                 RpcData assembly = new NormalRpcResponseFactory().createErrorResponse(rpcData.unique(), e, null);
-                context.put("result", assembly.toBytes());
+                context.put(FilterContextTypeEnum.RESULT.getKey(), assembly.toBytes());
                 rpcResult.set(assembly);
             }
         }
