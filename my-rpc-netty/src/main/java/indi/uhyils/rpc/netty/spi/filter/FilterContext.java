@@ -1,7 +1,6 @@
 package indi.uhyils.rpc.netty.spi.filter;
 
-import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;
-import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResultImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,19 +13,14 @@ import java.util.Set;
  */
 public class FilterContext {
 
-    /**
-     * netty的key
-     */
-    public static final String NETTY_KEY = "netty";
 
-    /**
-     * 生产者需要存储结果的key
-     */
-    public static final String RESULT_KEY = "result";
-
-    private RpcResult rpcResult = new RpcResultImpl();
+    private final RpcData requestData;
 
     private Map<String, Object> info = new HashMap<>();
+
+    public FilterContext(RpcData requestData) {
+        this.requestData = requestData;
+    }
 
     public Object put(String name, Object info) {
         return this.info.put(name, info);
@@ -44,7 +38,8 @@ public class FilterContext {
         return info.entrySet();
     }
 
-    public RpcResult getRpcResult() {
-        return rpcResult;
+    public RpcData getRequestData() {
+        return requestData;
     }
+
 }

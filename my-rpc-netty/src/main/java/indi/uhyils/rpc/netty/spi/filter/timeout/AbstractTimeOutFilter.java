@@ -4,7 +4,7 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
-import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;
+import indi.uhyils.rpc.util.LogUtil;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -21,18 +21,16 @@ public abstract class AbstractTimeOutFilter {
 
     private static ExecutorService es = new ThreadPoolExecutor(5, 100, 3000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(10));
 
-    protected RpcResult invoke0(RpcInvoker invoker, FilterContext invokerContext) throws RpcException, InterruptedException {
-        RpcResult rpcResult = invokerContext.getRpcResult();
-        RpcData rpcData = rpcResult.get();
+    protected RpcData invoke0(RpcInvoker invoker, FilterContext invokerContext) throws RpcException, InterruptedException {
+        RpcData requestData = invokerContext.getRequestData();
         final Long timeOut = getTimeout();
-        final Future<RpcResult> submit = es.submit(() -> invoker.invoke(invokerContext));
+        final Future<RpcData> submit = es.submit(() -> invoker.invoke(invokerContext));
         try {
             return submit.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (ExecutionException | TimeoutException e) {
+            LogUtil.error(e);
             submit.cancel(Boolean.TRUE);
-            RpcData response = invokeException(rpcData, timeOut);
-            invokerContext.getRpcResult().set(response);
-            return invokerContext.getRpcResult();
+            return invokeException(requestData, timeOut);
         } catch (InterruptedException e) {
             throw e;
         }

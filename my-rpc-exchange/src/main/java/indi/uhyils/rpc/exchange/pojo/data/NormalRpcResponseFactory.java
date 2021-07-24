@@ -103,7 +103,7 @@ public class NormalRpcResponseFactory extends AbstractRpcFactory {
             e.printStackTrace(new PrintWriter(out, true));
             exceptionStr = out.toString();
         }
-        String[] contentArray = new String[]{e == null ? RpcStatusEnum.PROVIDER_ERROR.getName() : exceptionStr};
+        String[] contentArray = new String[]{RpcResponseTypeEnum.EXCEPTION.getCode().toString(), e == null ? RpcStatusEnum.PROVIDER_ERROR.getName() : exceptionStr};
         rpcNormalRequest.setContentArray(contentArray);
         rpcNormalRequest.setStatus(RpcStatusEnum.PROVIDER_ERROR.getCode());
         rpcNormalRequest.setUnique(unique);

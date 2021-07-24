@@ -2,8 +2,8 @@ package indi.uhyils.rpc.netty.spi.filter.invoker;
 
 import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.NormalResponseRpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.core.RpcNettyNormalConsumer;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.util.LogUtil;
@@ -24,9 +24,8 @@ public class LastConsumerInvoker implements RpcInvoker {
     }
 
     @Override
-    public RpcResult invoke(FilterContext context) throws RpcException, ClassNotFoundException, InterruptedException {
-        RpcResult rpcResult = context.getRpcResult();
-        RpcData request = rpcResult.get();
+    public RpcData invoke(FilterContext context) throws RpcException, ClassNotFoundException, InterruptedException {
+        RpcData request = context.getRequestData();
         if (netty.sendMsg(request.toBytes())) {
             NormalResponseRpcData wait = (NormalResponseRpcData) netty.wait(request.unique());
             byte status = wait.getStatus();
@@ -36,8 +35,8 @@ public class LastConsumerInvoker implements RpcInvoker {
                 LogUtil.error(exception);
                 throw new RuntimeException(exception);
             }
-            rpcResult.set(wait);
+            return wait;
         }
-        return rpcResult;
+        throw new RpcException("netty错误");
     }
 }

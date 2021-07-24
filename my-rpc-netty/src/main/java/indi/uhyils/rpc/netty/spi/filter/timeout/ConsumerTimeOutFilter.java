@@ -9,7 +9,6 @@ import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.ConsumerFilter;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
-import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -20,7 +19,7 @@ public class ConsumerTimeOutFilter extends AbstractTimeOutFilter implements Cons
 
 
     @Override
-    public RpcResult invoke(final RpcInvoker invoker, final FilterContext invokerContext) throws RpcException, ClassNotFoundException, InterruptedException {
+    public RpcData invoke(final RpcInvoker invoker, final FilterContext invokerContext) throws RpcException, ClassNotFoundException, InterruptedException {
         return invoke0(invoker, invokerContext);
     }
 

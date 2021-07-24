@@ -36,7 +36,7 @@ public class RpcResponseContentImpl extends AbstractRpcContent implements RpcRes
     @Override
     public String contentString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.type());
+        sb.append(this.type().getCode());
         sb.append("\n");
         sb.append(this.getResponseContent());
         sb.append("\n");

@@ -5,7 +5,6 @@ import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
-import indi.uhyils.rpc.netty.enums.FilterContextTypeEnum;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.InvokerChainBuilder;
 import indi.uhyils.rpc.netty.spi.filter.invoker.LastProviderInvoker;
@@ -18,7 +17,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
 import java.util.List;
 
 /**
@@ -63,11 +61,9 @@ public class RpcProviderHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
         LastProviderInvoker invoker = new LastProviderInvoker(callback);
         RpcInvoker rpcInvoker = InvokerChainBuilder.buildProviderAroundInvokerChain(invoker);
-        FilterContext context = new FilterContext();
-        context.put(FilterContextTypeEnum.REQUEST_RPC_DATA.getKey(), requestRpcData);
-        rpcInvoker.invoke(context);
-        Object result = context.get(FilterContextTypeEnum.RESULT.getKey());
-        send(ctx, (byte[]) result);
+        FilterContext context = new FilterContext(requestRpcData);
+        RpcData invoke = rpcInvoker.invoke(context);
+        send(ctx, invoke.toBytes());
     }
 
     private void send(ChannelHandlerContext ctx, byte[] responseBytes) {

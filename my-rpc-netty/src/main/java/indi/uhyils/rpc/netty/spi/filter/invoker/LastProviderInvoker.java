@@ -2,15 +2,13 @@ package indi.uhyils.rpc.netty.spi.filter.invoker;
 
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.NormalRpcResponseFactory;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
-import indi.uhyils.rpc.netty.enums.FilterContextTypeEnum;
 import indi.uhyils.rpc.netty.pojo.InvokeResult;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
-import indi.uhyils.rpc.netty.spi.step.template.ProviderRequestByteExtension;
 import indi.uhyils.rpc.netty.spi.step.template.ProviderRequestDataExtension;
 import indi.uhyils.rpc.netty.spi.step.template.ProviderResponseByteExtension;
 import indi.uhyils.rpc.netty.spi.step.template.ProviderResponseDataExtension;
@@ -47,7 +45,6 @@ public class LastProviderInvoker implements RpcInvoker {
     private List<ProviderResponseByteExtension> providerResponseByteFilters;
 
 
-
     public LastProviderInvoker(RpcCallBack callback) {
         this.callback = callback;
 
@@ -57,13 +54,12 @@ public class LastProviderInvoker implements RpcInvoker {
     }
 
     @Override
-    public RpcResult invoke(FilterContext context) throws RpcException, ClassNotFoundException {
-        RpcResult rpcResult = context.getRpcResult();
+    public RpcData invoke(FilterContext context) throws RpcException, ClassNotFoundException {
 
         RpcData rpcData = null;
         try {
 
-            rpcData = (RpcData) context.get(FilterContextTypeEnum.REQUEST_RPC_DATA.getKey());
+            rpcData = context.getRequestData();
             // ProviderRequestDataFilter
             for (ProviderRequestDataExtension filter : providerRequestDataFilters) {
                 rpcData = filter.doFilter(rpcData);
@@ -77,18 +73,14 @@ public class LastProviderInvoker implements RpcInvoker {
             for (ProviderResponseByteExtension providerResponseByteFilter : providerResponseByteFilters) {
                 result = providerResponseByteFilter.doFilter(result);
             }
-            context.put(FilterContextTypeEnum.RESULT.getKey(), result);
-            RpcData byBytes = RpcFactoryProducer.build(RpcTypeEnum.RESPONSE).createByBytes(result);
-            rpcResult.set(byBytes);
+            return RpcFactoryProducer.build(RpcTypeEnum.RESPONSE).createByBytes(result);
         } catch (Throwable e) {
             LogUtil.error(this, e);
             if (rpcData != null) {
-                RpcData assembly = new NormalRpcResponseFactory().createErrorResponse(rpcData.unique(), e, null);
-                context.put(FilterContextTypeEnum.RESULT.getKey(), assembly.toBytes());
-                rpcResult.set(assembly);
+                return new NormalRpcResponseFactory().createErrorResponse(rpcData.unique(), e, null);
             }
         }
-        return rpcResult;
+        throw new RpcException("netty provider wrong !!");
     }
 
     /**

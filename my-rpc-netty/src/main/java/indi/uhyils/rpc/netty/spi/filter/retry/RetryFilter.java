@@ -5,13 +5,12 @@ import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.NormalRpcRequestFactory;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.ConsumerFilter;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
-import indi.uhyils.rpc.netty.spi.filter.invoker.RpcResult;
 import indi.uhyils.rpc.util.LogUtil;
 
 /**
@@ -22,18 +21,15 @@ import indi.uhyils.rpc.util.LogUtil;
 public class RetryFilter implements ConsumerFilter {
 
     @Override
-    public RpcResult invoke(RpcInvoker invoker, FilterContext invokerContext) throws InterruptedException {
-        RpcResult rpcResult = invokerContext.getRpcResult();
+    public RpcData invoke(RpcInvoker invoker, FilterContext invokerContext) throws InterruptedException {
         RpcConfig instance = RpcConfigFactory.getInstance();
+        RpcData request = invokerContext.getRequestData();
         Integer retries = instance.getConsumer().getRetries();
-        RpcData request = invokerContext.getRpcResult().get();
         Throwable th = null;
         // 如果出错 重试
         for (int i = 0; i < retries; i++) {
             try {
-                RpcResult invoke = invoker.invoke(invokerContext);
-                rpcResult.set(invoke.get());
-                return invoke;
+                return invoker.invoke(invokerContext);
             } catch (RpcException e) {
                 LogUtil.error(this, e);
                 th = e;
@@ -44,8 +40,7 @@ public class RetryFilter implements ConsumerFilter {
         }
         NormalRpcRequestFactory build = (NormalRpcRequestFactory) RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
         assert build != null;
-        RpcData rpcData = build.createRetriesError(request, th);
-        rpcResult.set(rpcData);
-        return invokerContext.getRpcResult();
+
+        return build.createRetriesError(request, th);
     }
 }

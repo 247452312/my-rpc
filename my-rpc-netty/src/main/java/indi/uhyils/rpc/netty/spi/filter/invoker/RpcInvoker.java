@@ -1,6 +1,7 @@
 package indi.uhyils.rpc.netty.spi.filter.invoker;
 
 import indi.uhyils.rpc.exception.RpcException;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 
 /**
@@ -17,5 +18,5 @@ public interface RpcInvoker {
      * @throws RpcException
      * @throws ClassNotFoundException
      */
-    RpcResult invoke(FilterContext context) throws RpcException, ClassNotFoundException, InterruptedException;
+    RpcData invoke(FilterContext context) throws RpcException, ClassNotFoundException, InterruptedException;
 }

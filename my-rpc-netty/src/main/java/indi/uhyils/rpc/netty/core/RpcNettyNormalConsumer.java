@@ -5,7 +5,6 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.AbstractRpcNetty;
 import indi.uhyils.rpc.netty.core.handler.RpcConsumerHandler;
-import indi.uhyils.rpc.netty.enums.FilterContextTypeEnum;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.InvokerChainBuilder;
 import indi.uhyils.rpc.netty.spi.filter.invoker.LastConsumerInvoker;
@@ -24,7 +23,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -83,17 +81,17 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
         this.group = eventLoopGroup;
         setBootstrap(client);
         client.group(eventLoopGroup)
-                .channel(NioSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.DEBUG))
-                .handler(new ChannelInitializer<NioSocketChannel>() {
+              .channel(NioSocketChannel.class)
+              .handler(new LoggingHandler(LogLevel.DEBUG))
+              .handler(new ChannelInitializer<NioSocketChannel>() {
 
-                    @Override
-                    protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ChannelPipeline p = ch.pipeline();
-                        p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
-                        p.addLast("byte-to-object", new RpcConsumerHandler(getRpcCallBack(), RpcNettyNormalConsumer.this));
-                    }
-                });
+                  @Override
+                  protected void initChannel(NioSocketChannel ch) throws Exception {
+                      ChannelPipeline p = ch.pipeline();
+                      p.addLast("length-decoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 3, 4, 9, 0));
+                      p.addLast("byte-to-object", new RpcConsumerHandler(getRpcCallBack(), RpcNettyNormalConsumer.this));
+                  }
+              });
 
         //连接服务器
         this.channelFuture = client.connect(host, port);
@@ -116,11 +114,8 @@ public class RpcNettyNormalConsumer extends AbstractRpcNetty {
     public RpcData sendMsg(RpcData rpcData) throws RpcException, ClassNotFoundException, InterruptedException {
         LastConsumerInvoker lastConsumerInvoker = new LastConsumerInvoker(this);
         RpcInvoker rpcInvoker = InvokerChainBuilder.buildConsumerSendInvokerChain(lastConsumerInvoker);
-        FilterContext context = new FilterContext();
-        context.put(FilterContextTypeEnum.REQUEST_RPC_DATA.getKey(), rpcData);
-        context.getRpcResult().set(rpcData);
-        RpcData response = rpcInvoker.invoke(context).get();
-        return response;
+        FilterContext context = new FilterContext(rpcData);
+        return rpcInvoker.invoke(context);
     }
 
     public boolean sendMsg(byte[] bytes) {
