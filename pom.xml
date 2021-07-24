@@ -6,7 +6,7 @@
     <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
     <!--SNAPSHOT-->
-    <version>1.0.3.my</version>
+    <version>1.0.3.my-SNAPSHOT</version>
 
     <name>my-rpc</name>
     <description>a rpc for no spring</description>
@@ -31,6 +31,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <slf4j-api.version>1.7.31</slf4j-api.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <maven.complier.plugin.version>3.8.1</maven.complier.plugin.version>
     </properties>
     <licenses>
         <license>
@@ -170,6 +171,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.complier.plugin.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>${java.version}</source>
@@ -226,6 +228,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.6</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

@@ -1,0 +1,2 @@
+RPC_REQUEST_DEFAULT_NAME=indi.uhyils.rpc.exchange.pojo.data.NormalRequestRpcData
+RPC_RESPONSE_DEFAULT_NAME=indi.uhyils.rpc.exchange.pojo.data.NormalResponseRpcData

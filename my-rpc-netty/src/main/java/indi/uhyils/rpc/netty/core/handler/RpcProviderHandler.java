@@ -13,10 +13,12 @@ import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
 import indi.uhyils.rpc.netty.spi.step.template.ProviderRequestByteExtension;
 import indi.uhyils.rpc.spi.RpcSpiManager;
+import indi.uhyils.rpc.util.LogUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
 import java.util.List;
 
 /**
@@ -43,11 +45,9 @@ public class RpcProviderHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
 
-
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-
+        LogUtil.info("provider接收到消费者信息");
         byte[] bytes = receiveByte(msg);
         // ProviderRequestByteFilter
         for (ProviderRequestByteExtension filter : providerRequestByteFilters) {
