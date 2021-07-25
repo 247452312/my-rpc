@@ -45,7 +45,6 @@ public class RpcProviderHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-        LogUtil.info("provider接收到消费者信息");
         byte[] bytes = receiveByte(msg);
         // ProviderRequestByteFilter
         for (ProviderRequestByteExtension filter : providerRequestByteFilters) {
