@@ -27,4 +27,14 @@ public class RpcHeaderFactory {
         rpcHeader.setValue(value);
         return rpcHeader;
     }
+
+    public static RpcHeader newHeader(String key, String data) {
+        if (StringUtils.isEmpty(key)) {
+            return null;
+        }
+        RpcHeader rpcHeader = new RpcHeader();
+        rpcHeader.setName(key);
+        rpcHeader.setValue(data);
+        return rpcHeader;
+    }
 }

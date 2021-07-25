@@ -1,5 +1,6 @@
 package indi.uhyils.rpc.exchange.pojo.data;
 
+import com.sun.istack.internal.Nullable;
 import indi.uhyils.rpc.exception.MyRpcException;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exception.RpcTypeNotSupportedException;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * rpc体模板,用来规定rpc应该有的东西
@@ -352,7 +354,7 @@ public abstract class AbstractRpcData implements RpcData {
      * @return
      */
     @Override
-    public Integer rpcVersion(){
+    public Integer rpcVersion() {
         return version;
     }
 
@@ -362,7 +364,7 @@ public abstract class AbstractRpcData implements RpcData {
      * @return
      */
     @Override
-    public Integer type(){
+    public Integer type() {
         return type;
     }
 
@@ -372,7 +374,7 @@ public abstract class AbstractRpcData implements RpcData {
      * @return
      */
     @Override
-    public Integer size(){
+    public Integer size() {
         return size;
     }
 
@@ -382,7 +384,7 @@ public abstract class AbstractRpcData implements RpcData {
      * @return
      */
     @Override
-    public RpcHeader[] rpcHeaders(){
+    public RpcHeader[] rpcHeaders() {
         return headers;
     }
 
@@ -392,7 +394,7 @@ public abstract class AbstractRpcData implements RpcData {
      * @return
      */
     @Override
-    public RpcContent content(){
+    public RpcContent content() {
         return content;
     }
 
@@ -408,5 +410,19 @@ public abstract class AbstractRpcData implements RpcData {
         sb.append("\n");
         sb.append(this.content().contentString());
         return sb.toString();
+    }
+
+    @Nullable
+    public RpcHeader getHeader(String name) {
+        RpcHeader[] rpcHeaders = rpcHeaders();
+        if (rpcHeaders == null || rpcHeaders.length == 0) {
+            return null;
+        }
+        for (RpcHeader rpcHeader : rpcHeaders) {
+            if (StringUtils.equals(rpcHeader.getName(), name)) {
+                return rpcHeader;
+            }
+        }
+        return null;
     }
 }
