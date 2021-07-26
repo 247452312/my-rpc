@@ -1,6 +1,5 @@
 package indi.uhyils.rpc.exchange.pojo.data;
 
-import com.sun.istack.internal.Nullable;
 import indi.uhyils.rpc.exception.MyRpcException;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exception.RpcTypeNotSupportedException;
@@ -412,7 +411,6 @@ public abstract class AbstractRpcData implements RpcData {
         return sb.toString();
     }
 
-    @Nullable
     public RpcHeader getHeader(String name) {
         RpcHeader[] rpcHeaders = rpcHeaders();
         if (rpcHeaders == null || rpcHeaders.length == 0) {
