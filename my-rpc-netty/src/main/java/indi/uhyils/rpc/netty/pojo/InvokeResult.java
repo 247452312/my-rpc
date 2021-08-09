@@ -26,11 +26,28 @@ public class InvokeResult implements Serializable {
      */
     private Type resultType;
 
+    /**
+     * 错误
+     */
+    private Throwable throwable;
+
+    /**
+     * 是否成功执行
+     */
+    private Boolean success = Boolean.TRUE;
+
     public static InvokeResult build(String resultJson, Class<?> resultClass, Type resultType) {
         InvokeResult build = new InvokeResult();
         build.resultJson = resultJson;
         build.resultClass = resultClass;
         build.resultType = resultType;
+        return build;
+    }
+
+    public static InvokeResult build(Throwable throwable) {
+        InvokeResult build = new InvokeResult();
+        build.success = Boolean.FALSE;
+        build.throwable = throwable;
         return build;
     }
 
@@ -56,5 +73,22 @@ public class InvokeResult implements Serializable {
 
     public void setResultType(Type resultType) {
         this.resultType = resultType;
+    }
+
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
+    public void setThrowable(Throwable throwable) {
+        this.throwable = throwable;
     }
 }

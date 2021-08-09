@@ -95,8 +95,7 @@ public class LastProviderInvoker implements RpcInvoker {
      */
     private RpcData doInvoke(RpcData rpcData) throws RpcException, ClassNotFoundException {
         InvokeResult invoke = callback.invoke(rpcData.content());
-        RpcData assembly = callback.assembly(rpcData.unique(), invoke);
-        return assembly;
+        return callback.assembly(rpcData.unique(), invoke);
     }
 
     private byte[] receiveByte(ByteBuf msg) {

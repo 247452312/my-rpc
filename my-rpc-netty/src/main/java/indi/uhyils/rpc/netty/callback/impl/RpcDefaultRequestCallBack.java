@@ -10,12 +10,13 @@ import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exception.RpcVersionNotSupportedException;
 import indi.uhyils.rpc.exchange.content.MyRpcContent;
 import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
+import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContent;
+import indi.uhyils.rpc.exchange.pojo.data.NormalRpcResponseFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
-import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.head.RpcHeaderFactory;
-import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContent;
 import indi.uhyils.rpc.netty.callback.RpcCallBack;
 import indi.uhyils.rpc.netty.pojo.InvokeResult;
 import indi.uhyils.rpc.util.LogUtil;
@@ -59,6 +60,16 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
     public RpcDefaultRequestCallBack() {
     }
 
+    public static void main(String[] args) {
+        try {
+            throw new RuntimeException("asdasd");
+        } catch (RuntimeException e) {
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            String message = e.getMessage();
+            System.out.println(message);
+            System.out.println(Arrays.toString(stackTrace));
+        }
+    }
 
     @Override
     public void init(Object... params) throws Exception {
@@ -108,16 +119,19 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
         RpcHeader rpcHeader = RpcHeaderFactory.newHeader("default:default_value");
         RpcHeader[] rpcHeaders = {rpcHeader};
         String responseType;
+        RpcStatusEnum rpcStatus = RpcStatusEnum.OK;
         String resultJson = result.getResultJson();
-        if (resultJson == null) {
-            responseType = RpcResponseTypeEnum.EXCEPTION.getCode().toString();
-        } else if (StringUtils.isEmpty(resultJson)) {
+        if (!result.getSuccess()) {
+            return new NormalRpcResponseFactory().createErrorResponse(unique, result.getThrowable(), rpcHeaders);
+        }
+
+        if (StringUtils.isEmpty(resultJson)) {
             responseType = RpcResponseTypeEnum.NULL_BACK.getCode().toString();
         } else {
             responseType = RpcResponseTypeEnum.STRING_BACK.getCode().toString();
         }
         return Objects.requireNonNull(RpcFactoryProducer.build(RpcTypeEnum.RESPONSE))
-                      .createByInfo(unique, new Object[]{RpcStatusEnum.OK.getCode()}, rpcHeaders, responseType, resultJson);
+                      .createByInfo(unique, new Object[]{rpcStatus.getCode()}, rpcHeaders, responseType, resultJson);
     }
 
     /**
@@ -167,7 +181,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
                     }
                 }
             }
-            if (declaredMethod == null) {
+            /*if (declaredMethod == null) {
                 Map<String, String> superClassTypeTransMap = getSuperClassTypeTransMap(clazz);
                 Method[] methods = clazz.getMethods();
                 for (Method method : methods) {
@@ -182,17 +196,16 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
 
                     }
                 }
-            }
-//                throw new NoSuchMethodException(String.format("找不到RPC调用方法: %s#%s", requestContent.getServiceName(), requestContent.getMethodName()));
+            }*/
             Object[] args = requestContent.getArgs();
             args = RpcObjectTransUtil.changeObjRequestParadigm(args, clazz, declaredMethod, target);
 
             Object invoke = declaredMethod.invoke(target, args);
             String resultJson = invoke == null ? "" : JSON.toJSONString(invoke);
             return InvokeResult.build(resultJson, declaredMethod.getReturnType(), declaredMethod.getGenericReturnType());
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | RpcBeanNotFoundException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | RpcBeanNotFoundException | InvocationTargetException e) {
             LogUtil.error(e);
-            return null;
+            return InvokeResult.build(e);
         }
     }
 

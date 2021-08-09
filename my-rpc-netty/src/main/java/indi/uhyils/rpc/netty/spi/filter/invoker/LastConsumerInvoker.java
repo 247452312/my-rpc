@@ -30,8 +30,8 @@ public class LastConsumerInvoker implements RpcInvoker {
             NormalResponseRpcData wait = (NormalResponseRpcData) netty.wait(request.unique());
             byte status = wait.getStatus();
             RpcStatusEnum parse = RpcStatusEnum.parse(status);
-            if (parse.equals(RpcStatusEnum.CONSUMER_ERROR)) {
-                String exception = wait.content().contentArray()[0];
+            if (parse.equals(RpcStatusEnum.PROVIDER_ERROR)) {
+                String exception = wait.content().contentArray()[1];
                 LogUtil.error(exception);
                 throw new RuntimeException(exception);
             }
