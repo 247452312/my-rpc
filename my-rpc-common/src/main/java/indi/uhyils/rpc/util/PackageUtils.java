@@ -35,6 +35,8 @@ public class PackageUtils {
      */
     private static final String JAR = "jar";
 
+    private static final String PATH_PREFIX = "BOOT-INF/classes/";
+
     private PackageUtils() {
     }
 
@@ -264,6 +266,13 @@ public class PackageUtils {
             while (entrys.hasMoreElements()) {
                 JarEntry jarEntry = entrys.nextElement();
                 String entryName = jarEntry.getName();
+                entryName = entryName.replace("\\", "/");
+                if (entryName.endsWith("/")) {
+                    continue;
+                }
+                if (entryName.startsWith(PATH_PREFIX)) {
+                    entryName = entryName.substring(PATH_PREFIX.length());
+                }
                 if (entryName.endsWith(".class")) {
                     if (childPackage) {
                         if (entryName.startsWith(packagePath)) {
@@ -286,7 +295,7 @@ public class PackageUtils {
                 }
             }
         } catch (Exception e) {
-            LogUtil.error(e,"packageUtils 获取jar中的className的时候报错");
+            LogUtil.error(e, "packageUtils 获取jar中的className的时候报错");
         }
         return myClassName;
     }
