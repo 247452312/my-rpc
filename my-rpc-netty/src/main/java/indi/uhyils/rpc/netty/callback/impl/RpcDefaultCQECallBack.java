@@ -41,14 +41,14 @@ import org.apache.commons.lang3.StringUtils;
  * @date 文件创建日期 2020年12月23日 19时15分
  */
 @RpcSpi
-public class RpcDefaultRequestCallBack implements RpcCallBack {
+public class RpcDefaultCQECallBack implements RpcCallBack {
 
     /**
      * Rpc的bean们
      */
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<>();
 
-    public RpcDefaultRequestCallBack(Map<String, Object> beans) throws ClassNotFoundException {
+    public RpcDefaultCQECallBack(Map<String, Object> beans) throws ClassNotFoundException {
         for (Map.Entry<String, Object> entity : beans.entrySet()) {
             String beanName = entity.getKey();
             Object bean = entity.getValue();
@@ -57,7 +57,7 @@ public class RpcDefaultRequestCallBack implements RpcCallBack {
         }
     }
 
-    public RpcDefaultRequestCallBack() {
+    public RpcDefaultCQECallBack() {
     }
 
     public static void main(String[] args) {

@@ -1,2 +1,2 @@
-default_request_call_back=indi.uhyils.rpc.netty.callback.impl.RpcDefaultRequestCallBack
+default_request_call_back=indi.uhyils.rpc.netty.callback.impl.RpcDefaultCQECallBack
 default_response_call_back=indi.uhyils.rpc.netty.callback.impl.RpcDefaultResponseCallBack

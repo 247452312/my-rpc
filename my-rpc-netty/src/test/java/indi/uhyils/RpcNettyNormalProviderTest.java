@@ -8,7 +8,7 @@ import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.factory.RpcBeanFactory;
 import indi.uhyils.rpc.netty.RpcNetty;
-import indi.uhyils.rpc.netty.callback.impl.RpcDefaultRequestCallBack;
+import indi.uhyils.rpc.netty.callback.impl.RpcDefaultCQECallBack;
 import indi.uhyils.rpc.netty.callback.impl.RpcDefaultResponseCallBack;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.netty.factory.NettyInitDtoFactory;
@@ -31,7 +31,7 @@ class RpcNettyNormalProviderTest {
         beans.put(functionOneInterface.getClass().getName(), functionOneInterface);
         RpcBeanFactory instance = RpcBeanFactory.getInstance(beans);
         RpcConfigFactory.setRpcConfig(RpcConfigFactory.newDefault());
-        RpcNetty netty = RpcNettyFactory.createNetty(RpcNettyTypeEnum.PROVIDER, NettyInitDtoFactory.createNettyInitDto("127.0.0.1", 8081, 1, new RpcDefaultRequestCallBack(instance.getRpcBeans())));
+        RpcNetty netty = RpcNettyFactory.createNetty(RpcNettyTypeEnum.PROVIDER, NettyInitDtoFactory.createNettyInitDto("127.0.0.1", 8081, 1, new RpcDefaultCQECallBack(instance.getRpcBeans())));
         System.out.println("providerStart");
         try {
             System.in.read();
