@@ -181,22 +181,7 @@ public class RpcDefaultCQECallBack implements RpcCallBack {
                     }
                 }
             }
-            /*if (declaredMethod == null) {
-                Map<String, String> superClassTypeTransMap = getSuperClassTypeTransMap(clazz);
-                Method[] methods = clazz.getMethods();
-                for (Method method : methods) {
-                    if (method.getName().equals(requestContent.getMethodName()) && method.getParameterCount() == methodClass.length) {
-                        Class<?>[] parameterTypes = method.getParameterTypes();
-                        boolean success = true;
-                        for (int i = 0; i < parameterTypes.length; i++) {
-                            if (parameterTypes[i].isAssignableFrom(methodClass[i])) {
 
-                            }
-                        }
-
-                    }
-                }
-            }*/
             Object[] args = requestContent.getArgs();
             args = RpcObjectTransUtil.changeObjRequestParadigm(args, clazz, declaredMethod, target);
 

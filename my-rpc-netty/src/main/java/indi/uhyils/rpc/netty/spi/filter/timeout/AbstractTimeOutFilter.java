@@ -24,7 +24,14 @@ public abstract class AbstractTimeOutFilter {
     protected RpcData invoke0(RpcInvoker invoker, FilterContext invokerContext) throws RpcException, InterruptedException {
         RpcData requestData = invokerContext.getRequestData();
         final Long timeOut = getTimeout();
-        final Future<RpcData> submit = es.submit(() -> invoker.invoke(invokerContext));
+        final Future<RpcData> submit = es.submit(() -> {
+            try {
+                return invoker.invoke(invokerContext);
+            } catch (RpcException | ClassNotFoundException | InterruptedException e) {
+                LogUtil.error(e);
+            }
+            return null;
+        });
         try {
             return submit.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (ExecutionException | TimeoutException e) {
