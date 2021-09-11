@@ -120,7 +120,7 @@ public class ConsumerDefaultCluster implements Cluster {
     public RpcData sendMsg(RpcData rpcData, SendInfo info) throws RpcException, InterruptedException {
         if (nettyMap.isEmpty()) {
             String interfaceName = getInterfaceName();
-            throw new RpcException("指定的服务端" + interfaceName + "不存在");
+            throw new RpcException("指定的服务端 " + interfaceName + " 不存在");
         }
         try {
             LoadBalanceInterface loadBalance = LoadBalanceFactory.createByLoadBalanceEnum(loadBalanceType, nettyMap);
