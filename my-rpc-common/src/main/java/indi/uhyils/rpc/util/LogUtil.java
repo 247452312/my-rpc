@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -53,6 +54,11 @@ public class LogUtil {
         writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.INFO);
     }
 
+    public static void info(String msg, String... params) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.INFO, params);
+    }
+
     public static void info(Class<?> cls, Throwable e) {
         writeLog(cls.getName(), null, e, LogTypeEnum.INFO);
     }
@@ -87,6 +93,11 @@ public class LogUtil {
         writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.DEBUG);
     }
 
+    public static void debug(String msg, String... params) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.DEBUG, params);
+    }
+
     public static void debug(Class<?> cls, Throwable e) {
         writeLog(cls.getName(), null, e, LogTypeEnum.DEBUG);
     }
@@ -109,6 +120,11 @@ public class LogUtil {
         writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.WARN);
     }
 
+    public static void warn(String msg, String... params) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.WARN, params);
+    }
+
     public static void warn(Class<?> cls, Throwable e) {
         writeLog(cls.getName(), null, e, LogTypeEnum.WARN);
     }
@@ -129,6 +145,11 @@ public class LogUtil {
     public static void error(String msg) {
         ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
         writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR);
+    }
+
+    public static void error(String msg, String... params) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, null, LogTypeEnum.ERROR, params);
     }
 
     public static void error(Throwable e) {
@@ -157,6 +178,11 @@ public class LogUtil {
         writeLog(threadLayerInfo.getClassName(), msg, e, LogTypeEnum.ERROR);
     }
 
+    public static void error(Throwable e, String msg, String... params) {
+        ThreadLayerInfo threadLayerInfo = RpcAssertUtil.getThreadLayerInfo(USR_LAYER);
+        writeLog(threadLayerInfo.getClassName(), msg, e, LogTypeEnum.ERROR, params);
+    }
+
     public static void error(Object obj, Throwable e) {
         error(obj.getClass(), e);
     }
@@ -169,7 +195,8 @@ public class LogUtil {
      * @param msg         信息
      * @param logTypeEnum 类型
      */
-    private static void writeLog(String className, String msg, Throwable throwable, LogTypeEnum logTypeEnum) {
+    private static void writeLog(String className, String msg, Throwable throwable, LogTypeEnum logTypeEnum, String... params) {
+        msg = MessageFormatter.arrayFormat(msg, params).getMessage();
         if (loggerMap.containsKey(className)) {
             Logger logger = loggerMap.get(className);
             choiceLogType(msg, throwable, logTypeEnum, logger);
@@ -182,6 +209,7 @@ public class LogUtil {
 
 
     private static void choiceLogType(String msg, Throwable throwable, LogTypeEnum logTypeEnum, Logger logger) {
+
         switch (logTypeEnum) {
             case INFO:
                 logger.info(msg, throwable);
