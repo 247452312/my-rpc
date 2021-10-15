@@ -84,6 +84,10 @@ public class NormalRpcRequestFactory extends AbstractRpcFactory {
 
 
     public RpcData createRetriesError(RpcData request, Throwable th) {
+        return createExceptionResponse(request, th);
+    }
+
+    public RpcData createExceptionResponse(RpcData request, Throwable th) {
         NormalResponseRpcData rpcNormalRequest = NormalRpcResponseFactory.createNewNormalResponseRpcData();
         rpcNormalRequest.setType(RpcTypeEnum.REQUEST.getCode());
         rpcNormalRequest.setVersion(MyRpcContent.VERSION);

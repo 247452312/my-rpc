@@ -42,6 +42,7 @@ public abstract class AbstractLoadBalance implements LoadBalanceInterface {
             nettyInfo = getNettyInfo(info, nettyMap);
             rpcNetty = nettyMap.get(nettyInfo);
         }
+        // 发送信息
         if (rpcNetty != null) {
             preprocessing(nettyInfo, rpcNetty);
             RpcData rpcData;

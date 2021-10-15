@@ -6,7 +6,7 @@ package indi.uhyils.rpc.exception;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2020年12月18日 15时06分
  */
-public class RpcException extends Exception {
+public class RpcException extends RuntimeException {
 
     public RpcException() {
     }

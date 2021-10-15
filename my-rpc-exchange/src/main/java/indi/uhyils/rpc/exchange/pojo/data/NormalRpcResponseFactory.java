@@ -11,6 +11,7 @@ import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
 import indi.uhyils.rpc.exchange.pojo.content.RpcResponseContentFactory;
 import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.spi.RpcSpiManager;
+import indi.uhyils.rpc.util.ExceptionUtil;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -97,12 +98,7 @@ public class NormalRpcResponseFactory extends AbstractRpcFactory {
         rpcNormalRequest.setType(RpcTypeEnum.RESPONSE.getCode());
         rpcNormalRequest.setVersion(MyRpcContent.VERSION);
         rpcNormalRequest.setHeaders(rpcHeaders);
-        String exceptionStr = null;
-        if (e != null) {
-            StringWriter out = new StringWriter();
-            e.printStackTrace(new PrintWriter(out, true));
-            exceptionStr = out.toString();
-        }
+        String exceptionStr = ExceptionUtil.parseException(e);
         String[] contentArray = new String[]{RpcResponseTypeEnum.EXCEPTION.getCode().toString(), e == null ? RpcStatusEnum.PROVIDER_ERROR.getName() : exceptionStr};
         rpcNormalRequest.setContentArray(contentArray);
         rpcNormalRequest.setStatus(RpcStatusEnum.PROVIDER_ERROR.getCode());
@@ -114,6 +110,7 @@ public class NormalRpcResponseFactory extends AbstractRpcFactory {
         return rpcNormalRequest;
 
     }
+
 
     @Override
     protected RpcTypeEnum getRpcType() {

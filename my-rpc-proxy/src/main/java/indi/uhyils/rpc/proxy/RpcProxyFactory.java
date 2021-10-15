@@ -42,7 +42,23 @@ public class RpcProxyFactory {
         if (!clazz.isInterface()) {
             throw new RegistryException("必须使用接口,您使用的是: " + clazz.getName());
         }
-        // 从spi管理处获取一个指定的扩展点名称
+        //从spi管理处获取一个接口请求器
+        RpcProxyHandlerInterface extensionByClass = getRpcHandler(clazz);
+
+        // 包装为实际class对应的类并返回
+        Object o = Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, extensionByClass);
+        return (T) o;
+    }
+
+    /**
+     * 从spi管理处获取一个指定的扩展点名称
+     *
+     * @param clazz
+     * @param <T>
+     *
+     * @return
+     */
+    private static <T> RpcProxyHandlerInterface getRpcHandler(Class<T> clazz) {
         String spiClassName = RpcConfigFactory.getCustomOrDefault(RPC_SPI_CONFIG_PROXY_NAME, RPC_SPI_DEFAULT_NAME).toString();
         RpcProxyHandlerInterface extensionByClass = null;
         try {
@@ -50,9 +66,7 @@ public class RpcProxyFactory {
         } catch (Exception e) {
             LogUtil.error(clazz, e);
         }
-
-        Object o = Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, extensionByClass);
-        return (T) o;
+        return extensionByClass;
     }
 
     /**

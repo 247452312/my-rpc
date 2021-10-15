@@ -29,15 +29,19 @@ public abstract class AbstractTimeOutFilter {
                 return invoker.invoke(invokerContext);
             } catch (RpcException | ClassNotFoundException | InterruptedException e) {
                 LogUtil.error(e);
+                throw new RuntimeException(e);
             }
-            return null;
         });
         try {
             return submit.get(timeOut, TimeUnit.MILLISECONDS);
-        } catch (ExecutionException | TimeoutException e) {
+        } catch (TimeoutException e) {
             LogUtil.error(e);
             submit.cancel(Boolean.TRUE);
             return invokeException(requestData, timeOut);
+        } catch (ExecutionException e) {
+            LogUtil.error(e);
+            submit.cancel(Boolean.TRUE);
+            return invokeException(requestData, e);
         } catch (InterruptedException e) {
             throw e;
         }
@@ -54,6 +58,16 @@ public abstract class AbstractTimeOutFilter {
      * @throws RpcException
      */
     protected abstract RpcData invokeException(RpcData request, Long timeout) throws RpcException;
+
+    /**
+     * 异常时要做的事
+     *
+     * @param request
+     * @param e
+     *
+     * @return
+     */
+    protected abstract RpcData invokeException(RpcData request, ExecutionException e);
 
     /**
      * 获取超时时间

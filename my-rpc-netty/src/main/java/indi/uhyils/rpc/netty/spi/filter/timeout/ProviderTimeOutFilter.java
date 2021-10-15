@@ -4,11 +4,13 @@ import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.RpcConfigFactory;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
+import indi.uhyils.rpc.exchange.pojo.data.NormalRpcResponseFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
 import indi.uhyils.rpc.netty.spi.filter.FilterContext;
 import indi.uhyils.rpc.netty.spi.filter.filter.ProviderFilter;
 import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author uhyils <247452312@qq.com>
@@ -26,6 +28,12 @@ public class ProviderTimeOutFilter extends AbstractTimeOutFilter implements Prov
     @Override
     protected RpcData invokeException(RpcData request, Long timeout) throws RpcException {
         return RpcFactoryProducer.build(RpcTypeEnum.RESPONSE).createTimeoutResponse(request, timeout);
+    }
+
+    @Override
+    protected RpcData invokeException(RpcData request, ExecutionException e) {
+        NormalRpcResponseFactory build = (NormalRpcResponseFactory) RpcFactoryProducer.build(RpcTypeEnum.RESPONSE);
+        return build.createErrorResponse(request.unique(), e, request.rpcHeaders());
     }
 
     @Override

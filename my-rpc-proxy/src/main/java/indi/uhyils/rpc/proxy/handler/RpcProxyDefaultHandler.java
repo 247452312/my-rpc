@@ -5,8 +5,10 @@ import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
-import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
+import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.factory.RpcParamExceptionFactory;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
 import indi.uhyils.rpc.netty.spi.step.template.ConsumerResponseObjectExtension;
@@ -41,7 +43,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
     /**
      * 注册类
      */
-    private Registry registry;
+    private Registry<?> registry;
 
     /**
      * 消费者接收回复Object拦截器
@@ -103,7 +105,8 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws RpcException,InterruptedException {
+        // 懒加载时使用
         if (registry == null) {
             initRegistry(type);
         }
@@ -112,7 +115,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         if (TO_STRING.equals(method.getName())) {
             return "this is the interface,it`s name is " + proxy.getClass().getSimpleName();
         }
-        // 验证method和arg是否有关系
+        // 验证method和arg是否正确
         validateArgsWithMethodParams(args, method);
         // registry执行方法
         RpcData invoke = registry.invoke(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
@@ -120,7 +123,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         String contentString = content.getResponseContent();
         Object result = JSON.parseObject(contentString, method.getGenericReturnType());
 
-        //后置自定义处理
+        //后置自定义扩展处理返回
         result = postProcessing(invoke, result);
         return result;
     }

@@ -9,11 +9,11 @@ import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.pojo.data.RpcData;
-import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
+import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
 import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.netty.callback.RpcCallBackFactory;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.netty.factory.NettyInitDtoFactory;
@@ -86,35 +86,63 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
 
 
     @Override
-    public RpcData invoke(Long unique, String methodName, Class[] paramType, Object[] args) throws RpcException, ClassNotFoundException, InterruptedException {
+    public RpcData invoke(Long unique, String methodName, Class[] paramType, Object[] args) throws RpcException, InterruptedException {
         RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
         // header具体发送什么还没有确定
         RpcHeader rpcHeader = new RpcHeader();
         rpcHeader.setName("default_value");
         rpcHeader.setValue("value");
-        assert build != null;
+
+        // 类型的返回值
+        String paramTypeStr = parseParamTypeToStr(paramType);
+
+        RpcData rpcResponseData;
+        try {
+            assert build != null;
+            RpcData rpcData = build.createByInfo(unique, null, new RpcHeader[]{rpcHeader}, serviceClass.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
+
+            SendInfo info = new SendInfo();
+            info.setIp(selfIp);
+
+            rpcResponseData = cluster.sendMsg(rpcData, info);
+        } catch (ClassNotFoundException e) {
+            throw new RpcException(e);
+        }
+        //处理rpc请求
+        dealWithErrorRpcData(rpcResponseData);
+        return rpcResponseData;
+    }
+
+    /**
+     * 处理rpc请求
+     *
+     * @param rpcResponseData
+     */
+    private void dealWithErrorRpcData(RpcData rpcResponseData) {
+        RpcResponseContentImpl content = (RpcResponseContentImpl) rpcResponseData.content();
+        Integer responseType = content.responseType();
+        RpcResponseTypeEnum type = RpcResponseTypeEnum.parse(responseType);
+        String responseContent = content.getResponseContent();
+
+        if (type == RpcResponseTypeEnum.EXCEPTION) {
+            throw new RpcException("请求出错:" + responseContent);
+        }
+    }
+
+    /**
+     * 获取paramType的字符串
+     *
+     * @param paramType
+     *
+     * @return
+     */
+    private String parseParamTypeToStr(Class[] paramType) {
         StringBuilder sb = new StringBuilder();
         for (Class<?> paramTypeClass : paramType) {
             sb.append(paramTypeClass.getName());
             sb.append(";");
         }
         sb.delete(sb.length() - 1, sb.length());
-        RpcData rpcData = build
-            .createByInfo(unique, null, new RpcHeader[]{rpcHeader}, serviceClass.getName(), "1", methodName, sb.toString(), JSON.toJSONString(args), "[]");
-
-        SendInfo info = new SendInfo();
-        info.setIp(selfIp);
-
-        RpcData rpcResponseData = cluster.sendMsg(rpcData, info);
-        RpcResponseContentImpl content = (RpcResponseContentImpl) rpcResponseData.content();
-        Integer responseType = content.responseType();
-        RpcResponseTypeEnum type = RpcResponseTypeEnum.parse(responseType);
-        String responseContent = content.getResponseContent();
-        if (type == RpcResponseTypeEnum.EXCEPTION) {
-            throw new RpcException("请求出错:" + responseContent);
-        } else if (type == RpcResponseTypeEnum.NULL_BACK) {
-            return null;
-        }
-        return rpcResponseData;
+        return sb.toString();
     }
 }

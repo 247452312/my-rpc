@@ -56,10 +56,8 @@ public class LastProviderInvoker implements RpcInvoker {
     @Override
     public RpcData invoke(FilterContext context) throws RpcException, ClassNotFoundException {
 
-        RpcData rpcData = null;
+        RpcData rpcData = context.getRequestData();
         try {
-
-            rpcData = context.getRequestData();
             // ProviderRequestDataFilter
             for (ProviderRequestDataExtension filter : providerRequestDataFilters) {
                 rpcData = filter.doFilter(rpcData);
@@ -79,8 +77,8 @@ public class LastProviderInvoker implements RpcInvoker {
             if (rpcData != null) {
                 return new NormalRpcResponseFactory().createErrorResponse(rpcData.unique(), e, null);
             }
+            throw new RpcException("netty provider wrong !!", e);
         }
-        throw new RpcException("netty provider wrong !!");
     }
 
     /**

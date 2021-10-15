@@ -22,11 +22,10 @@ public interface Registry<T> extends RpcSpiExtension {
      *
      * @return 返回值的json串
      *
-     * @throws RpcException           rpc错误
-     * @throws ClassNotFoundException 类没有找到错误
-     * @throws InterruptedException   过程调用被打断错误(例如超时)
+     * @throws RpcException         rpc错误
+     * @throws InterruptedException 过程调用被打断错误(例如超时)
      */
-    RpcData invoke(Long unique, String methodName, Class<T>[] paramType, Object[] args) throws RpcException, ClassNotFoundException, InterruptedException;
+    RpcData invoke(Long unique, String methodName, Class<T>[] paramType, Object[] args) throws RpcException, InterruptedException;
 
 
 }
