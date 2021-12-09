@@ -1,6 +1,7 @@
 package indi.uhyils.rpc.netty.callback.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
 import indi.uhyils.rpc.enums.RpcStatusEnum;
@@ -187,7 +188,7 @@ public class RpcDefaultCQECallBack implements RpcCallBack {
             args = RpcObjectTransUtil.changeObjRequestParadigm(args, clazz, declaredMethod, target);
 
             Object invoke = declaredMethod.invoke(target, args);
-            String resultJson = invoke == null ? "" : JSON.toJSONString(invoke);
+            String resultJson = invoke == null ? "" : JSON.toJSONString(invoke, SerializerFeature.WriteClassName);
             return InvokeResult.build(resultJson, declaredMethod.getReturnType(), declaredMethod.getGenericReturnType());
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | RpcBeanNotFoundException | InvocationTargetException e) {
             LogUtil.error(e);

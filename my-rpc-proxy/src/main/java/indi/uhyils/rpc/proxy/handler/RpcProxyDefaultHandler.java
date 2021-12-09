@@ -1,11 +1,11 @@
 package indi.uhyils.rpc.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
-import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
@@ -105,7 +105,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws RpcException,InterruptedException {
+    public Object invoke(Object proxy, Method method, Object[] args) throws RpcException, InterruptedException {
         // 懒加载时使用
         if (registry == null) {
             initRegistry(type);
@@ -121,7 +121,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         RpcData invoke = registry.invoke(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
         RpcResponseContentImpl content = (RpcResponseContentImpl) invoke.content();
         String contentString = content.getResponseContent();
-        Object result = JSON.parseObject(contentString, method.getGenericReturnType());
+        Object result = JSON.parseObject(contentString, method.getGenericReturnType(), Feature.DisableSpecialKeyDetect);
 
         //后置自定义扩展处理返回
         result = postProcessing(invoke, result);
