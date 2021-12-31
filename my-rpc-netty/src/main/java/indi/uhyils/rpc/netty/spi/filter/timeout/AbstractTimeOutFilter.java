@@ -39,7 +39,7 @@ public abstract class AbstractTimeOutFilter {
             submit.cancel(Boolean.TRUE);
             return invokeException(requestData, timeOut);
         } catch (ExecutionException e) {
-            LogUtil.error(e);
+            LogUtil.error(e.getCause());
             submit.cancel(Boolean.TRUE);
             return invokeException(requestData, e);
         } catch (InterruptedException e) {

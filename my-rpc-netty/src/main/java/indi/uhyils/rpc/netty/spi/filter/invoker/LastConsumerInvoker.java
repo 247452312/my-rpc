@@ -2,6 +2,7 @@ package indi.uhyils.rpc.netty.spi.filter.invoker;
 
 import indi.uhyils.rpc.enums.RpcStatusEnum;
 import indi.uhyils.rpc.exception.RpcException;
+import indi.uhyils.rpc.exception.RpcTimeOutException;
 import indi.uhyils.rpc.exchange.pojo.data.NormalResponseRpcData;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 import indi.uhyils.rpc.netty.core.RpcNettyNormalConsumer;
@@ -28,12 +29,16 @@ public class LastConsumerInvoker implements RpcInvoker {
         RpcData request = context.getRequestData();
         if (netty.sendMsg(request.toBytes())) {
             NormalResponseRpcData wait = (NormalResponseRpcData) netty.wait(request.unique());
+            if (wait == null) {
+                RpcData requestData = context.getRequestData();
+                throw new RpcTimeOutException("调用超时:" + requestData.content().contentString());
+            }
             byte status = wait.getStatus();
             RpcStatusEnum parse = RpcStatusEnum.parse(status);
             if (parse.equals(RpcStatusEnum.PROVIDER_ERROR)) {
                 String exception = wait.content().contentArray()[1];
                 LogUtil.error(exception);
-                throw new RuntimeException(exception);
+                throw new RpcException(exception);
             }
             return wait;
         }

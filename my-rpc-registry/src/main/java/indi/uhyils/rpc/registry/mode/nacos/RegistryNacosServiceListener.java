@@ -52,6 +52,8 @@ public class RegistryNacosServiceListener extends AbstractRegistryServiceListene
             } catch (Exception e) {
                 LogUtil.error(this, e);
             }
+        } else {
+            LogUtil.error("注册中心事件未响应" + event.getClass().getName());
         }
     }
 
@@ -69,7 +71,7 @@ public class RegistryNacosServiceListener extends AbstractRegistryServiceListene
         }
         for (int i = 0; i < instances.size(); i++) {
             Instance instance = instances.get(i);
-            if (!instance.isEnabled()) {
+            if (!instance.isEnabled() || !instance.isHealthy()) {
                 continue;
             }
             NettyInfo nettyInfo = new NettyInfo();
