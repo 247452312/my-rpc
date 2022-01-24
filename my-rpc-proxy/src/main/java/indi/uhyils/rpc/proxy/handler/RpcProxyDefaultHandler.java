@@ -6,9 +6,13 @@ import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
+import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
+import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
+import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
+import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.factory.RpcParamExceptionFactory;
 import indi.uhyils.rpc.netty.spi.step.RpcStep;
 import indi.uhyils.rpc.netty.spi.step.template.ConsumerResponseObjectExtension;
@@ -117,8 +121,10 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         }
         // 验证method和arg是否正确
         validateArgsWithMethodParams(args, method);
+        // 初始化RPCData
+        RpcData rpcData = initRpcData(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
         // registry执行方法
-        RpcData invoke = registry.invoke(idUtil.newId(), method.getName(), Arrays.stream(args).map(Object::getClass).toArray(Class[]::new), args);
+        RpcData invoke = registry.invoke(rpcData);
         RpcResponseContentImpl content = (RpcResponseContentImpl) invoke.content();
         String contentString = content.getResponseContent();
         Object result = JSON.parseObject(contentString, method.getGenericReturnType(), Feature.DisableSpecialKeyDetect);
@@ -126,6 +132,54 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         //后置自定义扩展处理返回
         result = postProcessing(invoke, result);
         return result;
+    }
+
+    /**
+     * 初始化rpcData
+     *
+     * @param unique
+     * @param methodName
+     * @param paramType
+     * @param args
+     *
+     * @return
+     */
+    private RpcData initRpcData(Long unique, String methodName, Class[] paramType, Object[] args) {
+        RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
+        // header具体发送什么还没有确定
+        RpcHeader rpcHeader = new RpcHeader();
+        rpcHeader.setName("default_value");
+        rpcHeader.setValue("value");
+
+        // 类型的返回值
+        String paramTypeStr = parseParamTypeToStr(paramType);
+
+        assert build != null;
+        RpcData rpcData;
+        try {
+            rpcData = build.createByInfo(unique, null, new RpcHeader[]{rpcHeader}, type.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
+        } catch (ClassNotFoundException e) {
+            throw new RpcException(e);
+        }
+
+        return rpcData;
+    }
+
+    /**
+     * 获取paramType的字符串
+     *
+     * @param paramType
+     *
+     * @return
+     */
+    private String parseParamTypeToStr(Class[] paramType) {
+        StringBuilder sb = new StringBuilder();
+        for (Class<?> paramTypeClass : paramType) {
+            sb.append(paramTypeClass.getName());
+            sb.append(";");
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        return sb.toString();
     }
 
     /**

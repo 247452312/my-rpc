@@ -54,7 +54,7 @@ public class MyRpcContent {
     public static final RpcData RPC_HEALTH_DATA = RpcFactoryProducer.build(RpcTypeEnum.REQUEST).getHealth();
 
     /**
-     * rpc标志
+     * rpc标志(对应36位 syl)
      */
     private static final int AGREEMENT_START_INT = 0x929d;
 

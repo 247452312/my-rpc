@@ -1,19 +1,14 @@
 package indi.uhyils.rpc.registry;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.api.exception.NacosException;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.cluster.Cluster;
 import indi.uhyils.rpc.cluster.ClusterFactory;
 import indi.uhyils.rpc.cluster.pojo.SendInfo;
 import indi.uhyils.rpc.enums.RpcResponseTypeEnum;
-import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
-import indi.uhyils.rpc.exchange.pojo.data.RpcFactory;
-import indi.uhyils.rpc.exchange.pojo.data.RpcFactoryProducer;
-import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.netty.callback.RpcCallBackFactory;
 import indi.uhyils.rpc.netty.enums.RpcNettyTypeEnum;
 import indi.uhyils.rpc.netty.factory.NettyInitDtoFactory;
@@ -86,28 +81,18 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
 
 
     @Override
-    public RpcData invoke(Long unique, String methodName, Class[] paramType, Object[] args) throws RpcException, InterruptedException {
-        RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
-        // header具体发送什么还没有确定
-        RpcHeader rpcHeader = new RpcHeader();
-        rpcHeader.setName("default_value");
-        rpcHeader.setValue("value");
+    public RpcData invoke(RpcData rpcData) throws RpcException, InterruptedException {
 
-        // 类型的返回值
-        String paramTypeStr = parseParamTypeToStr(paramType);
+        SendInfo info = new SendInfo();
+        info.setIp(selfIp);
 
         RpcData rpcResponseData;
         try {
-            assert build != null;
-            RpcData rpcData = build.createByInfo(unique, null, new RpcHeader[]{rpcHeader}, serviceClass.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
-
-            SendInfo info = new SendInfo();
-            info.setIp(selfIp);
-
             rpcResponseData = cluster.sendMsg(rpcData, info);
         } catch (ClassNotFoundException e) {
             throw new RpcException(e);
         }
+
         //处理rpc请求
         dealWithErrorRpcData(rpcResponseData);
         return rpcResponseData;
@@ -129,20 +114,4 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
         }
     }
 
-    /**
-     * 获取paramType的字符串
-     *
-     * @param paramType
-     *
-     * @return
-     */
-    private String parseParamTypeToStr(Class[] paramType) {
-        StringBuilder sb = new StringBuilder();
-        for (Class<?> paramTypeClass : paramType) {
-            sb.append(paramTypeClass.getName());
-            sb.append(";");
-        }
-        sb.delete(sb.length() - 1, sb.length());
-        return sb.toString();
-    }
 }

@@ -23,11 +23,10 @@ spring-start  | spring对接层,引入此层对接入spring | [链接](my-common
 该项目使用 [maven](http://maven.apache.org/download.cgi) 。如果您没有在本地安装它们，请检查它们。
 
 ```xml
-<!--暂时没有在maven中央仓库,请下载自行安装后引入-->
 <dependency>
-    <groupId>indi.uhyils</groupId>
-    <artifactId>my-common-rpc-spring-start</artifactId>
-    <version>0.3.0-my-SNAPSHOT</version>
+   <groupId>io.github.247452312</groupId>
+   <artifactId>my-rpc-spring-start</artifactId>
+   <version>1.0.2.my</version>
 </dependency>
 ```
 

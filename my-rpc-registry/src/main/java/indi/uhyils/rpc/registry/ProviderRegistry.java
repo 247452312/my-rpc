@@ -56,9 +56,8 @@ public class ProviderRegistry<T> extends AbstractRegistry<T> {
         }
     }
 
-
     @Override
-    public RpcData invoke(Long unique, String methodName, Class[] paramType, Object[] args) throws RpcException, InterruptedException {
+    public RpcData invoke(RpcData rpcData) throws RpcException, InterruptedException {
         return null;
     }
 }
