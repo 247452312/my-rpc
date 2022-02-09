@@ -127,7 +127,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         RpcData invoke = registry.invoke(rpcData);
         RpcResponseContentImpl content = (RpcResponseContentImpl) invoke.content();
         String contentString = content.getResponseContent();
-        Object result = JSON.parseObject(contentString, method.getGenericReturnType(), Feature.DisableSpecialKeyDetect);
+        Object result = JSON.parseObject(contentString, method.getGenericReturnType());
 
         //后置自定义扩展处理返回
         result = postProcessing(invoke, result);
