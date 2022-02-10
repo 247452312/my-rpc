@@ -10,3 +10,8 @@
 /my-rpc-registry/target/
 /my-rpc-spring-start/target/
 **.pom.xml.versionsBackup
+
+.idea
+*.iws
+*.iml
+*.ipr
