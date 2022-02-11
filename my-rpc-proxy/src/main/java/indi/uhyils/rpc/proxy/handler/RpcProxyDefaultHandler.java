@@ -1,11 +1,12 @@
 package indi.uhyils.rpc.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.Feature;
+import com.sun.istack.internal.NotNull;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
 import indi.uhyils.rpc.config.RpcConfigFactory;
+import indi.uhyils.rpc.content.HeaderContext;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
 import indi.uhyils.rpc.exception.RpcException;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
@@ -24,7 +25,9 @@ import indi.uhyils.rpc.util.IdUtil;
 import indi.uhyils.rpc.util.LogUtil;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 默认的rpc代理类,自己实现代理见{@link RpcProxyHandlerInterface}
@@ -145,11 +148,29 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
      * @return
      */
     private RpcData initRpcData(Long unique, String methodName, Class[] paramType, Object[] args) {
+        Map<String, String> headers = HeaderContext.get();
+        if (headers == null) {
+            headers = new HashMap<>();
+            headers.put("default_value", "value");
+        }
+        return initRpcData(unique, methodName, headers, paramType, args);
+    }
+
+    /**
+     * 初始化rpcData
+     *
+     * @param unique
+     * @param methodName
+     * @param headers
+     * @param paramType
+     * @param args
+     *
+     * @return
+     */
+    private RpcData initRpcData(Long unique, String methodName, @NotNull Map<String, String> headers, Class[] paramType, Object[] args) {
         RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
-        // header具体发送什么还没有确定
-        RpcHeader rpcHeader = new RpcHeader();
-        rpcHeader.setName("default_value");
-        rpcHeader.setValue("value");
+
+        RpcHeader[] rpcHeaders = headers.entrySet().stream().map(t -> new RpcHeader(t.getKey(), t.getValue())).toArray(RpcHeader[]::new);
 
         // 类型的返回值
         String paramTypeStr = parseParamTypeToStr(paramType);
@@ -157,7 +178,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         assert build != null;
         RpcData rpcData;
         try {
-            rpcData = build.createByInfo(unique, null, new RpcHeader[]{rpcHeader}, type.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
+            rpcData = build.createByInfo(unique, null, rpcHeaders, type.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
         } catch (ClassNotFoundException e) {
             throw new RpcException(e);
         }

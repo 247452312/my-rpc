@@ -2,6 +2,7 @@ package indi.uhyils.rpc.proxy.generic;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import indi.uhyils.rpc.content.HeaderContext;
 import indi.uhyils.rpc.util.LogUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,7 +68,43 @@ public class GenericService<T> {
      *
      * @throws InvocationTargetException
      */
+    public Object invoke(String method, Map<String, String> headers, Class[] parameterTypes, Object[] args) throws InvocationTargetException {
+        // 初始化headers
+        HeaderContext.addHeaders(headers);
+        try {
+            return invoke(method, parameterTypes, args);
+        } finally {
+            HeaderContext.remove();
+        }
+    }
+
+    /**
+     * 执行指定的方法
+     *
+     * @param method         要执行的方法的名称
+     * @param parameterTypes 方法的参数类型
+     * @param args           方法的实际参数
+     *
+     * @return
+     *
+     * @throws InvocationTargetException
+     */
     public Object invoke(String method, String[] parameterTypes, Object[] args) throws InvocationTargetException {
+        return invoke(method, null, parameterTypes, args);
+    }
+
+    /**
+     * 执行指定的方法
+     *
+     * @param method         要执行的方法的名称
+     * @param parameterTypes 方法的参数类型
+     * @param args           方法的实际参数
+     *
+     * @return
+     *
+     * @throws InvocationTargetException
+     */
+    public Object invoke(String method, Map<String, String> headers, String[] parameterTypes, Object[] args) throws InvocationTargetException {
         Class[] parameterTypesClass = new Class[parameterTypes.length];
         try {
             for (int i = 0; i < parameterTypes.length; i++) {
@@ -76,13 +113,24 @@ public class GenericService<T> {
         } catch (ClassNotFoundException e) {
             LogUtil.error(this, e);
         }
-        return invoke(method, parameterTypesClass, args);
+        return invoke(method, headers, parameterTypesClass, args);
+    }
+
+    public CompletableFuture<Object> invokeAsync(String method, Map<String, String> headers, String[] parameterTypes, Object[] args) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return invoke(method, headers, parameterTypes, args);
+            } catch (InvocationTargetException e) {
+                LogUtil.error(this, e);
+            }
+            return null;
+        });
     }
 
     public CompletableFuture<Object> invokeAsync(String method, String[] parameterTypes, Object[] args) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return invoke(method, parameterTypes, args);
+                return invoke(method, null, parameterTypes, args);
             } catch (InvocationTargetException e) {
                 LogUtil.error(this, e);
             }
