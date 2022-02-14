@@ -15,7 +15,7 @@ import indi.uhyils.rpc.netty.spi.filter.invoker.RpcInvoker;
  * @author uhyils <247452312@qq.com>
  * @date 文件创建日期 2022年02月11日 19时13分
  */
-@RpcSpi
+@RpcSpi(order = 101)
 public class HeaderProviderFilter implements ProviderFilter {
 
     @Override

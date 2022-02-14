@@ -1,7 +1,7 @@
 package indi.uhyils.rpc.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.istack.internal.NotNull;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.annotation.RpcSpi;
 import indi.uhyils.rpc.config.ConsumerConfig;
 import indi.uhyils.rpc.config.RpcConfig;
@@ -167,7 +167,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
      *
      * @return
      */
-    private RpcData initRpcData(Long unique, String methodName, @NotNull Map<String, String> headers, Class[] paramType, Object[] args) {
+    private RpcData initRpcData(Long unique, String methodName, Map<String, String> headers, Class[] paramType, Object[] args) {
         RpcFactory build = RpcFactoryProducer.build(RpcTypeEnum.REQUEST);
 
         RpcHeader[] rpcHeaders = headers.entrySet().stream().map(t -> new RpcHeader(t.getKey(), t.getValue())).toArray(RpcHeader[]::new);
@@ -178,7 +178,7 @@ public class RpcProxyDefaultHandler implements RpcProxyHandlerInterface {
         assert build != null;
         RpcData rpcData;
         try {
-            rpcData = build.createByInfo(unique, null, rpcHeaders, type.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args), "[]");
+            rpcData = build.createByInfo(unique, null, rpcHeaders, type.getName(), "1", methodName, paramTypeStr, JSON.toJSONString(args, SerializerFeature.WriteClassName), "[]");
         } catch (ClassNotFoundException e) {
             throw new RpcException(e);
         }

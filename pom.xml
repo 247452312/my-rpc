@@ -6,7 +6,7 @@
     <groupId>io.github.247452312</groupId>
     <artifactId>my-rpc</artifactId>
     <!--SNAPSHOT-->
-    <version>1.0.3.my-SNAPSHOT</version>
+    <version>1.0.3.1.my-SNAPSHOT</version>
 
     <name>my-rpc</name>
     <description>a rpc for no spring</description>
@@ -161,6 +161,13 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>3.24.0-GA</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

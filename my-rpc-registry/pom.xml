@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.247452312</groupId>
         <artifactId>my-rpc</artifactId>
-        <version>1.0.3.my-SNAPSHOT</version>
+        <version>1.0.3.1.my-SNAPSHOT</version>
     </parent>
 
     <artifactId>my-rpc-registry</artifactId>

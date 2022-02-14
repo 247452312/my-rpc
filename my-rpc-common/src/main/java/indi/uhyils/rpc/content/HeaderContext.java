@@ -1,6 +1,5 @@
 package indi.uhyils.rpc.content;
 
-import com.sun.istack.internal.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ public class HeaderContext {
      *
      * @return
      */
-    @Nullable
     public static Map<String, String> get() {
         return headers.get();
     }

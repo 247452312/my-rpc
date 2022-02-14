@@ -92,6 +92,9 @@ public class ConsumerRegistry<T> extends AbstractRegistry<T> {
         } catch (ClassNotFoundException e) {
             throw new RpcException(e);
         }
+        if (rpcResponseData == null) {
+            throw new RpcException("返回值为空");
+        }
 
         //处理rpc请求
         dealWithErrorRpcData(rpcResponseData);
