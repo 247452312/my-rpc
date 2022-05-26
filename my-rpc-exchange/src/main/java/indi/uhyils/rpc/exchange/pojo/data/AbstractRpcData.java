@@ -8,7 +8,7 @@ import indi.uhyils.rpc.exchange.content.MyRpcContent;
 import indi.uhyils.rpc.exchange.pojo.content.RpcContent;
 import indi.uhyils.rpc.exchange.pojo.head.RpcHeader;
 import indi.uhyils.rpc.exchange.pojo.head.RpcHeaderFactory;
-import indi.uhyils.rpc.util.BytesUtils;
+import indi.uhyils.rpc.util.BytesUtil;
 import indi.uhyils.rpc.util.LogUtil;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -86,28 +86,6 @@ public abstract class AbstractRpcData implements RpcData {
     }
 
     /**
-     * 初始化内容
-     *
-     * @throws ClassNotFoundException 初始化时如果对应方法未找到
-     * @throws RpcException           rpc错误
-     */
-    protected abstract void initContent() throws RpcException, ClassNotFoundException;
-
-    /**
-     * 填充size
-     *
-     * @param data
-     * @param readIndex
-     */
-    protected void initSize(byte[] data, AtomicInteger readIndex) {
-        final int sizeSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX);
-        final int startIndex = readIndex.get();
-        byte[] sizeBytes = Arrays.copyOfRange(data, startIndex, startIndex + sizeSize);
-        this.size = BytesUtils.changeByteToInteger(sizeBytes);
-        readIndex.addAndGet(sizeSize);
-    }
-
-    /**
      * 获取rpc全部
      *
      * @return
@@ -131,151 +109,25 @@ public abstract class AbstractRpcData implements RpcData {
         int andAdd = writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_VERSION_REQ_RES_INDEX));
         System.arraycopy(src, 0, previousBytes, andAdd, MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_VERSION_REQ_RES_INDEX));
 
-        //写入size,并获取head 和 content 的数组
+        //获取head 和 content 的压缩后的数组 并写入size
         byte[] headAndContent = headerAndContent().getBytes(StandardCharsets.UTF_8);
-        System.arraycopy(BytesUtils.changeIntegerToByte(headAndContent.length), 0, previousBytes, writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX)),
+        headAndContent = BytesUtil.compress(headAndContent);
+        System.arraycopy(BytesUtil.changeIntegerToByte(headAndContent.length), 0, previousBytes, writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX)),
                          MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX));
 
         // 写入状态
         previousBytes[writeIndex.getAndAdd(1)] = getStatus();
 
         //写入唯一标示
-        byte[] uniqueBytes = BytesUtils.changeLongToByte(getUnique());
+        byte[] uniqueBytes = BytesUtil.changeLongToByte(getUnique());
         System.arraycopy(uniqueBytes,
                          0,
                          previousBytes,
                          writeIndex.getAndAdd(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX)),
                          MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX));
 
-        byte[] result = new byte[previousBytes.length + headAndContent.length];
-        System.arraycopy(previousBytes, 0, result, 0, previousBytes.length);
-        System.arraycopy(headAndContent, 0, result, previousBytes.length, headAndContent.length);
-
-        return result;
+        return BytesUtil.concat(previousBytes, headAndContent);
     }
-
-    private void doInit(final byte[] data) throws RpcException, ClassNotFoundException {
-        try {
-            AtomicInteger readIndex = new AtomicInteger(0);
-            // 判断是不是myRpc的协议
-            isMyRpc(data, readIndex);
-
-            // 确定版本以及类型是否兼容(正确)
-            initVersionAndType(data, readIndex);
-
-            // 填充size
-            initSize(data, readIndex);
-
-            //填充状态
-            initStatus(data, readIndex);
-
-            //填充唯一标识
-            initUnique(data, readIndex);
-
-            // 获取header
-            initHeader(data, readIndex);
-
-            // 获取内容字符串
-            initContentArray(data, readIndex);
-
-            // 处理内容
-            initContent();
-        } catch (RpcException | ClassNotFoundException e) {
-            LogUtil.error(this, e);
-            throw e;
-        }
-    }
-
-    protected void initUnique(byte[] data, AtomicInteger readIndex) {
-        final int uniqueSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX);
-        final int startIndex = readIndex.get();
-        byte[] uniqueBytes = Arrays.copyOfRange(data, startIndex, startIndex + uniqueSize);
-        this.unique = BytesUtils.changeByteToLong(uniqueBytes);
-        readIndex.addAndGet(uniqueSize);
-    }
-
-    protected void initStatus(byte[] data, AtomicInteger readIndex) {
-        final int statusSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_STATUS_INDEX);
-        assert statusSize == 1;
-        final int startIndex = readIndex.get();
-        final byte[] dataStatus = Arrays.copyOfRange(data, startIndex, startIndex + statusSize);
-        // 先这么搞..
-        this.setStatus(dataStatus[0]);
-        readIndex.addAndGet(statusSize);
-    }
-
-    protected void initContentArray(byte[] data, AtomicInteger readIndex) {
-        byte[] bytes = Arrays.copyOfRange(data, readIndex.get(), data.length);
-        String contentStr = new String(bytes, StandardCharsets.UTF_8);
-        this.contentArray = contentStr.split("\n");
-    }
-
-    protected void initHeader(byte[] data, AtomicInteger readIndex) {
-        boolean lastByteIsEnter = Boolean.FALSE;
-        List<RpcHeader> rpcHeaders = new ArrayList<>();
-        StringBuilder headerStr = new StringBuilder();
-        int headerEnd = 0;
-        for (int i = readIndex.get(); i < data.length; i++) {
-            headerEnd++;
-            if (Objects.equals(data[i], ENTER)) {
-                if (lastByteIsEnter) {
-                    break;
-                }
-                lastByteIsEnter = Boolean.TRUE;
-                RpcHeader rpcHeader = RpcHeaderFactory.newHeader(headerStr.toString());
-                headerStr.delete(0, headerStr.length());
-                if (rpcHeader != null) {
-                    rpcHeaders.add(rpcHeader);
-                }
-            } else {
-                headerStr.append((char) data[i]);
-                lastByteIsEnter = Boolean.FALSE;
-            }
-        }
-        this.headers = rpcHeaders.toArray(new RpcHeader[]{new RpcHeader()});
-        readIndex.addAndGet(headerEnd);
-    }
-
-    /**
-     * 确定版本以及类型是否兼容(正确)
-     *
-     * @param data
-     * @param readIndex
-     *
-     * @throws RpcVersionNotSupportedException
-     */
-    protected void initVersionAndType(byte[] data, AtomicInteger readIndex) throws RpcException {
-        int dataVersion = (data[readIndex.get()] >> 2) & 0b111111;
-        if (dataVersion > MAX_VERSION) {
-            throw new RpcVersionNotSupportedException(dataVersion, MAX_VERSION);
-        }
-        int dataType = (data[readIndex.get()] & 0b10) >> 1;
-        if (!Objects.equals(dataType, type())) {
-            throw new RpcTypeNotSupportedException(dataType, type());
-        }
-        this.version = dataVersion;
-        readIndex.addAndGet(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_VERSION_REQ_RES_INDEX));
-
-    }
-
-    /**
-     * 判断是不是myRpc的协议
-     *
-     * @param data
-     * @param readIndex
-     *
-     * @throws MyRpcException
-     */
-    private void isMyRpc(byte[] data, AtomicInteger readIndex) throws MyRpcException {
-        int from = readIndex.get();
-        byte[] bytes = Arrays.copyOfRange(data, from, from + MyRpcContent.AGREEMENT_START.length);
-        boolean startByteEquals = Arrays.equals(bytes, MyRpcContent.AGREEMENT_START);
-        if (!startByteEquals) {
-            throw new MyRpcException();
-        }
-        readIndex.addAndGet(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX));
-    }
-
 
     public Integer getVersion() {
         return version;
@@ -308,7 +160,6 @@ public abstract class AbstractRpcData implements RpcData {
     public void setHeaders(RpcHeader[] headers) {
         this.headers = headers;
     }
-
 
     public RpcContent getContent() {
         return content;
@@ -397,7 +248,6 @@ public abstract class AbstractRpcData implements RpcData {
         return content;
     }
 
-
     @Override
     public String headerAndContent() {
         StringBuilder sb = new StringBuilder();
@@ -422,5 +272,154 @@ public abstract class AbstractRpcData implements RpcData {
             }
         }
         return null;
+    }
+
+    /**
+     * 初始化内容
+     *
+     * @throws ClassNotFoundException 初始化时如果对应方法未找到
+     * @throws RpcException           rpc错误
+     */
+    protected abstract void initContent() throws RpcException, ClassNotFoundException;
+
+    /**
+     * 填充size
+     *
+     * @param data
+     * @param readIndex
+     */
+    protected void initSize(byte[] data, AtomicInteger readIndex) {
+        final int sizeSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_SIZE_INDEX);
+        final int startIndex = readIndex.get();
+        byte[] sizeBytes = Arrays.copyOfRange(data, startIndex, startIndex + sizeSize);
+        this.size = BytesUtil.changeByteToInteger(sizeBytes);
+        readIndex.addAndGet(sizeSize);
+    }
+
+    protected void initUnique(byte[] data, AtomicInteger readIndex) {
+        final int uniqueSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_UNIQUE_INDEX);
+        final int startIndex = readIndex.get();
+        byte[] uniqueBytes = Arrays.copyOfRange(data, startIndex, startIndex + uniqueSize);
+        this.unique = BytesUtil.changeByteToLong(uniqueBytes);
+        readIndex.addAndGet(uniqueSize);
+    }
+
+    protected void initStatus(byte[] data, AtomicInteger readIndex) {
+        final int statusSize = MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_STATUS_INDEX);
+        assert statusSize == 1;
+        final int startIndex = readIndex.get();
+        final byte[] dataStatus = Arrays.copyOfRange(data, startIndex, startIndex + statusSize);
+        // 先这么搞..
+        this.setStatus(dataStatus[0]);
+        readIndex.addAndGet(statusSize);
+    }
+
+    protected void initContentArray(byte[] data, AtomicInteger readIndex) {
+        byte[] bytes = Arrays.copyOfRange(data, readIndex.get(), data.length);
+        String contentStr = new String(bytes, StandardCharsets.UTF_8);
+        this.contentArray = contentStr.split("\n");
+    }
+
+    protected void initHeader(byte[] data, AtomicInteger readIndex) {
+        boolean lastByteIsEnter = Boolean.FALSE;
+        List<RpcHeader> rpcHeaders = new ArrayList<>();
+        StringBuilder headerStr = new StringBuilder();
+        int headerEnd = 0;
+        for (int i = readIndex.get(); i < data.length; i++) {
+            headerEnd++;
+            if (Objects.equals(data[i], ENTER)) {
+                if (lastByteIsEnter) {
+                    break;
+                }
+                lastByteIsEnter = Boolean.TRUE;
+                RpcHeader rpcHeader = RpcHeaderFactory.newHeader(headerStr.toString());
+                headerStr.delete(0, headerStr.length());
+                if (rpcHeader != null) {
+                    rpcHeaders.add(rpcHeader);
+                }
+            } else {
+                headerStr.append((char) data[i]);
+                lastByteIsEnter = Boolean.FALSE;
+            }
+        }
+        this.headers = rpcHeaders.toArray(new RpcHeader[]{new RpcHeader()});
+        readIndex.addAndGet(headerEnd);
+    }
+
+    /**
+     * 确定版本以及类型是否兼容(正确)
+     *
+     * @param data
+     * @param readIndex
+     *
+     * @throws RpcVersionNotSupportedException
+     */
+    protected void initVersionAndType(byte[] data, AtomicInteger readIndex) throws RpcException {
+        int dataVersion = (data[readIndex.get()] >> 2) & 0b111111;
+        if (dataVersion > MAX_VERSION) {
+            throw new RpcVersionNotSupportedException(dataVersion, MAX_VERSION);
+        }
+        int dataType = (data[readIndex.get()] & 0b10) >> 1;
+        if (!Objects.equals(dataType, type())) {
+            throw new RpcTypeNotSupportedException(dataType, type());
+        }
+        this.version = dataVersion;
+        readIndex.addAndGet(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_VERSION_REQ_RES_INDEX));
+
+    }
+
+    private void doInit(final byte[] data) throws RpcException, ClassNotFoundException {
+        try {
+            AtomicInteger readIndex = new AtomicInteger(0);
+            // 判断是不是myRpc的协议
+            isMyRpc(data, readIndex);
+
+            // 确定版本以及类型是否兼容(正确)
+            initVersionAndType(data, readIndex);
+
+            // 填充size
+            initSize(data, readIndex);
+
+            //填充状态
+            initStatus(data, readIndex);
+
+            //填充唯一标识
+            initUnique(data, readIndex);
+
+            // 获取剩余的部分 解压缩 指针重置到0
+            byte[] lastBytes = Arrays.copyOfRange(data, readIndex.get(), data.length);
+            byte[] uncompress = BytesUtil.uncompress(lastBytes);
+            readIndex.set(0);
+
+            // 获取header
+            initHeader(uncompress, readIndex);
+
+            // 获取内容字符串
+            initContentArray(uncompress, readIndex);
+
+            // 处理内容
+            initContent();
+        } catch (RpcException | ClassNotFoundException e) {
+            LogUtil.error(this, e);
+            throw e;
+        }
+    }
+
+    /**
+     * 判断是不是myRpc的协议
+     *
+     * @param data
+     * @param readIndex
+     *
+     * @throws MyRpcException
+     */
+    private void isMyRpc(byte[] data, AtomicInteger readIndex) throws MyRpcException {
+        int from = readIndex.get();
+        byte[] bytes = Arrays.copyOfRange(data, from, from + MyRpcContent.AGREEMENT_START.length);
+        boolean startByteEquals = Arrays.equals(bytes, MyRpcContent.AGREEMENT_START);
+        if (!startByteEquals) {
+            throw new MyRpcException();
+        }
+        readIndex.addAndGet(MyRpcContent.RPC_DATA_ITEM_SIZE.get(MyRpcContent.RPC_DATA_MARK_INDEX));
     }
 }

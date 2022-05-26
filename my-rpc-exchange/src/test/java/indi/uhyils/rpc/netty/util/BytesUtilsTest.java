@@ -1,6 +1,6 @@
 package indi.uhyils.rpc.netty.util;
 
-import indi.uhyils.rpc.util.BytesUtils;
+import indi.uhyils.rpc.util.BytesUtil;
 import org.springframework.util.Assert;
 
 /**
@@ -12,8 +12,8 @@ class BytesUtilsTest {
     @org.junit.jupiter.api.Test
     void changeIntegerToByte() {
         int data = 65535;
-        byte[] bytes = BytesUtils.changeIntegerToByte(data);
-        Integer integer = BytesUtils.changeByteToInteger(bytes);
+        byte[] bytes = BytesUtil.changeIntegerToByte(data);
+        Integer integer = BytesUtil.changeByteToInteger(bytes);
         Assert.isTrue(true, "");
     }
 }
