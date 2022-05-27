@@ -1,6 +1,9 @@
 package indi.uhyils.rpc.netty.util;
 
 import indi.uhyils.rpc.util.BytesUtil;
+import indi.uhyils.rpc.util.RpcAssertUtil;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import org.springframework.util.Assert;
 
 /**
@@ -15,5 +18,15 @@ class BytesUtilsTest {
         byte[] bytes = BytesUtil.changeIntegerToByte(data);
         Integer integer = BytesUtil.changeByteToInteger(bytes);
         Assert.isTrue(true, "");
+    }
+
+    @org.junit.jupiter.api.Test
+    void testCompress() {
+        String temp = "uhyils_my_rpc";
+        byte[] compress = BytesUtil.compress(temp.getBytes(StandardCharsets.UTF_8));
+        byte[] uncompress = BytesUtil.uncompress(compress);
+        String s = new String(uncompress, StandardCharsets.UTF_8);
+        System.out.println(s);
+        RpcAssertUtil.assertTrue(Objects.equals(s, temp));
     }
 }

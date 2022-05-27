@@ -28,52 +28,38 @@ public class BytesUtil {
      */
     private static final Integer BYTE_TO_BIT_SIZE = 8;
 
+    /**
+     * 4k 缓冲区
+     */
+    private static final int BUFFER_SIZE = 4096;
+
     private BytesUtil() {
     }
 
-    /**
-     * 压缩(霍夫曼编码压缩)
-     *
-     * @param a
-     *
-     * @return
-     */
-    public static byte[] compress(byte[] a) {
-        //对bytes压缩
-        try (ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(1024);
-            GZIPOutputStream gzipOutput = new GZIPOutputStream(byteOutput, 1024)) {
-            gzipOutput.write(a);
-            gzipOutput.flush();
-            a = byteOutput.toByteArray();
+    public static byte[] compress(byte[] bytes) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+            GZIPOutputStream gzip = new GZIPOutputStream(out)) {
+            gzip.write(bytes);
+            gzip.flush();
+            gzip.finish();
+            return out.toByteArray();
         } catch (IOException e) {
-            LogUtil.error(BytesUtil.class, e);
+            throw new RuntimeException("gzip compress error", e);
         }
-        return a;
     }
 
-    /**
-     * 解压缩(霍夫曼编码压缩)
-     *
-     * @param a
-     *
-     * @return
-     */
-    public static byte[] uncompress(byte[] a) {
-        //对bytes解压缩
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(a);
-            GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream)) {
-
-            byte[] buffer = new byte[1024];
+    public static byte[] uncompress(byte[] bytes) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+            GZIPInputStream gunzip = new GZIPInputStream(new ByteArrayInputStream(bytes))) {
+            byte[] buffer = new byte[BUFFER_SIZE];
             int n;
-            while ((n = gzipInputStream.read(buffer)) >= 0) {
-                byteArrayOutputStream.write(buffer, 0, n);
+            while ((n = gunzip.read(buffer)) > -1) {
+                out.write(buffer, 0, n);
             }
-            a = byteArrayOutputStream.toByteArray();
+            return out.toByteArray();
         } catch (IOException e) {
-            LogUtil.error(BytesUtil.class, e);
+            throw new RuntimeException("gzip decompress error", e);
         }
-        return a;
     }
 
     public static byte[] concat(byte[] a, byte[] b) {
