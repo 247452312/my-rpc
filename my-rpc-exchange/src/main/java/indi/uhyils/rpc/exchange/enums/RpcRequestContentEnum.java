@@ -1,4 +1,4 @@
-package indi.uhyils.rpc.exchange.enum_;
+package indi.uhyils.rpc.exchange.enums;
 
 /**
  * RpcData请求中的RpcContent结构 (例: "类名称\n类版本...") 中间拿\n隔开

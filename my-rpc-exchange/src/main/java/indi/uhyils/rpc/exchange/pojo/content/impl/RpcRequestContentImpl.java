@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import indi.uhyils.rpc.enums.RpcTypeEnum;
-import indi.uhyils.rpc.exchange.enum_.RpcRequestContentEnum;
+import indi.uhyils.rpc.exchange.enums.RpcRequestContentEnum;
 import indi.uhyils.rpc.exchange.pojo.content.AbstractRpcContent;
 import indi.uhyils.rpc.exchange.pojo.content.RpcRequestContent;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;

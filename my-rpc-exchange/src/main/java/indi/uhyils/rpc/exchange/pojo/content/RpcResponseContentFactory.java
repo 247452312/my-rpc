@@ -2,7 +2,7 @@ package indi.uhyils.rpc.exchange.pojo.content;
 
 import indi.uhyils.rpc.exception.ContentArrayQuantityMismatchException;
 import indi.uhyils.rpc.exception.RpcException;
-import indi.uhyils.rpc.exchange.enum_.RpcResponseContentEnum;
+import indi.uhyils.rpc.exchange.enums.RpcResponseContentEnum;
 import indi.uhyils.rpc.exchange.pojo.content.impl.RpcResponseContentImpl;
 import indi.uhyils.rpc.exchange.pojo.data.RpcData;
 

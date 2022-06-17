@@ -1,4 +1,4 @@
-package indi.uhyils.rpc.exchange.enum_;
+package indi.uhyils.rpc.exchange.enums;
 
 /**
  * RpcData响应中的RpcContent结构 (例: "返回类型\n返回内容...") 中间拿\n隔开
